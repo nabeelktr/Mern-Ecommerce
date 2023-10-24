@@ -3,6 +3,7 @@ import * as yup from 'yup'
 const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
 
 export const signupSchema = yup.object().shape({
+    name: yup.string().max(30).required("Required"),
     email: yup.string().email('enter a valid email').required("Required"),
 
     phone: yup.string()
@@ -17,4 +18,11 @@ export const signupSchema = yup.object().shape({
     .oneOf([yup.ref('password'),null],"Password must match")
     .required('Required')
     
+})
+export const LoginSchema = yup.object().shape({
+    email: yup.string().email('enter a valid email').required("Required"),
+    password: yup.string()
+    .min(5)
+    .matches(passwordRules,{message:'Please enter a valid password'})
+    .required("Required"),
 })

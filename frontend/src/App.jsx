@@ -1,6 +1,11 @@
+import {BrowserRouter as Router,Routes,Route, Navigate} from 'react-router-dom'
+import Signup from './pages/user/Signup'
+import Login from './pages/user/Login'
+import Home from './pages/user/Home'
+import AdminLogin from './pages/admin/AdminLogin'
+import Dashboard from './pages/admin/Dashboard'
 
-import Navbar from "./components/user/Navbar"
-import Signup from "./components/user/Signup"
+
 
 
 function App() {
@@ -8,12 +13,17 @@ function App() {
 
   return (
     <>
-    <div className="flex flex-col min-h-screen justify-between" style={{background:'linear-gradient(to bottom right, #FEEDF6, #FFE1BE)'}}>
-    <Navbar />
-    <div className="flex items-center justify-center h-full">
-      <Signup />
-    </div>
-  </div>
+    <Router>
+      <Routes>
+        <Route path='/signup' element={<Signup/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/home' element={<Home/>}/>
+
+        {/* Admin Routes */}
+        <Route path='/admin' element={<AdminLogin/>}/>
+        <Route path='/admin/dashboard' element={<Dashboard/>}/>
+      </Routes>
+    </Router>
   </>
   )
 }
