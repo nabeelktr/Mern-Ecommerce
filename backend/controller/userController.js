@@ -37,6 +37,7 @@ const generateOTP = AsyncHandler(async (req, res, next) => {
    
     const { email,name,password,phone } = req.body.values;
     const admin=false;
+    const active=true;
    
   
     const newUser = await User.create({
@@ -44,7 +45,8 @@ const generateOTP = AsyncHandler(async (req, res, next) => {
       email,
       phone,
       password,
-      admin
+      admin,
+      active,
     });
   
     if (newUser) {
@@ -66,7 +68,7 @@ const authUser = AsyncHandler(async (req, res) => {
   
     const user = await User.findOne({ email: email });
 
-    if (user && !user.admin ) {
+    if (user && !user.admin && user.active) {
       if((await user.matchPassword(password))){
 
       

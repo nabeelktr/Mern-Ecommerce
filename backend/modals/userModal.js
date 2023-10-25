@@ -14,7 +14,12 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
-
+    address:{
+        type:Object,
+    },
+    active:{
+        type:Boolean,
+    },
     password:{
         type:String,
         required:true

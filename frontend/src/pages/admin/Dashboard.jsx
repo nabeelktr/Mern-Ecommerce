@@ -1,12 +1,11 @@
-import React from 'react'
-import AdminNav from '../../components/admin/AdminNav'
+import React from 'react';
+import AdminNav from '../../components/admin/AdminNav';
 
-const Dashboard = () => {
-  return (
-    <div>
-        <AdminNav/>
-    </div>
-  )
-}
+const Dashboard = () => (
 
-export default Dashboard
+  <div>
+    <AdminNav />
+  </div>
+);
+
+export default Dashboard;
