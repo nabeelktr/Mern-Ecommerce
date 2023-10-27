@@ -127,4 +127,31 @@ const editProduct = AsyncHandler(async (req, res) => {
   }
 })
 
-export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts, editProduct };
+const deleteProduct = AsyncHandler(async(req,res) => {
+  try {
+    const result = await Product.deleteOne({ _id: req.params.id });
+    
+    if (result.deletedCount) {
+      res.status(200).json({ message: 'Product deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+})
+
+const editProductFirebase = AsyncHandler(async(req,res) => {
+  console.log(req.body);
+  const result = await Product.findByIdAndUpdate(req.params.id, {
+    images: req.body
+  })
+  if (result) {
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
+})
+
+export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase };

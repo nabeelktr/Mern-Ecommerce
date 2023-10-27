@@ -5,7 +5,7 @@ import {
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { AddProductSchema } from '../../yup';
 import { imagedb } from '../../../firebase/config';
-import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
+import { deleteObject, getDownloadURL, ref, uploadBytes} from 'firebase/storage'
 import Axios from '../../../axiosInterceptors/axios';
 import { BeatLoader } from 'react-spinners';
 import { useLocation } from 'react-router-dom';
@@ -52,9 +52,18 @@ const EditProduct = () => {
   const submitRef = useRef();
   const imgRef = useRef()
 
-  const deleteImage = (img) => {
-    const result = images.filter((imgs) => imgs != img);
-    setimages(result);
+  const deleteImage = async(img) => {
+    
+    const imageRef = ref(imagedb, img.path);
+    deleteObject(imageRef)
+    .then(async () => {
+        const result = images.filter((imgs) => imgs != img);
+        setimages(result);
+        await Axios.post(`/admin/deletefromfirebase/${location.state}`, result)
+    })
+    .catch((err) => {
+        console.log(err);
+    })
   }
 
   const deleteUploadedImage = (img) => {
@@ -98,7 +107,7 @@ const EditProduct = () => {
       const uploadImageRef = ref(imagedb, `products/${image.name}`);
       const snap = await uploadBytes(uploadImageRef, image);
       const url = await getDownloadURL(uploadImageRef);
-      return url
+      return {url: url, path: `products/${image.name}`}
     });
     const uploadedUrls = await Promise.all(uploadPromises);
     return uploadedUrls;
@@ -179,7 +188,7 @@ const EditProduct = () => {
 
                 {images && images.map((img,i) => (
                     <Fragment key={i} >
-                  <img src={img}  alt="Uploaded Image" height="400px" width="300px" className='m-2' />
+                  <img src={img.url}  alt="Uploaded Image" height="400px" width="300px" className='m-2' />
                   <button onClick={() => deleteImage(img)} className='flex mt-3 text-xs items-center bg-slate-300 h-6 p-2 rounded-lg -ml-10 mr-2 text-red-600 hover:bg-slate-100 hover:text-black'>X</button>
                     </Fragment>
                   ))}

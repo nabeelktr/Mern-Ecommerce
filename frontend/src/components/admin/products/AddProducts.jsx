@@ -76,7 +76,7 @@ const AddProducts = () => {
       const uploadImageRef = ref(imagedb, `products/${image.name}`);
       const snap = await uploadBytes(uploadImageRef, image);
       const url = await getDownloadURL(uploadImageRef);
-      return url
+      return {url: url, path: `products/${image.name}`}
     });
     const uploadedUrls = await Promise.all(uploadPromises);
     return uploadedUrls;

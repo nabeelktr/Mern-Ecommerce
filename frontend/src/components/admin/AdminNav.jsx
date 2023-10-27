@@ -20,16 +20,19 @@ const AdminNav = () => {
     navigate('/admin');
   };
   const navigation = [
-    { name: 'DASHBOARD', href: '#', current: currentRoute === '/admin/dashboard' },
-    { name: 'ORDERS', href: '#', current: currentRoute === '/admin/orders' },
+    { name: 'DASHBOARD', current: currentRoute === '/admin/dashboard' },
+    { name: 'ORDERS', current: currentRoute === '/admin/orders' },
     { 
-      name: 'PRODUCTS', href: '#', current: /^\/admin\/products($|\/)/.test(currentRoute), onClick: () => navigate('/admin/products')
+      name: 'PRODUCTS', current: /^\/admin\/products($|\/)/.test(currentRoute), onClick: () => navigate('/admin/products')
     },
     {
-      name: 'USERS', href: '#', current: currentRoute === '/admin/users', onClick: () => navigate('/admin/users'),
+      name: 'USERS', current: currentRoute === '/admin/users', onClick: () => navigate('/admin/users'),
     },
-    { name: 'COUPONS', href: '#', current: currentRoute === '/admin/coupons' },
-    { name: 'MESSAGES', href: '#', current: currentRoute === '/admin/messages' },
+    {
+      name: 'CATEGORY', current: /^\/admin\/category($|\/)/.test(currentRoute), onClick: () => navigate('/admin/category'),
+    },
+    { name: 'COUPONS', current: currentRoute === '/admin/coupons' },
+    { name: 'MESSAGES', current: currentRoute === '/admin/messages' },
   ];
   return (
     <Disclosure as="nav" className="bg-white shadow-sm">
@@ -64,13 +67,12 @@ const AdminNav = () => {
                       {navigation.map((item) => (
                         <a
                           key={item.name}
-                          href={item.href}
                           onClick={item.onClick}
                           className={classNames(
                             item.current
                               ? 'text-black font-bold'
                               : 'text-gray-500 hover:text-black ',
-                            'rounded-md px-3 py-2 text-sm font-medium',
+                            'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
                           )}
                           aria-current={item.current ? 'page' : undefined}
                         >
@@ -133,6 +135,7 @@ const AdminNav = () => {
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <Disclosure.Button
+                  onClick={item.onClick}
                   key={item.name}
                   as="a"
                   href={item.href}

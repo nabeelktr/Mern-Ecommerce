@@ -9,7 +9,7 @@ import EditProduct from '../../components/admin/products/EditProduct';
 const Products = () => {
   const data = null;
   return (
-    <div>
+    <div className='bg-gray-50 h-screen'>
       <AdminNav />
       <Routes>
         <Route path='/' element={<ProductTable />} />
