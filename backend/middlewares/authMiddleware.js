@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 import AsyncHandler from 'express-async-handler'
-import User from '../modals/userModal';
+import User from '../modals/userModal.js';
 
 const protect = AsyncHandler(async (req, res, next) => {
+  let token;
    try{
-      
         token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
           

@@ -1,6 +1,7 @@
 import AsyncHandler from "express-async-handler";
 import User from "../modals/userModal.js";
 import generateToken from "../utils/generateToken.js";
+import Product from "../modals/productModal.js";
 
 
 const adminAuth = AsyncHandler(async (req, res) => {
@@ -60,8 +61,7 @@ const searchUser = AsyncHandler(async (req, res) => {
         ]
       }
     ]
-  })   
-    
+  })    
   if (users) {
     res.status(201).json(users)
   } else {
@@ -69,4 +69,35 @@ const searchUser = AsyncHandler(async (req, res) => {
   }
 })
 
-export { adminAuth, getUsers, UpdateUser,searchUser };
+const addProduct =AsyncHandler(async(req,res) => {
+  const {name, description, price, offerPrice, category, color, size, qty, gender} = req.body.values;
+  const newProduct = await Product.create({
+    name,
+    description,
+    price,
+    offerPrice,
+    category,
+    color,
+    size,
+    qty,
+    gender,
+    images: req.body.urls
+  });
+  if (newProduct) {
+    res.status(201).json({msg:'uploaded'})
+  }else{
+    throw new Error('invalid Product');
+  }
+});
+
+const getProducts = AsyncHandler(async(req,res) => {
+  const products = await Product.find();
+  if (products) {
+    res.status(201).json(products)
+  }else{
+    res.status(401)
+    throw new Error('Product fetching error')
+  }
+});
+
+export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts };

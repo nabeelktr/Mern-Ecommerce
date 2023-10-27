@@ -11,6 +11,7 @@ import Home from './pages/user/Home';
 import AdminLogin from './pages/admin/AdminLogin';
 import Dashboard from './pages/admin/Dashboard';
 import UserList from './pages/admin/UserList';
+import Products from './pages/admin/Products';
 
 // eslint-disable-next-line react/function-component-definition
 const PrivateRoute = ({ element }) => {
@@ -38,6 +39,7 @@ function App() {
         {/* private */}
         <Route path="/admin/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/admin/users" element={<PrivateRoute element={<UserList />} />} />
+        <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />
       </Routes>
     </Router>
   );

@@ -17,15 +17,27 @@ const productSchema = mongoose.Schema({
         type:Number,
         required:true,
     },
-    colors:{
-        type:Object,
+    color:{
+        type:Array,
+        required:true,
+    },
+    category:{
+        type:String,
+        required:true,
+    },
+    color:{
+        type:String,
         required:true,
     },
     size:{
         type:String,
         required:true,
     },
-    category:{
+    qty:{
+        type:Number,
+        required:true,
+    },
+    gender:{
         type:String,
         required:true,
     },
@@ -39,6 +51,6 @@ const productSchema = mongoose.Schema({
 }
 )
 
-const Product = mongoose.model(Product, productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;
