@@ -2,16 +2,18 @@
 import { useEffect, useState } from 'react';
 import BasicTable from '../../../basic/BasicTable';
 import Axios from '../../../../axiosInterceptors/axios';
+import { useNavigate } from 'react-router-dom';
 const ProductTable = () => {
   const [products, setproducts] = useState();
-
+  const navigate = useNavigate()
+//console.log(info.row.original)
   /** @type import('@tanstack/react-table').columndef<any> */
   const columns = [
       {
         header: 'Image',
         accessorKey: 'images',
         cell: (info) => (
-          <img width="50px" height="75px" src={info.getValue()[0]} />
+          <img onClick={()=> navigate('/admin/products/edit', {state: info.row.original._id})} width="50px" height="75px" src={info.getValue()[0]} />
         )
       },
       {

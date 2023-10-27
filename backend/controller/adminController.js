@@ -91,7 +91,12 @@ const addProduct =AsyncHandler(async(req,res) => {
 });
 
 const getProducts = AsyncHandler(async(req,res) => {
-  const products = await Product.find();
+  let products;
+  if (req.params.id != null){
+    products = await Product.findById(req.params.id);
+  }else{
+    products = await Product.find();
+  }
   if (products) {
     res.status(201).json(products)
   }else{
@@ -100,4 +105,26 @@ const getProducts = AsyncHandler(async(req,res) => {
   }
 });
 
-export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts };
+const editProduct = AsyncHandler(async (req, res) => {
+  console.log(req.body);
+  const {name, description, price, offerPrice, category, color, size, qty, gender} = req.body.values;
+  const user = await Product.findByIdAndUpdate(req.params.id, {
+    name,
+    description,
+    price,
+    offerPrice,
+    category,
+    color,
+    size,
+    qty,
+    gender,
+    images: req.body.images,
+  })
+  if (user) {
+    res.status(201).json({ msg: 'updated..' })
+  } else {
+    throw new Error('Invalid Error')
+  }
+})
+
+export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts, editProduct };
