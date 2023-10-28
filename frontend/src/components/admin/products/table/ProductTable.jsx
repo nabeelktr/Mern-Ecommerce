@@ -3,16 +3,18 @@ import { useEffect, useState } from 'react';
 import BasicTable from '../../../basic/BasicTable';
 import Axios from '../../../../axiosInterceptors/axios';
 import { useNavigate } from 'react-router-dom';
+import { Skeleton } from '@mui/material';
 const ProductTable = () => {
   const [products, setproducts] = useState();
   const navigate = useNavigate()
-//console.log(info.row.original)
+  
   /** @type import('@tanstack/react-table').columndef<any> */
   const columns = [
       {
         header: 'Image',
         accessorKey: 'images',
         cell: (info) => (
+          info.getValue()[0]?.url ?
           <img
           onClick={()=> navigate('/admin/products/edit', {state: info.row.original._id})}
           width="50px"
@@ -20,6 +22,8 @@ const ProductTable = () => {
           src={info.getValue()[0]?.url}
           className='cursor-pointer transform hover:scale-110 transition-transform duration-200'
           />
+          :
+          <Skeleton variant="rectangular" width="50px" height="75px"/>
         )
       },
       {

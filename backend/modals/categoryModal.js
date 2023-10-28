@@ -6,7 +6,7 @@ const categorySchema = mongoose.Schema({
         required: true,
     },
     image: {
-        type: File,
+        type: Object,
         required: true,
     },
 },

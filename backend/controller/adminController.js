@@ -2,6 +2,7 @@ import AsyncHandler from "express-async-handler";
 import User from "../modals/userModal.js";
 import generateToken from "../utils/generateToken.js";
 import Product from "../modals/productModal.js";
+import Category from "../modals/categoryModal.js";
 
 
 const adminAuth = AsyncHandler(async (req, res) => {
@@ -152,6 +153,45 @@ const editProductFirebase = AsyncHandler(async(req,res) => {
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
+});
+
+const addCategory = AsyncHandler(async(req,res) => {
+  console.log(req.body);
+  const category = await Category.create({
+    name: req.body.name,
+    image: req.body.image,
+  })
+  if(category){
+    res.status(201).json({msg: 'added'})
+  }else{
+    res.status(404)
+    throw new Error('invalid category data');
+  }
 })
 
-export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase };
+const getCategories = AsyncHandler(async(req,res) => {
+  const categories = await Category.find();
+  if (categories) {
+    res.status(201).json(categories)
+  }else{
+    res.status(404)
+    throw new Error('categories fetching error')
+  }
+});
+
+const deleteCategory = AsyncHandler(async(req,res) => {
+  try {
+    const result = await Category.deleteOne({ _id: req.params.id });
+    
+    if (result.deletedCount) {
+      res.status(200).json({ message: 'Product deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+})
+
+export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase, addCategory, getCategories, deleteCategory };

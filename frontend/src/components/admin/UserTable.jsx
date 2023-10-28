@@ -68,6 +68,11 @@ const UserTable = () => {
 
     fetchData();
   }, [deleteModal, editModal]);
+  if(!users){
+    return(
+      <BeatLoader />
+    )
+  }
   return (
     <>
       <section className=" dark:bg-gray-900 p-3 sm:p-5 antialiased ">
