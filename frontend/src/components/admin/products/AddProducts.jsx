@@ -95,6 +95,7 @@ const AddProducts = () => {
               size: "",
               qty: "",
               gender: "",
+              subCategory: "",
             }}
             onSubmit={handleSubmit}
           >
@@ -118,6 +119,7 @@ const AddProducts = () => {
                   <MyTextField type="text" name="size" label="Size" />
                   <MyTextField type="number" name="qty" label="Quantity" />
                   <MyTextField type="text" name="gender" label="Gender" />
+                  <MyTextField type="text" name="subCategory" label="Sub Category" />
                 </div>
                 {isSubmitting ? (
                   <div className="flex justify-center h-6 p-2  absolute bottom-4 right-4">

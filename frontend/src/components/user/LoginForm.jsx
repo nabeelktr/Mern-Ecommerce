@@ -8,10 +8,10 @@ import {
   ErrorMessage, Form, Formik, useField,
 } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { LoginSchema } from './yup';
+import { LoginSchema } from '../yup';
 
 // eslint-disable-next-line import/extensions
-import Axios from '../axiosInterceptors/axios.js';
+import Axios from '../../axiosInterceptors/axios.js';
 
 const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);

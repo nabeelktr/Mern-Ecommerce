@@ -33,12 +33,13 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-                <div className="ml-14  sm:ml-0 sm:block">
+                <div className="ml-14 item-center sm:ml-0 sm:block">
                   <img
-                    className="h-8  w-auto"
+                    className="h-8 ml-1 -mb-1 w-auto"
                     src="src/assets/Logo.svg"
                     alt="Your Company"
                   />
+                  <span className="text-xs uppercase font-bold text-gray-600 hover:text-gray-800 " >Shifa</span>
                 </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="hidden sm:ml-6 sm:block">

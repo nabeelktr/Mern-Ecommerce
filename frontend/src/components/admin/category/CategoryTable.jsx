@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../basic/BasicTable';
 import Axios from '../../../axiosInterceptors/axios'
+import { useNavigate } from 'react-router-dom';
 
 const CategoryTable = () => {
-  
+  const navigate = useNavigate();
   const [category, setcategory] = useState()
 
   /** @type import('@tanstack/react-table').columndef<any> */
@@ -12,11 +13,9 @@ const CategoryTable = () => {
       header: 'Image',
       accessorKey: 'image',
       cell: (info) => (
-
         <img
         onClick={()=> {
-            console.log(info.getValue());
-            //navigate('/admin/products/edit', {state: info.row.original._id})
+           navigate('/admin/category/edit', {state: info.row.original._id})
         }}
         width="50px"
         height="75px"

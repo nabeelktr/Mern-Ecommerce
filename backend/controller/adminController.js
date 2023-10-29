@@ -44,12 +44,12 @@ const UpdateUser = AsyncHandler(async (req, res) => {
 
 const searchUser = AsyncHandler(async (req, res) => {
   const users = await User.find({
-    $and:[
+    $and: [
       {
         admin: false,
       },
       {
-        $or:[
+        $or: [
           {
             name: { $regex: new RegExp(req.body.name, 'i') }
           },
@@ -62,7 +62,7 @@ const searchUser = AsyncHandler(async (req, res) => {
         ]
       }
     ]
-  })    
+  })
   if (users) {
     res.status(201).json(users)
   } else {
@@ -70,8 +70,8 @@ const searchUser = AsyncHandler(async (req, res) => {
   }
 })
 
-const addProduct =AsyncHandler(async(req,res) => {
-  const {name, description, price, offerPrice, category, color, size, qty, gender} = req.body.values;
+const addProduct = AsyncHandler(async (req, res) => {
+  const { name, description, price, offerPrice, category, color, size, qty, gender,subCategory } = req.body.values;
   const newProduct = await Product.create({
     name,
     description,
@@ -82,33 +82,33 @@ const addProduct =AsyncHandler(async(req,res) => {
     size,
     qty,
     gender,
-    images: req.body.urls
+    images: req.body.urls,
+    subCategory, 
   });
   if (newProduct) {
-    res.status(201).json({msg:'uploaded'})
-  }else{
+    res.status(201).json({ msg: 'uploaded' })
+  } else {
     throw new Error('invalid Product');
   }
 });
 
-const getProducts = AsyncHandler(async(req,res) => {
+const getProducts = AsyncHandler(async (req, res) => {
   let products;
-  if (req.params.id != null){
+  if (req.params.id != null) {
     products = await Product.findById(req.params.id);
-  }else{
+  } else {
     products = await Product.find();
   }
   if (products) {
     res.status(201).json(products)
-  }else{
-    res.status(401)
+  } else {
+    res.status(404)
     throw new Error('Product fetching error')
   }
 });
 
 const editProduct = AsyncHandler(async (req, res) => {
-  console.log(req.body);
-  const {name, description, price, offerPrice, category, color, size, qty, gender} = req.body.values;
+  const { name, description, price, offerPrice, category, color, size, qty, gender, subCategory } = req.body.values;
   const user = await Product.findByIdAndUpdate(req.params.id, {
     name,
     description,
@@ -120,6 +120,7 @@ const editProduct = AsyncHandler(async (req, res) => {
     qty,
     gender,
     images: req.body.images,
+    subCategory,
   })
   if (user) {
     res.status(201).json({ msg: 'updated..' })
@@ -128,10 +129,9 @@ const editProduct = AsyncHandler(async (req, res) => {
   }
 })
 
-const deleteProduct = AsyncHandler(async(req,res) => {
+const deleteProduct = AsyncHandler(async (req, res) => {
   try {
     const result = await Product.deleteOne({ _id: req.params.id });
-    
     if (result.deletedCount) {
       res.status(200).json({ message: 'Product deleted successfully' });
     } else {
@@ -143,8 +143,7 @@ const deleteProduct = AsyncHandler(async(req,res) => {
   }
 })
 
-const editProductFirebase = AsyncHandler(async(req,res) => {
-  console.log(req.body);
+const editProductFirebase = AsyncHandler(async (req, res) => {
   const result = await Product.findByIdAndUpdate(req.params.id, {
     images: req.body
   })
@@ -155,34 +154,22 @@ const editProductFirebase = AsyncHandler(async(req,res) => {
   }
 });
 
-const addCategory = AsyncHandler(async(req,res) => {
-  console.log(req.body);
+const addCategory = AsyncHandler(async (req, res) => {
   const category = await Category.create({
     name: req.body.name,
     image: req.body.image,
   })
-  if(category){
-    res.status(201).json({msg: 'added'})
-  }else{
+  if (category) {
+    res.status(201).json({ msg: 'added' })
+  } else {
     res.status(404)
     throw new Error('invalid category data');
   }
 })
 
-const getCategories = AsyncHandler(async(req,res) => {
-  const categories = await Category.find();
-  if (categories) {
-    res.status(201).json(categories)
-  }else{
-    res.status(404)
-    throw new Error('categories fetching error')
-  }
-});
-
-const deleteCategory = AsyncHandler(async(req,res) => {
+const deleteCategory = AsyncHandler(async (req, res) => {
   try {
     const result = await Category.deleteOne({ _id: req.params.id });
-    
     if (result.deletedCount) {
       res.status(200).json({ message: 'Product deleted successfully' });
     } else {
@@ -192,6 +179,35 @@ const deleteCategory = AsyncHandler(async(req,res) => {
     console.error('Error deleting product:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
+});
+
+const getCategories = AsyncHandler(async (req, res) => {
+  let categories;
+  if (req.params.id != null) {
+    categories = await Category.findById(req.params.id);
+  } else {
+    categories = await Category.find();
+  }
+  if (categories) {
+    res.status(201).json(categories)
+  } else {
+    res.status(404)
+    throw new Error('category fetching error')
+  }
+});
+
+const editCategory = AsyncHandler(async (req, res) => {
+  const user = await Category.findByIdAndUpdate(req.params.id, {
+    name: req.body.name,
+    image: req.body.image,
+  })
+  if (user) {
+    res.status(201).json({ msg: 'updated..' })
+  } else {
+    throw new Error('Invalid Error')
+  }
 })
 
-export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase, addCategory, getCategories, deleteCategory };
+export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts,
+  editProduct, deleteProduct, editProductFirebase, addCategory, getCategories,
+  deleteCategory, editCategory };

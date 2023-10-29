@@ -1,0 +1,61 @@
+.product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+    width: 210px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px 0px rgba(0, 64, 128, 0.1);
+  
+  }
+  
+  .product-card__image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+  }
+ 
+
+
+  .product-card__description,
+  .product-card__price,
+  .product-card__brand {
+    margin: 0.2rem 0;
+    font-size: 14px;
+    line-height: 1;
+  }
+  
+  .product-card__brand {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .product-card__description {
+    font-weight: 400;
+    color: #535766;
+  }
+  
+  .product-card__price {
+    font-weight: bold;
+  }
+  
+  .product-card__btn-wishlist {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    border: none;
+    background-color: white;
+    padding: 8px 6px 15px;
+    box-shadow: 2px 2px 5px 0px rgba(0, 64, 128, 0.1);
+  }
+  
+  .product-card__btn-wishlist svg {
+    fill: lightgrey;
+  }
+  

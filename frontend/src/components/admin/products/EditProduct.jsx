@@ -133,7 +133,7 @@ const EditProduct = () => {
         size: products?.size,
         qty: products?.qty,
         gender: products?.gender,
-       
+        subCategory: products?.subCategory,
       }}
        onSubmit={handleSubmit}
       >
@@ -149,6 +149,7 @@ const EditProduct = () => {
           <MyTextField type="text" name="size"  label="Size" />
           <MyTextField type="number" name="qty"  label="Quantity" />
           <MyTextField type="text" name="gender"  label="Gender" />
+          <MyTextField type="text" name="subCategory"  label="Sub Category" />
           </div>
           {isSubmitting ? <div className="flex justify-center h-6 p-2  absolute bottom-4 right-4">
                   <BeatLoader color='#4299e1' />
