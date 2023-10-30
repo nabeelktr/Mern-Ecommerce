@@ -12,7 +12,7 @@ const Products = () => {
     <div className='bg-gray-50 h-screen'>
       <AdminNav />
       <Routes>
-        <Route path='/' element={<ProductTable />} />
+        <Route exact path='/' element={<ProductTable />} />
         <Route path='/add' element={<AddProducts />} />
         <Route path='/edit' element={<EditProduct />} />
       </Routes>

@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
-const navigation = [
-  { name: "HOME", href: "#", current: true },
-  { name: "MEN", href: "#", current: false },
-  { name: "WOMEN", href: "#", current: false },
-  { name: "KIDS", href: "#", current: false },
-  { name: "SHOP", href: "#", current: false },
-];
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  let token;
+  const signout = () => {
+    if(token){
+      localStorage.removeItem('userToken');
+      navigate('/home');
+    }else{
+      navigate('/login');
+    }
+  };
+
+  const navigation = [
+    { name: "HOME", current: false, onClick: () => navigate('/home') },
+    { name: "MEN", current: false },
+    { name: "WOMEN", current: false },
+    { name: "KIDS", current: false },
+    { name: "SHOP", current: false, onClick: () => navigate('/products') },
+  ];
+  
+  useEffect(() => {
+    token = localStorage.getItem('userToken')
+  },[signout])
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm">
+    <Disclosure as="nav" className="bg-white shadow-sm w-full fixed z-10">
       {({ open }) => (
         <>
-          <div className="mx-auto  px-2 sm:px-6 lg:px-8">
+          <div className="mr-4 ml-8  px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -36,7 +52,7 @@ const Navbar = () => {
                 <div className="ml-14 item-center sm:ml-0 sm:block">
                   <img
                     className="h-8 ml-1 -mb-1 w-auto"
-                    src="src/assets/Logo.svg"
+                    src="/src/assets/Logo.svg"
                     alt="Your Company"
                   />
                   <span className="text-xs uppercase font-bold text-gray-600 hover:text-gray-800 " >Shifa</span>
@@ -47,7 +63,7 @@ const Navbar = () => {
                     {navigation.map((item) => (
                       <a
                         key={item.name}
-                        href={item.href}
+                        onClick={item.onClick}
                         className={classNames(
                           item.current
                             ? "text-black font-bold "
@@ -145,13 +161,13 @@ const Navbar = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            onClick={signout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Sign out
+                            {token ? 'Sign out' : 'Login'}
                           </a>
                         )}
                       </Menu.Item>

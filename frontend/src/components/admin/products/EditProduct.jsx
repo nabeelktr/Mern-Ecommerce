@@ -190,7 +190,7 @@ const EditProduct = () => {
                 {images && images.map((img,i) => (
                     <Fragment key={i} >
                   <img src={img.url}  alt="Uploaded Image" height="400px" width="300px" className='m-2' />
-                  <button onClick={() => deleteImage(img)} className='flex mt-3 text-xs items-center bg-slate-300 h-6 p-2 rounded-lg -ml-10 mr-2 text-red-600 hover:bg-slate-100 hover:text-black'>X</button>
+                  <button onClick={() => deleteImage(img)} className='flex mt-3 text-xs items-center bg-gray-200 h-6 p-2 rounded-lg -ml-10 mr-2 text-red-600 hover:bg-slate-100 hover:text-black'>X</button>
                     </Fragment>
                   ))}
                 

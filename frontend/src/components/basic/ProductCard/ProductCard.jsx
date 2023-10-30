@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import './productCard.css';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = (props) => {
-    const [test, settest] = useState(0)
+    const navigate = useNavigate()
     const [currentIndex, setcurrentIndex] = useState(0);
     const [autoChangeInterval, setAutoChangeInterval] = useState();
 
-    const { images, description, name, offerPrice } = props;
+    const { _id, images, description, name, offerPrice } = props;
 
     const handleMouseEnter = () => {
         setcurrentIndex((currentIndex + 1) % images.length);
@@ -28,14 +29,18 @@ const ProductCard = (props) => {
           }
         };
       }, []);
+    
+    const viewImage = () => {
+      navigate(`/products/view/${_id}`)
+    }
 
     
   return (
     <a className="product-card mt-4" href="#dolce-gabbana-cropped" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <img className="product-card__image " src={images[currentIndex].url} width={"210px"} height={"280px"} />
+      <img className="product-card__image " src={images[currentIndex].url} width={"210px"} height={"280px"} onClick={viewImage} />
       <p className="product-card__brand ml-2">{name}</p>
       <p className="product-card__description mx-2">{description}</p>
-      <p className="product-card__price ml-2">{offerPrice}</p>
+      <p className="product-card__price ml-2 mb-2">	&#8377;&nbsp;{offerPrice}</p>
       <button className="product-card__btn-wishlist">
         <svg viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg">
           <path

@@ -183,7 +183,7 @@ const SignupForm = () => {
                   />
                 </>
               ) : (
-                <>
+                <div className='mt-40'>
                   <OtpField type="number" name="otp" />
                   <ErrorMessage
                     name="otp"
@@ -196,7 +196,7 @@ const SignupForm = () => {
                   >
                     Change email
                   </a>
-                </>
+                </div>
               )}
 
               <p className="mb-10 mt-10 text-xs flex justify-center text-gray-500">

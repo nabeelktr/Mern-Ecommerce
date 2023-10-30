@@ -33,10 +33,11 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path='*' element={<Navigate to='/home' />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/products" element={<UserProducts />} />
+        <Route path="/products/*" element={<UserProducts />} />
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLogin />} />
         {/* private */}
