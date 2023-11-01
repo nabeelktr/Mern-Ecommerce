@@ -8,6 +8,7 @@ const AdminLogin = () => {
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
     if (token) navigate('/admin/dashboard');
+    document.title = 'Admin Login'
   }, []);
   return (
 

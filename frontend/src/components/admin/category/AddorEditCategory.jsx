@@ -15,7 +15,8 @@ const AddCategory = () => {
   const [data, setdata] = useState()
 
   const handleSubmit = async(values, action) => {
-    let imagedata;
+    try{
+      let imagedata;
     if(location.state ){
         if(uploadedimage){
           imagedata = await uploadFiles();
@@ -30,6 +31,10 @@ const AddCategory = () => {
       action.resetForm();
       setuploadedimage();
     }
+  }catch(err){
+    console.log(err);
+    action.setFieldError('name', 'Category Already exist.')
+  }
   }
 
   const uploadFiles = async () => {
@@ -88,6 +93,8 @@ const AddCategory = () => {
                   <Field type="text" name="name" label="Name"
                    className='bg-gray-50 border w-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
                   />
+                  <ErrorMessage name="name" component="div" className="text-xs text-red-600 mb-2" />
+
                 </div>
                 <div className="w-1/2 pl-4 mb-2 ">
                   <input

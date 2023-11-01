@@ -48,11 +48,27 @@ const ProductTable = () => {
       },
       {
           header: 'Size',
-          accessorKey: 'size'
+          
+          cell: (info) => (
+            <>
+              {info.row.original.variants &&
+                info.row.original.variants.map((variants,i) => (
+                  <p key={i}>{variants.size}</p>
+                ))}
+            </>
+          )
       },
       {
           header: 'Qty',
-          accessorKey: 'qty'
+          accessorKey: 'variants',
+          cell: (info) => (
+            <>
+              {info.getValue() &&
+                info.getValue().map((variant,q) => (
+                  <p key={q}>{variant.qty}</p>
+                ))}
+            </>
+          )
       },
       {
           header: 'Gender',

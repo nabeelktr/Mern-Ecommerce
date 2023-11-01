@@ -271,7 +271,7 @@ const UserTable = () => {
                   variant="text"
                   className="flex items-center gap-2"
                   onClick={() => setcurrentpage(currentpage + 1)}
-                  disabled={currentpage === firstIndex}
+                  disabled={currentpage === npage}
                 >
                   Next
                   <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />

@@ -4,6 +4,9 @@ import { Route, Routes } from 'react-router-dom';
 import ViewProduct from '../../components/user/products/viewProduct/ViewProduct';
 
 const UserProducts = () => {
+  useEffect(() => {
+    document.title = 'Shop';
+  }, []);
   return (
     <>
     <Navbar />

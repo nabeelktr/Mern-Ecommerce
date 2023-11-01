@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CategoryTable from '../../components/admin/category/CategoryTable';
 import { Route, Routes } from 'react-router-dom';
 import AdminNav from '../../components/admin/AdminNav';
@@ -6,6 +6,9 @@ import AddorEditCategory from '../../components/admin/category/AddorEditCategory
 
 const Categoty = () => {
     const data = null;
+    useEffect(() => {
+      document.title = 'Admin Category';
+    }, []);
   return (
     <div className='bg-gray-50 h-screen'>
       <AdminNav />

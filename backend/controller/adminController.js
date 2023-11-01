@@ -71,7 +71,7 @@ const searchUser = AsyncHandler(async (req, res) => {
 })
 
 const addProduct = AsyncHandler(async (req, res) => {
-  const { name, description, price, offerPrice, category, color, size, qty, gender,subCategory } = req.body.values;
+  const { name, description, price, offerPrice, category, color, gender,subCategory } = req.body.values;
   const newProduct = await Product.create({
     name,
     description,
@@ -79,8 +79,7 @@ const addProduct = AsyncHandler(async (req, res) => {
     offerPrice,
     category,
     color,
-    size,
-    qty,
+    variants: req.body.variants,
     gender,
     images: req.body.urls,
     subCategory, 
@@ -108,7 +107,7 @@ const getProducts = AsyncHandler(async (req, res) => {
 });
 
 const editProduct = AsyncHandler(async (req, res) => {
-  const { name, description, price, offerPrice, category, color, size, qty, gender, subCategory } = req.body.values;
+  const { name, description, price, offerPrice, category, color, gender, subCategory } = req.body.values;
   const user = await Product.findByIdAndUpdate(req.params.id, {
     name,
     description,
@@ -116,9 +115,8 @@ const editProduct = AsyncHandler(async (req, res) => {
     offerPrice,
     category,
     color,
-    size,
-    qty,
     gender,
+    variants: req.body.variants,
     images: req.body.images,
     subCategory,
   })
@@ -155,6 +153,8 @@ const editProductFirebase = AsyncHandler(async (req, res) => {
 });
 
 const addCategory = AsyncHandler(async (req, res) => {
+  const catgry = Category.find({name: req.body.name});
+  if(!catgry){
   const category = await Category.create({
     name: req.body.name,
     image: req.body.image,
@@ -165,6 +165,9 @@ const addCategory = AsyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('invalid category data');
   }
+}else{
+  throw new Error('category exists')
+}
 })
 
 const deleteCategory = AsyncHandler(async (req, res) => {

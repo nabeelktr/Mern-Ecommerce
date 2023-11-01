@@ -1,5 +1,15 @@
 import mongoose from "mongoose";
 
+const variantSchema = mongoose.Schema({
+    size: {
+        type: String,
+        required: true,
+    },
+    qty: {
+        type: Number,
+        required: true,
+    },
+});
 const productSchema = mongoose.Schema({
     name:{
         type:String,
@@ -29,14 +39,6 @@ const productSchema = mongoose.Schema({
         type:String,
         required:true,
     },
-    size:{
-        type:String,
-        required:true,
-    },
-    qty:{
-        type:Number,
-        required:true,
-    },
     gender:{
         type:String,
         required:true,
@@ -49,6 +51,7 @@ const productSchema = mongoose.Schema({
         type:String,
         required:true,
     },
+    variants:[variantSchema],
 },
 {
     timeStamp:true,

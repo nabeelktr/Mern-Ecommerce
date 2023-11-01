@@ -55,7 +55,7 @@ const Navbar = () => {
                     src="/src/assets/Logo.svg"
                     alt="Your Company"
                   />
-                  <span className="text-xs uppercase font-bold text-gray-600 hover:text-gray-800 " >Shifa</span>
+
                 </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="hidden sm:ml-6 sm:block">
@@ -68,7 +68,7 @@ const Navbar = () => {
                           item.current
                             ? "text-black font-bold "
                             : "text-gray-700 hover:text-black ",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "rounded-md px-3 py-2 text-sm font-medium cursor-pointer"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >

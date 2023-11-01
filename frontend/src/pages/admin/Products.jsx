@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AdminNav from '../../components/admin/AdminNav';
 import AddProducts from '../../components/admin/products/AddProducts';
 import { Route, Routes } from 'react-router-dom';
@@ -7,7 +7,10 @@ import EditProduct from '../../components/admin/products/EditProduct';
 
 
 const Products = () => {
-  const data = null;
+
+  useEffect(() => {
+    document.title = 'Admin Products';
+  }, []);
   return (
     <div className='bg-gray-50 h-screen'>
       <AdminNav />
