@@ -7,6 +7,7 @@ import CartPrice from './price/CartPrice';
 const Cart = () => {
     const navigate = useNavigate();
     const [items, setitems] = useState();
+    const [refreshKey, setRefreshKey] = useState(0)
 
     const fetchdata = async() => {
         try{
@@ -39,8 +40,8 @@ const Cart = () => {
 
   return (
     <>
-    <div>
-            <p className="text-sm font-bold uppercase pt-28 pl-52 p-2">Bag </p>
+    <div >
+            <p className="text-sm font-bold uppercase pt-28 pl-52 p-2">Your Cart </p>
           </div>
     <div className='flex '>
         <div className='flex justify-end w-7/12  border-r min-h-screen'>
@@ -48,14 +49,14 @@ const Cart = () => {
                 <div className=' w-full text-white p-4 flex flex-col items-center'>
                     {
                     items.items.map((item,i) => (
-                        <Card item={item} key={i} cartId={items._id}  />
+                        <Card item={item} key={i} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} />
                         ))
                         
                     }
                 </div>
             </div>
         </div>
-        <div className='w-5/12'> <CartPrice /> </div>
+        <div className='w-5/12 h-full'> <CartPrice key={refreshKey} cartId={items._id} /> </div>
     </div>
     </>
   )

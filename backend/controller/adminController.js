@@ -105,6 +105,7 @@ const getProducts = AsyncHandler(async (req, res) => {
   let products;
   if (req.params.id != null) {
     products = await Product.findById(req.params.id);
+
   } else {
     products = await Product.find();
   }

@@ -4,6 +4,8 @@ import User from '../modals/userModal.js';
 import { generateAccessToken } from '../utils/generateToken.js';
 import Cart from '../modals/CartModal.js';
 import Product from '../modals/productModal.js';
+import mongoose from 'mongoose';
+
 
 
 
@@ -124,6 +126,7 @@ const getCartItems = AsyncHandler(async(req,res) => {
   const items = await Cart.findOne({userId: req.user._id});
   if (items) {
     res.status(201).json(items);
+ 
   }else{
     res.status(402).json({msg: 'No items in the cart'});
     throw new Error('No items in the cart');
@@ -134,7 +137,19 @@ const updateCartQty = AsyncHandler(async(req,res) => {
   const item = req.body.item
   const cart =await Cart.findById(req.params.id)
   if(cart){
-    await Cart.updateOne({_id: req.params.id, 'items.productId': item.productId, 'items.size': item.size}, {$inc: { 'items.$.qty': 1}})
+    await Cart.updateOne(
+      {
+        userId: req.user._id,
+        'items.productId': item.productId,
+        'items.size': item.size
+      },
+      {
+        $inc: { 'items.$[elem].qty': 1 }
+      },
+      {
+        arrayFilters: [{ 'elem.productId': item.productId, 'elem.size': item.size }]
+      }
+    );
     res.status(201).json({msg: 'updated'});
   }else{
     res.status(402)
@@ -146,12 +161,127 @@ const updateCartQtyDec = AsyncHandler(async(req,res) => {
   const item = req.body.item
   const cart =await Cart.findById(req.params.id)
   if(cart){
-    const updt = await Cart.updateOne({userId: req.user._id, 'items.productId': item.productId, 'items.size': item.size}, {$inc: { 'items.$.qty': -1}});
+    await Cart.updateOne(
+      {
+        userId: req.user._id,
+        'items.productId': item.productId,
+        'items.size': item.size
+      },
+      {
+        $inc: { 'items.$[elem].qty': -1 }
+      },
+      {
+        arrayFilters: [{ 'elem.productId': item.productId, 'elem.size': item.size }]
+      }
+    );
     res.status(201).json({msg: 'updated'});
   }else{
     res.status(402)
     throw new Error('cart not found');
   }
-})
+});
 
-export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec }
+
+const test = AsyncHandler(async (req, res) => {
+  try {
+    console.log('test');
+
+    const table = await Cart.aggregate([
+      {
+        $match:{
+          _id: new mongoose.Types.ObjectId(req.params.id)
+        }
+      },
+      {
+        $unwind: "$items"
+      },
+      {
+        $addFields: {
+          productIdObjectId: {
+            $toObjectId: "$items.productId",
+          },
+        },
+      },
+      {
+        $lookup:{
+          from: "products",
+          localField: "productIdObjectId",
+          foreignField: "_id",
+          as: "itemDetails"
+        }
+      },
+      {
+        $unwind: "$itemDetails"
+      }
+     
+    ])
+    //console.log(table);
+//     const table = await Cart.aggregate([
+//       {
+//         $match: {
+//           _id: new mongoose.Types.ObjectId(req.params.id),
+//         },
+//       },
+//       {
+//         $unwind: "$items",
+//       },
+//        {
+//         $addFields: {
+//           productIdObjectId: {
+//             $toObjectId: "$items.productId",
+//           },
+//         },
+//       },
+       
+//       {
+//         $lookup: {
+//           from: "products",
+//           let: {
+//             productId: "$productIdObjectId",
+//             size: "$items.size",
+//           },
+//           pipeline: [
+//             {
+//               $match: {
+//                 $expr: {
+//                   $and: [
+//                     { $eq: ["$_id", "$$productId"] },
+//                     { $eq: ["$size", "$$size"] },
+//                   ],
+//                 },
+//               },
+//             },
+//           ],
+//           as: "productDetails",
+//         },
+//       },
+//       {
+//         $unwind: "$productDetails",
+//       },
+//       {
+//         $group: {
+//           _id: "$_id",
+//           userId: { $first: "$userId" },
+//           items: {
+//             $push: {
+//               productId: "$items.productId",
+//               size: "$items.size",
+//               qty: "$items.qty",
+//               productDetails: "$productDetails",
+//             },
+//           },
+//           __v: { $first: "$__v" },
+//         },
+//       },
+//     ]);
+// console.log(table);
+    
+    res.status(201).json({  table });
+  } catch (error) {
+    console.error('An error occurred:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+
+export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test }

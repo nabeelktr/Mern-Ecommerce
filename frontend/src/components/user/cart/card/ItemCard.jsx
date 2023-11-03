@@ -10,7 +10,7 @@ import Axios from '../../../../axiosInterceptors/userAxios'
 
 
 
-const ItemCard = ({ item, cartId }) => {
+const ItemCard = ({ item, cartId, setRefreshKey, refreshKey }) => {
 
   const [product, setproduct] = useState()
   const [qty, setqty] = useState()
@@ -19,26 +19,23 @@ const ItemCard = ({ item, cartId }) => {
   const fetchdata = async() => {
     const res = await Axios.get(`viewproduct/${item.productId}`);
     setproduct(res.data);
-    setqty(item.qty)
-
-      currentqty(res.data);
-    
-  }
-
-  const currentqty = (product) => {
-    const current = product.variants.find((variant) => (variant.size === item.size  ));
-
-    if(current.qty === 0){
-      setqty(0);
-    }
+    const current = res.data.variants.find((variant) => (variant.size === item.size  ));
+  
     setactualqty(current.qty);
-  } 
+    
+    
+    setqty(item.qty)
+ 
+    }
+
+
 
   const qtyInc = async() => {
 
       if (qty < actualqty) {
         setqty(qty + 1);
         await Axios.post(`/incqty/${cartId}`,{item})
+        setRefreshKey(refreshKey + 1)
       }
   }
 
@@ -46,14 +43,21 @@ const ItemCard = ({ item, cartId }) => {
   const qtyDec = async() => {
     setqty(qty - 1);
     await Axios.post(`/decqty/${cartId}`,{item})
+    setRefreshKey(refreshKey + 1)
   }
+
+  const deleteCartItem = () => {
+    console.log('deleted');
+  }
+
 
   useEffect(() => {
     fetchdata();
 
   },[])
   return (
-    <Card className="w-full  flex-row p-2 m-2">
+    <Card className="w-full  flex-row p-2 m-2 relative">
+      
       <CardHeader
         shadow={false}
         floated={false}
@@ -72,8 +76,9 @@ const ItemCard = ({ item, cartId }) => {
         </Typography>
 { actualqty === 0 || actualqty < qty ?
           <Typography>
-          Out of Stock
+            Out of Stock
           </Typography>
+
           :
           <>
           <Typography color="gray" className="mb-6 font-bold">
@@ -107,6 +112,15 @@ const ItemCard = ({ item, cartId }) => {
      
         
       </CardBody>
+      <button 
+      onClick={deleteCartItem}
+      type="button" className="absolute bg-white rounded-md p-1 h-6 right-2 top-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+
+              
+        <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </Card>
   );
 };
