@@ -2,6 +2,7 @@ import ProductList from '../../components/user/products/productList/ProductList'
 import Navbar from '../../components/user/Navbar'
 import { Route, Routes } from 'react-router-dom';
 import ViewProduct from '../../components/user/products/viewProduct/ViewProduct';
+import { useEffect } from 'react';
 
 const UserProducts = () => {
   useEffect(() => {

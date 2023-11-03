@@ -1,7 +1,10 @@
 import AsyncHandler from 'express-async-handler'
 import otpGenerator from "otp-generator";
 import User from '../modals/userModal.js';
-import generateToken from '../utils/generateToken.js';
+import { generateAccessToken } from '../utils/generateToken.js';
+import Cart from '../modals/CartModal.js';
+import Product from '../modals/productModal.js';
+
 
 
 const generateOTP = AsyncHandler(async (req, res, next) => {
@@ -70,10 +73,10 @@ const authUser = AsyncHandler(async (req, res) => {
     if ((await user.matchPassword(password))) {
       res.json({
         user,
-        token: generateToken(user._id),
+        accessToken: generateAccessToken(user._id),
       });
     } else {
-      res.status(401)
+      res.status(403)
       throw new Error("invalid password");
     }
   } else {
@@ -82,5 +85,73 @@ const authUser = AsyncHandler(async (req, res) => {
   }
 });
 
+const AddToCart = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const newItem = req.body;
+    
+    const existingCart = await Cart.findOne({ userId });
 
-export { generateOTP, registerUser, authUser }
+    if (existingCart) {
+      addToExistingCArt(existingCart, newItem, userId);
+    } else {
+      const cart = new Cart({
+        userId,
+        items: [newItem],
+      });
+      await cart.save();
+    }
+
+    res.status(201).json({ msg: 'Added to cart' });
+  } catch (error) {
+    res.status(500).json({ msg: 'Internal server error' });
+    throw new Error(error)
+  }
+};
+
+const addToExistingCArt = AsyncHandler(async(existingCart, newItem, userId) => {
+  const existingProduct = existingCart.items.find((prdt) => (prdt.productId === newItem.productId && prdt.size === newItem.size))
+
+  if (existingProduct) {
+    await Cart.updateOne({userId: userId, 'items.productId': newItem.productId, 'items.size': newItem.size}, {$inc: {'items.$.qty': 1}});
+  }else{
+    existingCart.items.push(newItem);
+    await existingCart.save();
+  }
+});
+
+const getCartItems = AsyncHandler(async(req,res) => {
+  const items = await Cart.findOne({userId: req.user._id});
+  if (items) {
+    res.status(201).json(items);
+  }else{
+    res.status(402).json({msg: 'No items in the cart'});
+    throw new Error('No items in the cart');
+  }
+});
+
+const updateCartQty = AsyncHandler(async(req,res) => {
+  const item = req.body.item
+  const cart =await Cart.findById(req.params.id)
+  if(cart){
+    await Cart.updateOne({_id: req.params.id, 'items.productId': item.productId, 'items.size': item.size}, {$inc: { 'items.$.qty': 1}})
+    res.status(201).json({msg: 'updated'});
+  }else{
+    res.status(402)
+    throw new Error('cart not found');
+  }
+});
+
+const updateCartQtyDec = AsyncHandler(async(req,res) => {
+  const item = req.body.item
+  const cart =await Cart.findById(req.params.id)
+  if(cart){
+    const updt = await Cart.updateOne({userId: req.user._id, 'items.productId': item.productId, 'items.size': item.size}, {$inc: { 'items.$.qty': -1}});
+    res.status(201).json({msg: 'updated'});
+  }else{
+    res.status(402)
+    throw new Error('cart not found');
+  }
+})
+
+export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec }

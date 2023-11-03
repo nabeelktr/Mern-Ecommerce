@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { ErrorMessage, Form, Formik, useField } from "formik";
 import OtpInput from "react-otp-input";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "../../axiosInterceptors/axios.js";
@@ -142,7 +142,7 @@ const SignupForm = () => {
       <div className="font-medium  text-xl sm:text-2xl  text-gray-800">
         Signup
       </div>
-      <ToastContainer />
+
       <div className="mt-10">
         <Formik
           initialValues={{

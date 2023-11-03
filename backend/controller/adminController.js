@@ -1,8 +1,8 @@
 import AsyncHandler from "express-async-handler";
 import User from "../modals/userModal.js";
-import generateToken from "../utils/generateToken.js";
 import Product from "../modals/productModal.js";
 import Category from "../modals/categoryModal.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
 
 
 const adminAuth = AsyncHandler(async (req, res) => {
@@ -10,9 +10,15 @@ const adminAuth = AsyncHandler(async (req, res) => {
   const user = await User.findOne({ email: email });
   if (user && user.admin) {
     if ((await user.matchPassword(password))) {
-      res.json({
+      const refreshToken = generateRefreshToken(user._id)
+    console.log(refreshToken);
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        path: '/refresh',
+      });
+      res.status(200).json({
         user,
-        token: generateToken(user._id),
+        accessToken: generateAccessToken(user._id),
       });
     } else {
       res.status(401);
@@ -23,6 +29,10 @@ const adminAuth = AsyncHandler(async (req, res) => {
     throw new Error("Invlaid user");
   }
 });
+
+const refresh = AsyncHandler(async(req,res) => {
+
+})
 
 const getUsers = AsyncHandler(async (req, res) => {
   const users = await User.find({ admin: false }).select('-password')
@@ -153,22 +163,23 @@ const editProductFirebase = AsyncHandler(async (req, res) => {
 });
 
 const addCategory = AsyncHandler(async (req, res) => {
-  const catgry = Category.find({name: req.body.name});
-  if(!catgry){
-  const category = await Category.create({
-    name: req.body.name,
-    image: req.body.image,
-  })
-  if (category) {
-    res.status(201).json({ msg: 'added' })
+  const existingCategory = await Category.findOne({ name: req.body.name });
+  console.log(req.body);
+  if (existingCategory) {
+    res.status(400).json({ msg: 'Category already exists' });
   } else {
-    res.status(404)
-    throw new Error('invalid category data');
+    const category = await Category.create({
+      name: req.body.name,
+      image: req.body.image,
+    });
+
+    if (category) {
+      res.status(201).json({ msg: 'Category added' });
+    } else {
+      res.status(400).json({ msg: 'Invalid category data' });
+    }
   }
-}else{
-  throw new Error('category exists')
-}
-})
+});
 
 const deleteCategory = AsyncHandler(async (req, res) => {
   try {

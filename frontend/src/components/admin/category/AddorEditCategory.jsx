@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import { AddProductSchema } from "../../yup";
+import { AddCategorySchema } from "../../yup";
 import { imagedb } from "../../../firebase/config";
 import Axios from "../../../axiosInterceptors/axios";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -80,7 +80,7 @@ const AddCategory = () => {
               image: "",
             }}
             onSubmit={handleSubmit}
-            validationSchema={AddProductSchema}
+            validationSchema={AddCategorySchema}
           >
             {({ isSubmitting, setFieldValue }) => (
               <Form className="flex w-full">

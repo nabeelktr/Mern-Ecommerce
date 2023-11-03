@@ -6,16 +6,23 @@ import userRouter from './routes/userRoute.js'
 import adminRouter from './routes/adminRoute.js'
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 import 'dotenv/config'
+import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT || 3000
 
 
 const app = express();
-app.use(cors());
+app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
 app.use(express.json());
 app.use(errorHandler);
 app.use(morgan("tiny"));
 app.disable("x-powered-by");
+app.use(cookieParser());
 
 app.use('/',userRouter)
 app.use('/admin',adminRouter)

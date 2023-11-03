@@ -39,8 +39,9 @@ const LoginForm = (props) => {
 
   const adminHandleSubmit = async (values, action) => {
     try {
-      const response = await Axios.post('/admin/login', values);
-      localStorage.setItem('adminToken', response.data.token);
+      const response = await Axios.post('/admin/login', values, {withCredentials: true});
+      console.log(response);
+      localStorage.setItem('adminToken', response.data.accessToken);
       navigate('/admin/dashboard');
     } catch (err) {
       action.setFieldError('password', 'invalid data');
@@ -50,12 +51,12 @@ const LoginForm = (props) => {
   const handleSubmit = async (values, action) => {
     try {
       const response = await Axios.post('/login', values);
-      localStorage.setItem('userToken', response.data.token);
+      localStorage.setItem('userToken', response.data.accessToken);
       navigate('/home');
     } catch (err) {
       if (err.response.status === 402) {
         action.setFieldError('email', 'invalid email');
-      } else if (err.response.status === 401) {
+      } else if (err.response.status === 403) {
         action.setFieldError('password', 'invalid password');
       }
     }

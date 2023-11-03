@@ -117,6 +117,34 @@ export const variantSchema = yup.object().shape({
   size: yup.number().required('Required'),
   qty: yup.number().required('Required'),
 
+});
+
+export const AddCategorySchema = yup.object().shape({
+  name: yup.string().max(30)
+    .test(
+      'no-leading-unusual-spaces',
+      'Name should not have unusual spaces at the beginning',
+      (value) => {
+        if (typeof value === 'string') {
+          // Check if the string has unusual spaces at the beginning
+          return !value.match(/^\s/);
+        }
+        return true; 
+      }
+    )
+    .required('Category Name is required'),
+  image: yup.mixed().nullable()
+    .test(
+      'FILE_SIZE',
+      'Uploaded size is too big.',
+      (value) => !value || (value && value.size <= 1024 * 1024)
+    )
+    .test(
+      "FILE_FORMAT",
+      'Uploaded file has unsupported format.',
+      (value) => !value || (value && supportedFormats.includes(value?.type))
+    )
+    .required(),
 })
 
 

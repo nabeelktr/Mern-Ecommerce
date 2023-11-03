@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AdminNav from '../../components/admin/AdminNav';
 import UserTable from '../../components/admin/UserTable';
 
