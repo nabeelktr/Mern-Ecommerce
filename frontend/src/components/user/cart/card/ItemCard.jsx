@@ -10,12 +10,12 @@ import Axios from '../../../../axiosInterceptors/userAxios'
 
 
 
-const ItemCard = ({ item, cartId, setRefreshKey, refreshKey }) => {
+
+const ItemCard = ({ item, cartId, setRefreshKey, refreshKey, updateCart }) => {
 
   const [product, setproduct] = useState()
   const [qty, setqty] = useState()
   const [actualqty, setactualqty] = useState()
-
   const fetchdata = async() => {
     const res = await Axios.get(`viewproduct/${item.productId}`);
     setproduct(res.data);
@@ -46,8 +46,9 @@ const ItemCard = ({ item, cartId, setRefreshKey, refreshKey }) => {
     setRefreshKey(refreshKey + 1)
   }
 
-  const deleteCartItem = () => {
-    console.log('deleted');
+  const deleteCartItem = async() => {
+    const res = await Axios.post(`/removeCartItem/${cartId}`,{item});
+    updateCart();
   }
 
 

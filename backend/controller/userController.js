@@ -184,8 +184,6 @@ const updateCartQtyDec = AsyncHandler(async(req,res) => {
 
 const test = AsyncHandler(async (req, res) => {
   try {
-    console.log('test');
-
     const table = await Cart.aggregate([
       {
         $match:{
@@ -215,67 +213,6 @@ const test = AsyncHandler(async (req, res) => {
       }
      
     ])
-    //console.log(table);
-//     const table = await Cart.aggregate([
-//       {
-//         $match: {
-//           _id: new mongoose.Types.ObjectId(req.params.id),
-//         },
-//       },
-//       {
-//         $unwind: "$items",
-//       },
-//        {
-//         $addFields: {
-//           productIdObjectId: {
-//             $toObjectId: "$items.productId",
-//           },
-//         },
-//       },
-       
-//       {
-//         $lookup: {
-//           from: "products",
-//           let: {
-//             productId: "$productIdObjectId",
-//             size: "$items.size",
-//           },
-//           pipeline: [
-//             {
-//               $match: {
-//                 $expr: {
-//                   $and: [
-//                     { $eq: ["$_id", "$$productId"] },
-//                     { $eq: ["$size", "$$size"] },
-//                   ],
-//                 },
-//               },
-//             },
-//           ],
-//           as: "productDetails",
-//         },
-//       },
-//       {
-//         $unwind: "$productDetails",
-//       },
-//       {
-//         $group: {
-//           _id: "$_id",
-//           userId: { $first: "$userId" },
-//           items: {
-//             $push: {
-//               productId: "$items.productId",
-//               size: "$items.size",
-//               qty: "$items.qty",
-//               productDetails: "$productDetails",
-//             },
-//           },
-//           __v: { $first: "$__v" },
-//         },
-//       },
-//     ]);
-// console.log(table);
-    
     res.status(201).json({  table });
   } catch (error) {
     console.error('An error occurred:', error);
@@ -283,5 +220,25 @@ const test = AsyncHandler(async (req, res) => {
   }
 });
 
+const removeCartItem = AsyncHandler(async(req,res) => {
+  const item = req.body.item
+  const cart =await Cart.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
+    $pull: {
+      items: {
+        $and: [
+          {productId: item.productId},
+          {size: item.size}
+        ]
+      }
+    }
+  })
+  if(cart) {
+    res.status(201).json({msg: 'cart item removed'})
+  }else{
+    res.status(402)
+    throw new Error('invalid cart')
+  }
+})
 
-export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test }
+
+export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem }

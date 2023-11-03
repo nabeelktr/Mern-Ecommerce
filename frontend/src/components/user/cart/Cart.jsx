@@ -3,9 +3,11 @@ import Axios from '../../../axiosInterceptors/userAxios'
 import React, { useEffect, useState } from 'react'
 import Card from './card/ItemCard';
 import CartPrice from './price/CartPrice';
+import CardList from './card/CardList';
 
 const Cart = () => {
     const navigate = useNavigate();
+    const [cardKey, setcardKey] = useState(0)
     const [items, setitems] = useState();
     const [refreshKey, setRefreshKey] = useState(0)
 
@@ -19,11 +21,16 @@ const Cart = () => {
             }
         }
     }
-
+    
+    const updateCart = () => {
+        fetchdata();
+        setcardKey(cardKey + 1);
+        setRefreshKey(refreshKey + 1);
+    }
     useEffect(() => {
         fetchdata();
     },[])
-    if(items === undefined || (items && items.items.length === 0)){
+    if(!items || (items && items.items.length === 0)){
         return (
             <div className='flex pt-12'>
         <div className='flex justify-end w-7/12  h-screen'>
@@ -45,16 +52,18 @@ const Cart = () => {
           </div>
     <div className='flex '>
         <div className='flex justify-end w-7/12  border-r min-h-screen'>
-            <div className='w-3/4  mt-2 flex items-start '>
+            <CardList items={items}  setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCart={updateCart} key={cardKey}/>
+            
+            {/* <div className='w-3/4  mt-2 flex items-start '>
                 <div className=' w-full text-white p-4 flex flex-col items-center'>
                     {
                     items.items.map((item,i) => (
-                        <Card item={item} key={i} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} />
+                        <Card item={item} key={i} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCartData={updateCartData} />
                         ))
                         
                     }
                 </div>
-            </div>
+            </div> */}
         </div>
         <div className='w-5/12 h-full'> <CartPrice key={refreshKey} cartId={items._id} /> </div>
     </div>

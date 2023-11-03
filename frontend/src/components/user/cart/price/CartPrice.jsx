@@ -32,15 +32,15 @@ const CartPrice = ({cartId}) => {
   }, []);
 
   return (
-    <div className="flex flex-col mt-32 items-center " >
-      <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-[80%] text-sm">
+    <div className="flex flex-col mt-32 items-start ml-4 " >
+      <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-[60%] text-sm">
         <div className="mb-2 flex justify-between">
           <p className="text-gray-700">Total MRP</p>
           <p className="text-gray-700">&#8377; {orderDetails?.totalPrice}</p>
         </div>
         <div className="flex justify-between mb-2">
           <p className="text-gray-700">Discount on MRP</p>
-          <p className="text-gray-700 text-teal-500">-&#8377; {orderDetails?.totalPrice - orderDetails?.totalOfferPrice}</p>
+          <p className="text-teal-500">-&#8377; {orderDetails?.totalPrice - orderDetails?.totalOfferPrice}</p>
         </div>
         <div className="flex justify-between">
           <p className="text-gray-700">Convinient Fee</p>
@@ -54,7 +54,7 @@ const CartPrice = ({cartId}) => {
             <p className="mb-1 text-sm font-bold ">&#8377; {orderDetails?.totalOfferPrice}</p>
           </div>
         </div>
-        <button className="bg-[#ff3c67]  mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600 uppercase">
+        <button className="bg-[#ff3c67]  mt-6 w-full rounded-md py-1.5 font-medium text-blue-50 hover:bg-blue-600 uppercase">
           Place order
         </button>
       </div>
