@@ -3,7 +3,7 @@ import Axios from "../../../../axiosInterceptors/userAxios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 
-const CartPrice = ({cartId, addressChosen}) => {
+const CartPrice = ({cartId, addressChosen, payment}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState();
@@ -36,8 +36,9 @@ const CartPrice = ({cartId, addressChosen}) => {
         const updatedOrderDetails = {
           ...prevOrderDetails,
           shippingAddress: addressChosen,
+          cartId: cartId,
         };
-      console.log(updatedOrderDetails);
+      navigate('/cart/address/payment', {state: updatedOrderDetails});
     })
   }
 
@@ -72,7 +73,12 @@ const CartPrice = ({cartId, addressChosen}) => {
      
 
 
-        <button
+        
+         {
+          payment ?
+          ''
+          :
+          <button
         onClick={() =>
           {
             if(addressChosen){
@@ -88,6 +94,8 @@ const CartPrice = ({cartId, addressChosen}) => {
         className="bg-[#ff3c67]  mt-6 w-full rounded-md py-1.5 font-medium text-blue-50 hover:bg-blue-600 uppercase">
           { location.state ? 'Continue' : 'Place order'}
         </button>
+        }
+       
       </div>
     </div>
   );

@@ -22,8 +22,8 @@ const AddAddress = () => {
   return (
     <div className='flex pt-24'>
     <div className='flex p-2 w-8/12  border-r min-h-screen justify-between'>
-        <div className='h-10 m-2 w-1/2 '><AddressList setAddressChosen={setAddressChosen} key={refreshKey} /></div>
-        <div className='h-10 m-2 w-1/2 '><AddressForm setRefreshKey={setRefreshKey} refreshKey={refreshKey} />  </div>
+        <div className=' m-2  w-1/2 border-r h-full '><AddressList setAddressChosen={setAddressChosen} key={refreshKey} /></div>
+        <div className=' m-2 w-1/2 '><AddressForm setRefreshKey={setRefreshKey} refreshKey={refreshKey} />  </div>
     </div>
     <div className='w-4/12 h-full'> { cartId && <CartPrice  cartId={cartId} addressChosen={addressChosen} /> }</div>
 </div>
