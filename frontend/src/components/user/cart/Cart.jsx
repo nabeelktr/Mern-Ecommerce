@@ -47,25 +47,16 @@ const Cart = () => {
 
   return (
     <>
-    <div >
-            <p className="text-sm font-bold uppercase pt-28 pl-52 p-2">Your Cart </p>
-          </div>
+    <div>
+      <p className="text-sm font-bold uppercase pt-28 pl-52 p-2">Your Cart </p>
+    </div>
     <div className='flex '>
         <div className='flex justify-end w-7/12  border-r min-h-screen'>
             <CardList items={items}  setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCart={updateCart} key={cardKey}/>
-            
-            {/* <div className='w-3/4  mt-2 flex items-start '>
-                <div className=' w-full text-white p-4 flex flex-col items-center'>
-                    {
-                    items.items.map((item,i) => (
-                        <Card item={item} key={i} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCartData={updateCartData} />
-                        ))
-                        
-                    }
-                </div>
-            </div> */}
         </div>
-        <div className='w-5/12 h-full'> <CartPrice key={refreshKey} cartId={items._id} /> </div>
+        <div className='w-5/12 h-full'> 
+          <CartPrice key={refreshKey} cartId={items._id} /> 
+        </div>
     </div>
     </>
   )

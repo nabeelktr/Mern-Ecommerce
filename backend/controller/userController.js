@@ -238,7 +238,40 @@ const removeCartItem = AsyncHandler(async(req,res) => {
     res.status(402)
     throw new Error('invalid cart')
   }
+});
+
+const addAddress = AsyncHandler(async(req,res) => {
+
+  const newAddress = req.body;
+  const resp = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $push: { shippingAddress: newAddress },
+    },
+    { new: true }
+  );
+  if(resp){
+    res.status(201).json({msg: "updated"})
+  }else{
+    res.status(402)
+    throw new Error('invalid error')
+  }
+});
+
+const getUserAddress = AsyncHandler(async(req,res) => {
+  const address = await User.find({_id: new mongoose.Types.ObjectId(req.user._id)}, {shippingAddress: 1})
+  res.status(201).json({address})
+});
+
+const removeAddress = AsyncHandler(async(req,res) => {
+  const resp = await User.findByIdAndUpdate(req.user._id, {
+    $pull: {
+      shippingAddress: {_id: new mongoose.Types.ObjectId(req.params.id)}
+    }
+  })
+  res.status(201).json({msg: 'deleted'})
 })
 
 
-export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem }
+export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
+  addAddress, getUserAddress, removeAddress }

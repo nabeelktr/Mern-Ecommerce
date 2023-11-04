@@ -3,6 +3,7 @@ import * as yup from 'yup';
 const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])/;
 const passwordNumberRule = /(?=.*[0-9])/;
 const phoneRegExp = /^(?!.*(\d)\1{9})^(\([0-9]{2,3}\)[ \-]*)?([0-9]{2,4}[ \-]*)*?[0-9]{3,4}[ \-]*[0-9]{3,4}$/;
+const pincodeRegExp = /^(?!.*(\d)\1{5})^(\([0-9]{2,3}\)[ \-]*)?([0-9]{2,4}[ \-]*)*?[0-9]{3,4}[ \-]*[0-9]{3,4}$/;
 const supportedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif',]
 
 
@@ -126,7 +127,6 @@ export const AddCategorySchema = yup.object().shape({
       'Name should not have unusual spaces at the beginning',
       (value) => {
         if (typeof value === 'string') {
-          // Check if the string has unusual spaces at the beginning
           return !value.match(/^\s/);
         }
         return true; 
@@ -147,4 +147,49 @@ export const AddCategorySchema = yup.object().shape({
     .required(),
 })
 
+export const AddressSchema = yup.object().shape({
+  name: yup.string().max(30)
+    .test(
+      'no-leading-unusual-spaces',
+      'Name should not have unusual spaces at the beginning',
+      (value) => {
+        if (typeof value === 'string') {
+          return !value.match(/^\s/);
+        }
+        return true; 
+      }
+    )
+    .required('Name is required'),
+  
+  phone: yup.string()
+    .matches(phoneRegExp, { message: 'Phone number is not Valid.' })
+    .min(10, 'Enter a valid Phone Number')
+    .required('Required'),  
+  
+  pincode: yup.string()
+    .length(6)
+    .matches(pincodeRegExp, { message: 'Please enter a valid pincode' })
+    .matches(/^[0-9]{6}/, 'please enter a valid pincode')
+    .required(),
+  
+  address: yup.string()
+  .max(100)
+  .test(
+    'no-leading-unusual-spaces',
+    'address should not have unusual spaces at the beginning',
+    (value) => {
+      if (typeof value === 'string') {
+        return !value.match(/^\s/);
+      }
+      return true; 
+    }
+  )
+  .required(),
 
+  location: yup.string()
+    .required(),
+  district: yup.string()
+    .required(),
+  state: yup.string()
+    .required(),
+})
