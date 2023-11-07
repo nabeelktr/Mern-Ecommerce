@@ -2,6 +2,8 @@ import React from 'react'
 import ItemCard from './ItemCard'
 
 const CardList = ({items, setRefreshKey, refreshKey, updateCart }) => {
+
+  
   return (
     <div className='w-3/4  mt-2 flex items-start '>
                 <div className=' w-full text-white p-4 flex flex-col items-center'>

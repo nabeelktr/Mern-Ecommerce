@@ -17,6 +17,7 @@ import { signupSchema } from "../yup";
 const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
+    <>
     <label>
       {label}
       
@@ -25,12 +26,14 @@ const MyTextField = ({ label, ...props }) => {
             {...props}
             className={`mt-4 text-sm sm:text-base placeholder-gray-400 pl-4 pr-4 border  w-full py-2 focus:outline-none  ${
               meta.touched && meta.error
-                ? "border-red-500"
-                : "focus:border-black"
+              ? "border-red-500"
+              : "focus:border-black"
             }`}
-          />
+            />
          
     </label>
+
+    </>
   );
 };
 
@@ -203,6 +206,9 @@ const SignupForm = () => {
                     component="div"
                     className="text-xs text-red-600 mb-2"
                   />
+                    <p className="text-xs mt-1 text-gray-600 ml-2">- Uppercase letters (A-Z)</p>
+                    <p className="text-xs text-gray-600 ml-2">- Lowercase letters (a-z)</p>
+                    <p className="text-xs text-gray-600 ml-2">- Numbers (0-9)</p>
 
                   <MyTextField
                     type="password"

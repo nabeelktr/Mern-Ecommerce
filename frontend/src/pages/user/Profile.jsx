@@ -10,10 +10,12 @@ import ViewAddress from '../../components/user/profile/address/ViewAddress/ViewA
 import AddAddressProfile from '../../components/user/profile/address/addAddress/AddAddressProfile'
 import OrderList from '../../components/user/profile/orders/orderList/OrderList'
 
+
 const Profile = () => {
   return (
     <>
     <Navbar />
+
     <div className='min-h-screen px-10 '>
         <div className='border-b h-36 relative'>
             <Typography className='uppercase absolute sm:pl-10 sm:text-sm  bottom-0 text-xs font-bold p-4 pl-2'>Profile</Typography>

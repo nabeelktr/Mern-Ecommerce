@@ -1,49 +1,54 @@
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Typography,
-  } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
+import Axios from "../../../../../axiosInterceptors/userAxios";
+import OrderProductCard from "../orderCard/OrderProductCard";
 
 const OrderList = () => {
+  const [orders, setOrders] = useState();
+
+
+  const fetchdata = async () => {
+    const response = await Axios.get("/userOrders");
+    setOrders(response.data);
+  };
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
   return (
-    <div className="p-4 m-4 border shadow-sm">
-      <div className="border-b p-4  px-8 font-bold" >
-        <p>Order Details</p>
+    <div className="p-4 m-4 border  justify-center shadow-sm">
+      <div className="border-b p-4  px-8 font-bold">
+        <p>Order History</p>
       </div>
-    <div className='p-4 w-3/4 px-10 flex flex-row justify-start gap-44 mt-4'>
-    <Card className="w-full  flex-row p-2 m-2 relative">
-      
-      <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-      >
-        <img
-          //src={product? product.images[0].url: ''}
-          alt="card-image"
-          width={150}
-          className="object-cover"
-        />
-      </CardHeader>
-      <CardBody>
+      <div className="p-4  w-full px-10 flex flex-col justify-start gap-10 mt-4 ">
+        {orders &&
+          orders.map((order, i) => (
+            <div key={i} >
+            <div className="p-4 bg-gray-50 w-full" >
+            <div className="flex m-4 gap-10">
+                <div>
+                    <p className="text-sm font-bold">Order Date</p>
+                    <p className="text-sm ">{new Date(order.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div>
+                    <p className="text-sm font-bold">Total Price</p>
+                    <p className="text-sm ">&#x20B9;&nbsp;{order.totalOfferPrice}</p>
+                </div>
+                <div>
+                    <p className="text-sm font-bold">Order Status</p>
+                    <p className="text-sm ">{(order.status)}</p>
+                </div>
+            </div>
+              {order.items.map((order, y) => (
 
-          <>
-          <Typography color="gray" className="mb-6 font-bold">
-          {/* &#8377; {product? product.offerPrice : ''} */}
-        </Typography>
-     
-       
-        </>
-{/* } */}
-     
-        
-      </CardBody>
-
-    </Card>
+                    <OrderProductCard order={order} key={y} />
+              ))}
+            </div>
+            </div>
+          ))}
+      </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default OrderList
+export default OrderList;

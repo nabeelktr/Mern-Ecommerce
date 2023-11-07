@@ -19,6 +19,7 @@ import Order from './pages/admin/Order';
 import Profile from './pages/user/Profile';
 
 
+
 // eslint-disable-next-line react/function-component-definition
 const PrivateRoute = ({ element }) => {
 const token = localStorage.getItem('adminToken');
@@ -35,6 +36,7 @@ if (!token) {
 
 function App() {
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/home" element={<Home />} />
@@ -55,6 +57,7 @@ function App() {
         <Route path="/admin/category/*" element={<PrivateRoute element={<Category />} />} />
       </Routes>
     </Router>
+    </>
   );
 }
 

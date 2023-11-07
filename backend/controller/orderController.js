@@ -56,6 +56,16 @@ const getOrders = AsyncHandler(async(req,res) => {
     }
 });
 
+const getUserOrders = AsyncHandler(async(req,res) => {
+    const orders = await Order.find({userId: req.user._id}).sort({createdAt: -1});
+    if(orders){
+        res.status(201).json(orders);
+    }else{
+        res.status(404)
+        throw new Error('No orders found')
+    }
+});
+
 const changeOrderStatus = AsyncHandler(async(req,res) => {
     const resp = await Order.findByIdAndUpdate(req.body.orderId, {
         status: req.body.option,
@@ -68,4 +78,4 @@ const changeOrderStatus = AsyncHandler(async(req,res) => {
     }
 })
 
-export { placeOrder, getOrders, changeOrderStatus }
+export { placeOrder, getOrders, changeOrderStatus, getUserOrders }
