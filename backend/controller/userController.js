@@ -1,10 +1,12 @@
 import AsyncHandler from 'express-async-handler'
 import otpGenerator from "otp-generator";
 import User from '../modals/userModal.js';
-import { generateAccessToken } from '../utils/generateToken.js';
+import { generateAccessToken, generateRefreshToken } from '../utils/generateToken.js';
 import Cart from '../modals/CartModal.js';
 import Product from '../modals/productModal.js';
 import mongoose from 'mongoose';
+
+import RefreshToken from '../modals/tokenModal.js';
 
 
 
@@ -73,9 +75,11 @@ const authUser = AsyncHandler(async (req, res) => {
 
   if (user && !user.admin && user.active) {
     if ((await user.matchPassword(password))) {
+       const refresh = await refreshToken(user._id)
       res.json({
         user,
         accessToken: generateAccessToken(user._id),
+        refreshToken: refresh,
       });
     } else {
       res.status(403)
@@ -86,6 +90,18 @@ const authUser = AsyncHandler(async (req, res) => {
     throw new Error("Invlaid user");
   }
 });
+
+const refreshToken = async(userId) => {
+  const existingToken = await RefreshToken.findOne({userId: new mongoose.Types.ObjectId(userId)});
+  if (existingToken){
+    await RefreshToken.deleteOne({userId: new mongoose.Types.ObjectId(userId)});
+  }
+
+  const refreshToken = generateRefreshToken(userId)
+  await new RefreshToken({ userId, token: refreshToken}).save();
+  return refreshToken;
+}
+
 
 const updatePassword = AsyncHandler(async(req,res) => {
   console.log(req.body);

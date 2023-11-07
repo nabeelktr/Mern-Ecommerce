@@ -3,7 +3,7 @@ import { AddToCart, addAddress, authUser, editUser, generateOTP, getCartItems, g
     updateCartQty, updateCartQtyDec, updatePassword } from '../controller/userController.js'
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
-import { protect } from '../middlewares/authmiddleware.js'
+import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
 import { getOrders, getUserOrders, placeOrder } from '../controller/orderController.js'
 
 const router = express.Router()
@@ -34,6 +34,7 @@ router.route('/getUser').get(protect, getUser)
 router.route('/editUser').post(protect, editUser)
 router.route('/resetPassword').post(protect, updatePassword);
 
+router.route('/refresh').post(protectRefreshToken);
 
 
 
