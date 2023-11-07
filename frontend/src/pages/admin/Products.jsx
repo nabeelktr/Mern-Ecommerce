@@ -12,7 +12,7 @@ const Products = () => {
     document.title = 'Admin Products';
   }, []);
   return (
-    <div className='bg-gray-50 h-screen'>
+    <div className='bg-gray-50 min-h-screen'>
       <AdminNav />
       <Routes>
         <Route exact path='/' element={<ProductTable />} />

@@ -87,6 +87,22 @@ const authUser = AsyncHandler(async (req, res) => {
   }
 });
 
+const updatePassword = AsyncHandler(async(req,res) => {
+  console.log(req.body);
+  const password =  req.body.current;
+  const user =await User.findById(req.user._id);
+  if ((await user.matchPassword(password))) {
+    console.log('matched');
+    user.password = req.body.newPassword;
+    user.save();
+    res.status(201).json({msg: 'password reset success'})
+  } else {
+    res.status(403)
+    throw new Error("invalid password");
+  }
+
+})
+
 const AddToCart = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -270,8 +286,23 @@ const removeAddress = AsyncHandler(async(req,res) => {
     }
   })
   res.status(201).json({msg: 'deleted'})
+});
+
+const getUser = AsyncHandler(async(req,res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.status(201).json(user)
+  }else {
+    res.status(404)
+    throw new Error('invalid user')
+  }
+});
+
+const editUser = AsyncHandler(async(req,res) => {
+  const user = await User.findByIdAndUpdate(req.user._id, req.body.values )
+  res.json({msg: 'updated'})
 })
 
 
 export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress }
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword }

@@ -3,6 +3,7 @@ import User from "../modals/userModal.js";
 import Product from "../modals/productModal.js";
 import Category from "../modals/categoryModal.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
+import mongoose from "mongoose";
 
 
 const adminAuth = AsyncHandler(async (req, res) => {
@@ -68,6 +69,9 @@ const searchUser = AsyncHandler(async (req, res) => {
           },
           {
             email: { $regex: new RegExp(req.body.name, 'i') }
+          },
+          {
+            _id:  new mongoose.Types.ObjectId(req.body.name) 
           },
         ]
       }

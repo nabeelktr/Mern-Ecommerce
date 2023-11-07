@@ -14,7 +14,6 @@ const ProductList = () => {
   const [products, setproducts] = useState([]);
 
   const fetchdata = async () => {
-    await new Promise((res) => setTimeout(res, 1000));
     const res = await Axios.get("/products");
     setproducts(res.data);
   };

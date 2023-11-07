@@ -13,7 +13,9 @@ const AddressList = ({setAddressChosen}) => {
   const removeAddress = async(id) => {
     await Axios.get(`/removeAddress/${id}`);
     fetchdata();
-    setAddressChosen();
+
+      setAddressChosen();
+      
   };
 
   const addressChosen = async(item) => {
@@ -31,7 +33,7 @@ const AddressList = ({setAddressChosen}) => {
   return (
     <div className="flex flex-col items-center mx-4 px-5 justify-center shadow-sm border pb-5">
       <Typography className="uppercase text-xs font-bold py-7">
-       {address.length ? 'Select' : 'Add' } a Delivery address
+       {setAddressChosen ? address.length ? 'Select a Delivery address' : 'Add a Delivery address' :''} 
       </Typography>
       <form className="grid   grid-cols-1 gap-2 items-center ">
         {address.map((item,i) => (

@@ -21,9 +21,7 @@ const ViewProduct = () => {
     if(size){
       try{
         await Axios.post('/addtocart',{productId: product._id, size, qty: 1})
-        toast.success("Added to cart", {
-          position: toast.POSITION.TOP_CENTER,
-        });
+        toast.success("Added to cart")
         setsize();
         setTouched(false);
       }catch(err){

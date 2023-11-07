@@ -5,6 +5,10 @@ const orderSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    userName: {
+        type: String,
+        required: true,
+    },
     items: {
         type: Array,
         required: true,
@@ -27,6 +31,10 @@ const orderSchema = mongoose.Schema({
     },
     createdAt: {
         type: Date,
+        required: true,
+    },
+    status: {
+        type: String,
         required: true,
     }
 

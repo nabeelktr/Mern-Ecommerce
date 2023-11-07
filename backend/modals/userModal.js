@@ -41,6 +41,12 @@ const userSchema = mongoose.Schema({
     address:{
         type:Object,
     },
+    gender:{
+        type:String,
+    },
+    location:{
+        type:String,
+    },
     active:{
         type:Boolean,
     },

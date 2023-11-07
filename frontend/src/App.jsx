@@ -12,9 +12,11 @@ import AdminLogin from './pages/admin/AdminLogin';
 import Dashboard from './pages/admin/Dashboard';
 import UserList from './pages/admin/UserList';
 import Products from './pages/admin/Products';
-import Categoty from './pages/admin/Category';
+import Category from './pages/admin/Category';
 import UserProducts from './pages/user/UserProducts';
 import CartPage from './pages/user/CartPage';
+import Order from './pages/admin/Order';
+import Profile from './pages/user/Profile';
 
 
 // eslint-disable-next-line react/function-component-definition
@@ -41,13 +43,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/products/*" element={<UserProducts />} />
         <Route path="/cart/*" element={<CartPage />} />
+        <Route path="/profile/*" element={<Profile />} />
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLogin />} />
         {/* private */}
         <Route path="/admin/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/admin/users" element={<PrivateRoute element={<UserList />} />} />
         <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />
-        <Route path="/admin/category/*" element={<PrivateRoute element={<Categoty />} />} />
+        <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />
+        <Route path="/admin/orders/*" element={<PrivateRoute element={<Order />} />} />
+        <Route path="/admin/category/*" element={<PrivateRoute element={<Category />} />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,7 @@
 import express from "express";
 import { UpdateUser, adminAuth, getUsers, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase, addCategory, getCategories, deleteCategory, editCategory } from "../controller/adminController.js";
 import { protect } from "../middlewares/authmiddleware.js";
+import { changeOrderStatus } from "../controller/orderController.js";
 const router = express.Router()
 
 
@@ -22,6 +23,7 @@ router.route('/deletecategory/:id').get(deleteCategory);
 router.route('/category/:id').get(getCategories);
 router.route('/editcategory/:id').post(editCategory);
 
+router.route('/orderStatus').post(protect, changeOrderStatus)
 
 
 export default router

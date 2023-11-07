@@ -1,10 +1,10 @@
 import express from 'express'
-import { AddToCart, addAddress, authUser, generateOTP, getCartItems, getUserAddress, registerUser, removeAddress, removeCartItem, test, 
-    updateCartQty, updateCartQtyDec } from '../controller/userController.js'
+import { AddToCart, addAddress, authUser, editUser, generateOTP, getCartItems, getUser, getUserAddress, registerUser, removeAddress, removeCartItem, test, 
+    updateCartQty, updateCartQtyDec, updatePassword } from '../controller/userController.js'
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
 import { protect } from '../middlewares/authmiddleware.js'
-import { placeOrder } from '../controller/orderController.js'
+import { getOrders, placeOrder } from '../controller/orderController.js'
 
 const router = express.Router()
 
@@ -27,6 +27,12 @@ router.route('/getUserAddress').get(protect, getUserAddress)
 router.route('/removeAddress/:id').get(protect, removeAddress)
 
 router.route('/placeOrder').post(protect, placeOrder)
+router.route('/orders').get(protect, getOrders)
+
+router.route('/getUser').get(protect, getUser)
+router.route('/editUser').post(protect, editUser)
+router.route('/resetPassword').post(protect, updatePassword);
+
 
 
 

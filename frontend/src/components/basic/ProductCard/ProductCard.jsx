@@ -36,7 +36,7 @@ const ProductCard = (props) => {
 
     
   return (
-    <a className="product-card mt-4" href="#dolce-gabbana-cropped" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <a className="product-card mt-4"  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <img className="product-card__image " src={images[currentIndex].url} width={"210px"} height={"280px"} onClick={viewImage} />
       <p className="product-card__brand ml-2">{name}</p>
       <p className="product-card__description mx-2">{description}</p>

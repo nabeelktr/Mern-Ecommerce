@@ -9,7 +9,18 @@ const supportedFormats = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 
 
 
 export const signupSchema = yup.object().shape({
-  name: yup.string().max(30).required('Required'),
+  name: yup.string().max(30).test(
+    'no-leading-unusual-spaces',
+    'Name should not have unusual spaces at the beginning',
+    (value) => {
+      if (typeof value === 'string') {
+        // Check if the string has unusual spaces at the beginning
+        return !value.match(/^\s/);
+      }
+      return true; 
+    }
+  )
+.required('Name is required'),
   email: yup.string().email('enter a valid email').required('Required'),
 
   phone: yup.string()
@@ -192,4 +203,17 @@ export const AddressSchema = yup.object().shape({
     .required(),
   state: yup.string()
     .required(),
+});
+
+export const resetPasswordSchema = yup.object().shape({
+  current: yup.string().required(),
+  newPassword: yup.string()
+    .min(8)
+    .matches(passwordRules, { message: 'Requires a combination of uppercase and lowercase letters.' })
+    .matches(passwordNumberRule, { message: 'At least one number (0-9).' })
+    .required('Required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('newPassword'), null], 'Password must match')
+    .required('Required'),
 })

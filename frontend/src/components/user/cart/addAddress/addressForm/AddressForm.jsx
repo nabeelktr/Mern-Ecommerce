@@ -2,6 +2,7 @@ import { TabsBody, Typography } from "@material-tailwind/react";
 import { ErrorMessage, Form, Formik, useField } from "formik";
 import { AddressSchema } from "../../../../yup";
 import Axios from "../../../../../axiosInterceptors/userAxios";
+import { toast } from "react-toastify";
 
 const AddressForm = ({setRefreshKey, refreshKey}) => {
 
@@ -38,8 +39,12 @@ const AddressForm = ({setRefreshKey, refreshKey}) => {
 
   const handleSubmit = async(values, action) => {
     const res = await Axios.post('/addAddress',values);
-    setRefreshKey(refreshKey + 1);
+    if(setRefreshKey != undefined){
+
+      setRefreshKey(refreshKey + 1);
+    }
     action.resetForm();
+    toast.success('Address added successful')
   }
 
   return (
