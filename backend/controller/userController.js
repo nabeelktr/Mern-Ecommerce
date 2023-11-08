@@ -75,11 +75,15 @@ const authUser = AsyncHandler(async (req, res) => {
 
   if (user && !user.admin && user.active) {
     if ((await user.matchPassword(password))) {
-       const refresh = await refreshToken(user._id)
+       const refresh = await refreshToken(user._id);
+       const accessToken = generateAccessToken(user._id);
+
+       res.cookie('access_token', accessToken, { httpOnly: true, secure: true });
+       res.cookie('refresh_token', refresh, { httpOnly: true, secure: true });
       res.json({
         user,
-        accessToken: generateAccessToken(user._id),
-        refreshToken: refresh,
+        // accessToken: generateAccessToken(user._id),
+        // refreshToken: refresh,
       });
     } else {
       res.status(403)

@@ -1,3 +1,4 @@
+import { validateBufferMIMEType } from "validate-image-type";
 import * as yup from 'yup';
 
 const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])/;
@@ -59,6 +60,22 @@ export const AddImageSchema = yup.object().shape({
       'Uploaded file has unsupported format.',
       (value) => !value || (value && supportedFormats.includes(value?.type))
     )
+  //   .test(
+  //     "valid-image",
+  //     "The uploaded file is not a valid image",
+  //     async (file) => {
+  
+  //         if (!file) return true;
+  //         console.log(file.buffer);
+  //         const result = await validateBufferMIMEType(file.buffer,
+  //             {
+  //                 allowMimeTypes: ["image/png", "image/jpeg"]
+  //             });
+
+  //         return result.ok;
+  //     }
+  // )
+    
 })
 
 export const AddProductSchema = yup.object().shape({
@@ -81,7 +98,15 @@ export const AddProductSchema = yup.object().shape({
   .required('Price is required'),
   offerPrice: yup.number()
   .positive('Price must be a positive number') 
+  .test('offerPrice', 'Offer Price must be less than Price', function (value) {
+    const price = this.parent.price; // Access the value of the 'price' field
+    if (value && price && value > price) {
+      return false; // Offer Price is not less than Price
+    }
+    return true; // Offer Price is less than Price
+  })
   .required('Offer Price is required'),
+
   category: yup.string().max(30).required('Required'),
   description: yup.string().max(200)
   .test(
@@ -216,4 +241,26 @@ export const resetPasswordSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('newPassword'), null], 'Password must match')
     .required('Required'),
+});
+
+//------------------profile edit ----------------------------
+
+export const editProfileSchema = yup.object().shape({
+  name: yup.string().max(30)
+  .test(
+    'no-leading-unusual-spaces',
+    'Name should not have unusual spaces at the beginning',
+    (value) => {
+      if (typeof value === 'string') {
+        return !value.match(/^\s/);
+      }
+      return true; 
+    }
+  )
+  .required('Name is required'),
+  phone: yup.string()
+    .matches(phoneRegExp, { message: 'Phone number is not Valid.' })
+    .min(10, 'Enter a valid Phone Number')
+    .required('Required'),  
+  
 })

@@ -31,7 +31,7 @@ import { useNavigate } from "react-router-dom";
             <ListItemPrefix>
               <IdentificationIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Address
+            Addresses
           </ListItem>
           <ListItem onClick={() => navigate('/profile/viewOrders')}>
             <ListItemPrefix>

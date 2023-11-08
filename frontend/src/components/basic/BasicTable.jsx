@@ -33,7 +33,7 @@ const BasicTable = ({datas, columns, type}) => {
       
       return (
         <section className=" dark:bg-gray-900 p-3 sm:p-5 antialiased ">
-        <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
+        <div className="mx-auto max-w-screen-2xl px-4 lg:px-12">
           <div>
             <p className="text-sm font-bold uppercase my-6 p-2">{type} List</p>
           </div>
@@ -103,7 +103,7 @@ const BasicTable = ({datas, columns, type}) => {
 
     return (
       <section className=" dark:bg-gray-900 p-3 sm:p-5 antialiased ">
-        <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
+        <div className="mx-auto max-w-screen-2xl px-4 lg:px-12">
           <div>
             <p className="text-sm font-bold uppercase my-6 p-2">{type} List</p>
           </div>

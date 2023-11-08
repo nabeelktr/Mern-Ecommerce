@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Axios from '../../../../axiosInterceptors/userAxios'
 import { Typography } from '@material-tailwind/react';
+import { editProfileSchema } from '../../../yup';
 
 const EditProfile = () => {
     const [user, setuser] = useState();
@@ -55,6 +56,7 @@ const EditProfile = () => {
             location: user?.location,
         }}
         onSubmit={handleSubmit}
+        validationSchema={editProfileSchema}
         >
             {({isSubmitting}) => (
 

@@ -32,14 +32,14 @@ const ResetPassword = () => {
     const handleSubmit = async(values, action) => {
         try{
             await Axios.post('/resetPassword', values);
-            toast.success('Password reset successful');
+            toast.success('Password changed successfully');
             navigate('/profile');
         }catch(err){
             action.setFieldError('current', 'invalid Password');
         }
     }
   return (
-    <div className="p-4 m-4 border   justify-center shadow-sm">
+    <div className="p-4 m-4 border w-1/2  justify-center shadow-sm">
       <div className="border-b p-4 font-bold" >
         <p>Change Password</p>
       </div>
@@ -56,10 +56,13 @@ const ResetPassword = () => {
         >
             {({isSubmitting}) =>  (
 
-                <Form className=' w-1/2'>
+                <Form className=' w-full'>
                 <MyTextField type='password' name='current' label="Current Password" />
                 <MyTextField type='password' name='newPassword' label="New Password" />
                 <MyTextField type='password' name='confirmPassword' label="Confirm Password" />
+                  <p className="text-xs mt-1 text-gray-600 ml-2">- Uppercase letters (A-Z)</p>
+                  <p className="text-xs text-gray-600 ml-2">- Lowercase letters (a-z)</p>
+                  <p className="text-xs text-gray-600 ml-2 mb-1">- Numbers (0-9)</p>
 
                 <button
                 type='submit'
