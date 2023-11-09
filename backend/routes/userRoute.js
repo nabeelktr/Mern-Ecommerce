@@ -1,5 +1,5 @@
 import express from 'express'
-import { AddToCart, addAddress, authUser, editUser, generateOTP, getCartItems, getUser, getUserAddress, registerUser, removeAddress, removeCartItem, test, 
+import { AddToCart, addAddress, authUser, editUser, generateOTP, getCartItems, getUser, getUserAddress, logout, registerUser, removeAddress, removeCartItem, test, 
     updateCartQty, updateCartQtyDec, updatePassword } from '../controller/userController.js'
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
@@ -34,7 +34,8 @@ router.route('/getUser').get(protect, getUser)
 router.route('/editUser').post(protect, editUser)
 router.route('/resetPassword').post(protect, updatePassword);
 
-router.route('/refresh').post(protectRefreshToken);
+router.route('/refresh').get(protectRefreshToken);
+router.route('/logout').get(logout);
 
 
 

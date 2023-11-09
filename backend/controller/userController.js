@@ -76,15 +76,13 @@ const authUser = AsyncHandler(async (req, res) => {
   if (user && !user.admin && user.active) {
     if ((await user.matchPassword(password))) {
        const refresh = await refreshToken(user._id);
-       const accessToken = generateAccessToken(user._id);
 
-       res.cookie('access_token', accessToken, { httpOnly: true, secure: true });
-       res.cookie('refresh_token', refresh, { httpOnly: true, secure: true });
+       res.cookie('jwt', refresh, { httpOnly: true, secure: true });
+
       res.json({
-        user,
-        // accessToken: generateAccessToken(user._id),
-        // refreshToken: refresh,
+        accessToken: generateAccessToken(user._id),
       });
+
     } else {
       res.status(403)
       throw new Error("invalid password");
@@ -321,8 +319,16 @@ const getUser = AsyncHandler(async(req,res) => {
 const editUser = AsyncHandler(async(req,res) => {
   const user = await User.findByIdAndUpdate(req.user._id, req.body.values )
   res.json({msg: 'updated'})
-})
+});
+
+const logout = (req, res) => {
+  const cookies = req.cookies
+  if (!cookies?.jwt) return res.sendStatus(204) //No content
+  res.clearCookie('jwt', { httpOnly: true, secure: true })
+
+  res.json({ message: 'Cookie cleared' })
+}
 
 
 export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword }
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout }

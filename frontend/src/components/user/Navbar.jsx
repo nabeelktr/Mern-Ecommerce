@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import Axios from '../../axiosInterceptors/userAxios'
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -11,9 +12,10 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   let token;
-  const signout = () => {
+  const signout = async() => {
     if(token){
       localStorage.removeItem('userToken');
+      await Axios.get('/logout');
       navigate('/home');
     }else{
       navigate('/login');

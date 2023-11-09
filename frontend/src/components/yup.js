@@ -1,4 +1,3 @@
-import { validateBufferMIMEType } from "validate-image-type";
 import * as yup from 'yup';
 
 const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])/;

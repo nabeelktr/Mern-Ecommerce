@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import AsyncHandler from 'express-async-handler'
 import User from '../modals/userModal.js';
-import RefreshToken from '../modals/tokenModal.js';
+
 import { generateAccessToken } from '../utils/generateToken.js';
 
 const protect = AsyncHandler(async (req, res, next) => {
@@ -27,28 +27,16 @@ const protect = AsyncHandler(async (req, res, next) => {
   });
 
   const protectRefreshToken = AsyncHandler(async (req,res) => {
-
-    const token = req.body.newToken;
-   
+    const token = req.cookies.jwt;
     try{
-      const refreshToken = await RefreshToken.findOne({token: token})
-      if(refreshToken){
-        jwt.verify(token, process.env.JWT_REFRESH_SECRET, (err,tokenDetails) => {
-          if(err){
-            localStorage.removeItem('userRefreshToken')
-            res.status(402).json({msg: 'Not authorized..'})
-          }
-        })
-        const accessToken = generateAccessToken(refreshToken.userId);
+      const decoded =  jwt.verify(token, process.env.JWT_REFRESH_SECRET)
+      const accessToken = generateAccessToken(decoded.id);
+      console.log(accessToken);
         res.status(201)
-          .json(accessToken)
-
-      }
+          .json(accessToken)   
     }catch(error){
-      localStorage.removeItem('userRefreshToken')
       res.status(402).json({msg: 'Not authorized..'})
-    }
-    
+    }   
   })
   
   export { protect, protectRefreshToken };

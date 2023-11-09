@@ -11,6 +11,7 @@ import { BeatLoader } from "react-spinners";
 import { Button } from "@material-tailwind/react";
 import AddVariants from "./variants/AddVariants";
 import Category from "./select/Category";
+import ImageCrop from "../../basic/CropImage/ImageCrop";
 
 const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -55,8 +56,16 @@ const MyTextAreaField = ({ label, ...props }) => {
 const AddProducts = () => {
   const [variants, setVariants] = useState([]);
   const [images, setimages] = useState([]);
+  const [crop, setcrop] = useState()
   const imgRef = useRef();
   const submitRef = useRef();
+
+  const cropImage = (values) => {
+    if(values.image){
+
+      setcrop(values);
+    }
+  }
 
   const imgHandle = (values) => {
     if (imgRef.current.value) {
@@ -169,7 +178,7 @@ const AddProducts = () => {
                 image: "",
               }}
               validationSchema={AddImageSchema}
-              onSubmit={imgHandle}
+              onSubmit={cropImage}
             >
               {({ setFieldValue }) => (
                 <Form>
@@ -181,7 +190,8 @@ const AddProducts = () => {
                       await setFieldValue("image", e.target.files[0]);
                       submitRef.current.click();
                     }}
-                  />
+                    />
+                    { crop && <ImageCrop crop={crop} imgHandle={imgHandle} />}
                   <ErrorMessage
                     name="image"
                     component="div"
@@ -219,7 +229,7 @@ const AddProducts = () => {
                           height="400px"
                           width="300px"
                           className="m-2"
-                          onClick={uploadFiles}
+                          // onClick={uploadFiles}
                         />
                       ))}
                   </div>
