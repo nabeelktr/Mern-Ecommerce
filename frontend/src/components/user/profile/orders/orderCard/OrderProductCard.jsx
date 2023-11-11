@@ -18,11 +18,11 @@ const OrderProductCard = ({order}) => {
         fetchdata();
     },[])
   return (
-    <Card className="w-4/6  flex-row p-2 m-2 relative" >
+    <Card className="w-4/6  flex-row p-2 m-2 relative rounded-none border shadow-sm" >
     <CardHeader
       shadow={false}
       floated={false}
-      className="m-0 w-2/5 shrink-0 rounded-r-none"
+      className="m-0 w-2/5 shrink-0 rounded-none"
     >
       <img
         src={product? product.images[0].url: ''}

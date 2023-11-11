@@ -4,7 +4,7 @@ import { AddToCart, addAddress, authUser, editUser, generateOTP, getCartItems, g
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
 import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
-import { getOrders, getUserOrders, placeOrder } from '../controller/orderController.js'
+import { checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
 
 const router = express.Router()
 
@@ -28,7 +28,9 @@ router.route('/removeAddress/:id').get(protect, removeAddress)
 
 router.route('/placeOrder').post(protect, placeOrder)
 router.route('/orders').get(protect, getOrders)
-router.route('/userOrders').get(protect, getUserOrders)
+router.route('/userOrders').get(protect, getUserOrders);
+router.route('/checkout').post(protect, checkout);
+router.route('/paymentverification').post(protect, paymentVerification);
 
 router.route('/getUser').get(protect, getUser)
 router.route('/editUser').post(protect, editUser)

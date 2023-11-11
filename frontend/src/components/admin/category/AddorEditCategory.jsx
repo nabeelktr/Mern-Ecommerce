@@ -6,6 +6,7 @@ import { imagedb } from "../../../firebase/config";
 import Axios from "../../../axiosInterceptors/axios";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useLocation } from "react-router-dom";
+import CropImage from "./CropImage/CropImage";
 
 const AddCategory = () => {
   const location = useLocation();
@@ -13,6 +14,8 @@ const AddCategory = () => {
   const [image, setimage] = useState();
   const [uploadedimage, setuploadedimage] = useState();
   const [data, setdata] = useState()
+  const [crop, setCrop] = useState()
+
 
   const handleSubmit = async(values, action) => {
     try{
@@ -106,13 +109,16 @@ const AddCategory = () => {
                       if (image?.url){
                         deleteImage()
                         .then(() => {
-                            setuploadedimage(e.target.files[0]);
+                            //setuploadedimage(e.target.files[0]);
+                            setCrop(e.target.files[0])
                         })
                       }else{
-                        setuploadedimage(e.target.files[0]);
+                        //setuploadedimage(e.target.files[0]);
+                        setCrop(e.target.files[0])
                       }
                     }}
                   />
+                  {crop && <CropImage upImage={crop} setUploadedImg={setuploadedimage} setCrop={setCrop} />}
                   <ErrorMessage name="image" component="div" className="text-xs text-red-600 mb-2" />
                   <button
                     type="button"

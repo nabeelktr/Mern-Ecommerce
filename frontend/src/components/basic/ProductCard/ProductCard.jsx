@@ -36,8 +36,8 @@ const ProductCard = (props) => {
 
     
   return (
-    <a className="product-card mt-4"  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <img className="product-card__image " src={images[currentIndex].url} width={"210px"} height={"280px"} onClick={viewImage} />
+    <a className="product-card mt-4 "  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <img className="product-card__image cursor-pointer" src={images[currentIndex].url} width={"210px"} height={"280px"} onClick={viewImage} />
       <p className="product-card__brand ml-2">{name}</p>
       <p className="product-card__description mx-2">{description}</p>
       <p className="product-card__price ml-2 mb-2">	&#8377;&nbsp;{offerPrice}</p>

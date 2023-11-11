@@ -24,7 +24,7 @@ const OrderList = () => {
         {orders &&
           orders.map((order, i) => (
             <div key={i} >
-            <div className="p-4 bg-gray-50 w-full" >
+            <div className="p-4 bg-gray-50 w-full border" >
             <div className="flex m-4 gap-10">
                 <div>
                     <p className="text-sm font-bold">Order Date</p>

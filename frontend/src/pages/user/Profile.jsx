@@ -6,9 +6,9 @@ import { Typography } from '@material-tailwind/react'
 import { SidebarProfile } from '../../components/user/profile/sidebar/SidebarProfile'
 import EditProfile from '../../components/user/profile/editProfile/EditProfile'
 import ResetPassword from '../../components/user/profile/passwordReset/ResetPassword'
-import ViewAddress from '../../components/user/profile/address/ViewAddress/ViewAddress'
 import AddAddressProfile from '../../components/user/profile/address/addAddress/AddAddressProfile'
 import OrderList from '../../components/user/profile/orders/orderList/OrderList'
+import Addresses from '../../components/user/profile/address/ViewAddress/Addresses'
 
 
 const Profile = () => {
@@ -28,7 +28,7 @@ const Profile = () => {
                 <Routes>
                     <Route path='/' element={<ViewProfile />} />
                     <Route path='/editProfile' element={<EditProfile />} />
-                    <Route path='/viewAddress' element={<ViewAddress />} />
+                    <Route path='/viewAddress' element={<Addresses />} />
                     <Route path='/addAddress' element={<AddAddressProfile />} />
                     <Route path='/viewOrders' element={<OrderList />} />
                     <Route path='/changePassword' element={<ResetPassword />} />

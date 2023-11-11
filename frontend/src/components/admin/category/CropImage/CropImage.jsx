@@ -4,7 +4,7 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Dialog, Transition } from "@headlessui/react";
 
-const ImageCrop = ({ crop, imgHandle }) => {
+const CropImage = ({upImage, setUploadedImg, setCrop}) => {
   const [src, setsrc] = useState();
 
   const [image, setimage] = useState();
@@ -15,10 +15,10 @@ const ImageCrop = ({ crop, imgHandle }) => {
   const fetchdata = () => {
     const image = new Image();
     image.onload = () => {
-      setsrc(URL.createObjectURL(crop.image));
-      setimage(image); 
+      setsrc(URL.createObjectURL(upImage));
+      setimage(image); // Store the fully loaded image object in state
     };
-    image.src = URL.createObjectURL(crop.image);
+    image.src = URL.createObjectURL(upImage);
   };
 
   const complete = (crop, pixelCrop) => {
@@ -28,7 +28,7 @@ const ImageCrop = ({ crop, imgHandle }) => {
   const makeClientCrop = async (crop) => {
     if (src && crop.width && crop.height) {
       const croppedFile = await getCroppedImg(image, crop);
-      setCroppedImageFile(croppedFile); 
+      setCroppedImageFile(croppedFile); // Update state with the cropped file
       setCroppedImageUrl(URL.createObjectURL(croppedFile));
     }
   };
@@ -71,14 +71,16 @@ const ImageCrop = ({ crop, imgHandle }) => {
 
   const cropImage = () => {
     if(croppedImageFile){
-        imgHandle({ image: croppedImageFile });
+        setUploadedImg(croppedImageFile)
         setCroppedImageFile(null);
         setCroppedImageUrl(null);
         setCrops(null);
         setimage(null);
         setsrc(null);
+        setCrop();
     }else{
-        imgHandle(crop)
+        setUploadedImg(upImage)
+        setCrop()
     }
   };
 
@@ -87,9 +89,9 @@ const ImageCrop = ({ crop, imgHandle }) => {
   }, []);
 
   return (
-
+  
     <Transition.Root show={true} as={Fragment}>
-      <Dialog as="div" className="relative z-10"  onClose={imgHandle}>
+      <Dialog as="div" className="relative z-10"  onClose={setUploadedImg}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -154,7 +156,7 @@ const ImageCrop = ({ crop, imgHandle }) => {
         </div>
       </Dialog>
     </Transition.Root>
-  );
-};
+  )
+}
 
-export default ImageCrop;
+export default CropImage

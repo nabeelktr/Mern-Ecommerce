@@ -1,8 +1,9 @@
 import AsyncHandler from 'express-async-handler'
-
+import crypto from "crypto";
 import Order from '../modals/orderModal.js';
 import Cart from '../modals/CartModal.js';
 import Product from '../modals/productModal.js';
+import { instance } from '../config/razorPay.js';
 
 
 const placeOrder = AsyncHandler(async(req,res) => {
@@ -76,6 +77,62 @@ const changeOrderStatus = AsyncHandler(async(req,res) => {
         res.status(404)
         throw new Error('invalid error')
     }
-})
+});
 
-export { placeOrder, getOrders, changeOrderStatus, getUserOrders }
+const checkout = AsyncHandler(async(req,res) => {
+    const options = {
+        amount: Number(req.body.price * 100),  
+        currency: "INR",
+      };
+      const order = await instance.orders.create(options);
+      res.status(201).json({
+        success: true,
+        order,
+      })
+});
+
+const paymentVerification = AsyncHandler(async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderDetails } =
+      req.body;
+  
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+  
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
+      .update(body.toString())
+      .digest("hex");
+  
+    const isAuthentic = expectedSignature === razorpay_signature;
+
+  
+    if (isAuthentic) {
+
+  
+      await Order.create({
+        userName: req.user.name,
+        userId: req.user._id,
+        items: orderDetails.items,
+        totalPrice: orderDetails.totalPrice,
+        totalOfferPrice: orderDetails.totalOfferPrice,
+        shippingAddress: orderDetails.shippingAddress,
+        paymentMethod: 'RazorPay',
+        createdAt: Date.now(),
+        status: 'Pending',
+        razorpay_payment_id,
+
+      });
+      updateProductQty(orderDetails);
+      await Cart.deleteOne({ _id: orderDetails.cartId });
+        
+    
+  
+      res.status(201)
+      .json({razorpay_payment_id})
+    } else {
+      res.status(400).json({
+        success: false,
+      });
+    }
+  });
+
+export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification }

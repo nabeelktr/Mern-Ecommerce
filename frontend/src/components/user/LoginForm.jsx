@@ -51,7 +51,6 @@ const LoginForm = (props) => {
   const handleSubmit = async (values, action) => {
     try {
       const response = await Axiosuser.post('/login', values);
-      console.log(response.data);
       localStorage.setItem('userToken', response.data.accessToken);
      // localStorage.setItem('userRefreshToken', response.data.refreshToken);
       navigate('/home');

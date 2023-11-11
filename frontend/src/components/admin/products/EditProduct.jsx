@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 import AddVariants from './variants/AddVariants';
 import Category from './select/Category';
+import ImageCrop from '../../basic/CropImage/ImageCrop';
 
 const MyTextField = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -58,6 +59,7 @@ const EditProduct = () => {
   const location = useLocation()
   const [products, setproducts] = useState([]);
   const [images, setimages] = useState();
+  const [crop, setcrop] = useState()
   const [uploadedimg, setuploadedimg] = useState([]);
   const submitRef = useRef();
   const imgRef = useRef()
@@ -81,10 +83,17 @@ const EditProduct = () => {
     setuploadedimg(result);
   }
   
+  const cropImage = (values) => {
+    if (imgRef.current.value){
+      setcrop(values);
+    }
+  }
+
   const imgHandle = (values) => {
     if(imgRef.current.value){
         setuploadedimg([...uploadedimg, values.image]);
         imgRef.current.value=null;
+        setcrop();
       }
   }
 
@@ -184,7 +193,7 @@ const EditProduct = () => {
             image: '',
           }}
           validationSchema={AddImageSchema}
-          onSubmit={imgHandle}
+          onSubmit={cropImage}
           >
             {({setFieldValue}) => (
             <Form>
@@ -196,8 +205,8 @@ const EditProduct = () => {
               await setFieldValue('image', e.target.files[0]);
               submitRef.current.click();
             }}
-            
             />
+            { crop && <ImageCrop crop={crop} imgHandle={imgHandle} />}
             <ErrorMessage name="image" component="div" className="text-xs text-red-600 mb-2" />
             <Button variant="gradient"
              type='#'

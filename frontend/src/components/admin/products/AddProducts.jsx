@@ -61,8 +61,7 @@ const AddProducts = () => {
   const submitRef = useRef();
 
   const cropImage = (values) => {
-    if(values.image){
-
+    if (imgRef.current.value){
       setcrop(values);
     }
   }
@@ -71,6 +70,7 @@ const AddProducts = () => {
     if (imgRef.current.value) {
       setimages([...images, values.image]);
       imgRef.current.value = null;
+      setcrop();
     }
   };
 
@@ -197,7 +197,9 @@ const AddProducts = () => {
                     component="div"
                     className="text-xs text-red-600 mb-2 "
                   />
-                  <Button
+                  {
+                    !crop &&
+                    <Button
                     variant="gradient"
                     type="#"
                     onClick={() => imgRef.current.click()}
@@ -219,6 +221,7 @@ const AddProducts = () => {
                     </svg>
                     Upload Image
                   </Button>
+                  }
                   <div className="flex flex-row p-4 overflow-auto mb-6">
                     {images[0] &&
                       images.map((img, i) => (
@@ -229,7 +232,6 @@ const AddProducts = () => {
                           height="400px"
                           width="300px"
                           className="m-2"
-                          // onClick={uploadFiles}
                         />
                       ))}
                   </div>

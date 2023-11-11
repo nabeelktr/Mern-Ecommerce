@@ -57,17 +57,17 @@ const ItemCard = ({ item, cartId, setRefreshKey, refreshKey, updateCart }) => {
 
   },[])
   return (
-    <Card className="w-full  flex-row p-2 m-2 relative">
+    <Card className="w-full rounded-none border shadow-sm flex-row p-2 m-2 relative">
       
       <CardHeader
         shadow={false}
         floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
+        className="m-0 w-2/5 shrink-0 rounded-none"
       >
         <img
           src={product? product.images[0].url: ''}
           alt="card-image"
-          width={150}
+          width={140}
           className="object-cover"
         />
       </CardHeader>
@@ -92,14 +92,15 @@ const ItemCard = ({ item, cartId, setRefreshKey, refreshKey, updateCart }) => {
 
         <Typography className="text-sm font-bold ">
           
-        <Button type="button" 
+        
+          Qty:{' '}{qty}{' '}
+         <Button type="button" 
         disabled={qty === 1}
         onClick={qtyDec}
-        className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-0 mr-0 mb-1 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+        className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2.5 py-0 mr-0 mb-1 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
         >
-          -
-        </Button>
-         {' '} Qty:{' '}{qty}{' '}
+          - 
+        </Button>{' '}
         <Button type="button" 
         disabled={qty === actualqty}
         onClick={qtyInc}

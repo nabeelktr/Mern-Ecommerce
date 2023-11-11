@@ -306,6 +306,10 @@ const removeAddress = AsyncHandler(async(req,res) => {
   res.status(201).json({msg: 'deleted'})
 });
 
+const getSpecificAddress = AsyncHandler(async(req,res) => {
+  
+})
+
 const getUser = AsyncHandler(async(req,res) => {
   const user = await User.findById(req.user._id);
   if (user) {

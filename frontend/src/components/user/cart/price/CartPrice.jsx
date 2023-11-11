@@ -49,7 +49,7 @@ const CartPrice = ({cartId, addressChosen, payment}) => {
   return (
     <div className="flex flex-col mt-32 items-start ml-4 " >
         <Typography className="uppercase text-xs font-bold m-2">Price details</Typography>
-      <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-[60%] text-sm">
+      <div className="mt-6 h-full  border bg-white p-6 shadow-sm md:mt-0 md:w-[60%] text-sm">
         <div className="mb-2 flex justify-between">
           <p className="text-gray-700">Total MRP</p>
           <p className="text-gray-700">&#8377; {orderDetails?.totalPrice}</p>
