@@ -9,6 +9,7 @@ import ResetPassword from '../../components/user/profile/passwordReset/ResetPass
 import AddAddressProfile from '../../components/user/profile/address/addAddress/AddAddressProfile'
 import OrderList from '../../components/user/profile/orders/orderList/OrderList'
 import Addresses from '../../components/user/profile/address/ViewAddress/Addresses'
+import EditAddress from '../../components/user/profile/address/edit/EditAddress'
 
 
 const Profile = () => {
@@ -30,6 +31,7 @@ const Profile = () => {
                     <Route path='/editProfile' element={<EditProfile />} />
                     <Route path='/viewAddress' element={<Addresses />} />
                     <Route path='/addAddress' element={<AddAddressProfile />} />
+                    <Route path='/editAddress' element={<EditAddress />} />
                     <Route path='/viewOrders' element={<OrderList />} />
                     <Route path='/changePassword' element={<ResetPassword />} />
                 </Routes>

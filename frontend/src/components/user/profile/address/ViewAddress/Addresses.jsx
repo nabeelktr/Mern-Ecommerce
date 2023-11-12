@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Axios from "../../../../../axiosInterceptors/userAxios";
 import { useEffect, useState } from "react";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 const Addresses = () => {
   const [address, setAddress] = useState();
@@ -27,14 +28,15 @@ const Addresses = () => {
   }, []);
   return (
     <div className="p-4 m-4 border  justify-center shadow-sm">
-      <div className="border-b p-4 mx-40 px-8 font-bold">
+      <div className="border-b p-4 mx-40 px-8 font-bold ">
         <p>Address Details</p>
       </div>
-      <div className="mx-44 pt-4 flex justify-end mb-3 ">
+      <div className="mx-44 pt-4 flex justify-end mb-3  ">
         <button
           onClick={() => navigate("/profile/addAddress")}
-          className="bg-white hover:bg-gray-100 font-semibold py-3 px-6 border border-gray-400 text-xs rounded shadow"
+          className="bg-white hover:bg-gray-100 font-semibold py-2 px-4 border border-gray-400 text-xs flex items-center gap-2 shadow-sm"
         >
+          <PlusIcon className="h-5 w-5"/>  
           ADD ADDRESS
         </button>
       </div>
@@ -45,6 +47,7 @@ const Addresses = () => {
               <Card
                 className="w-4/6  flex-row p-2 m-2 relative rounded-none border shadow-sm text-black 
                 hover:shadow-md cursor-pointer"
+                onClick={() => navigate('/profile/editAddress', {state: item})}
                 style={{
                   transition: "transform 0.3s",
                   transformOrigin: "center",

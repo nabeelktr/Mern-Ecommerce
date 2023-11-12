@@ -27,7 +27,7 @@ const OrderProductCard = ({order}) => {
       <img
         src={product? product.images[0].url: ''}
         alt="card-image"
-        width={100}
+        width={90}
         className="object-cover"
       />
     </CardHeader>

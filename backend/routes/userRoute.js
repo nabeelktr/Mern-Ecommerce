@@ -1,5 +1,5 @@
 import express from 'express'
-import { AddToCart, addAddress, authUser, editUser, generateOTP, getCartItems, getUser, getUserAddress, logout, registerUser, removeAddress, removeCartItem, test, 
+import { AddToCart, addAddress, authUser, editAddress, editUser, generateOTP, getCartItems, getUser, getUserAddress, logout, registerUser, removeAddress, removeCartItem, test, 
     updateCartQty, updateCartQtyDec, updatePassword } from '../controller/userController.js'
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
@@ -23,6 +23,7 @@ router.route('/test/:id').get(protect, test)
 router.route('/removeCartItem/:id').post(protect, removeCartItem)
 
 router.route('/addAddress').post(protect, addAddress)
+router.route('/editAddress').post(protect, editAddress)
 router.route('/getUserAddress').get(protect, getUserAddress)
 router.route('/removeAddress/:id').get(protect, removeAddress)
 

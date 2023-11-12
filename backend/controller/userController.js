@@ -292,6 +292,32 @@ const addAddress = AsyncHandler(async(req,res) => {
   }
 });
 
+const editAddress = AsyncHandler(async(req,res) => {
+  const updatedAddress = req.body;
+;
+const resp = await User.updateOne(
+  {
+    _id: new mongoose.Types.ObjectId(req.user._id),
+    'shippingAddress._id': new mongoose.Types.ObjectId(updatedAddress._id),
+  },
+  {
+    $set: {
+      'shippingAddress.$[elem]': updatedAddress,
+    },
+  },
+  {
+    arrayFilters: [{ 'elem._id': new mongoose.Types.ObjectId(updatedAddress._id) }],
+  }
+);
+
+  if(resp ){
+    res.status(201).json({success: true})
+  }else{
+    res.status(402)
+    throw new Error('invalid Error')
+  }
+})
+
 const getUserAddress = AsyncHandler(async(req,res) => {
   const address = await User.find({_id: new mongoose.Types.ObjectId(req.user._id)}, {shippingAddress: 1})
   res.status(201).json({address})
@@ -305,10 +331,6 @@ const removeAddress = AsyncHandler(async(req,res) => {
   })
   res.status(201).json({msg: 'deleted'})
 });
-
-const getSpecificAddress = AsyncHandler(async(req,res) => {
-  
-})
 
 const getUser = AsyncHandler(async(req,res) => {
   const user = await User.findById(req.user._id);
@@ -335,4 +357,4 @@ const logout = (req, res) => {
 
 
 export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout }
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress }
