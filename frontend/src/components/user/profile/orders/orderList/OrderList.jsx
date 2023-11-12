@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Axios from "../../../../../axiosInterceptors/userAxios";
 import OrderProductCard from "../orderCard/OrderProductCard";
+import { useNavigate } from "react-router-dom";
 
 const OrderList = () => {
+  const navigate = useNavigate()
   const [orders, setOrders] = useState();
 
 
@@ -23,7 +25,7 @@ const OrderList = () => {
       <div className="p-4  w-full px-10 flex flex-col justify-start gap-10 mt-4 ">
         {orders &&
           orders.map((order, i) => (
-            <div key={i} >
+            <div key={i} className="cursor-pointer hover:shadow-md" onClick={() => navigate('/profile/viewOrder', {state: order})}>
             <div className="p-4 bg-gray-50 w-full border" >
             <div className="flex m-4 gap-10">
                 <div>
