@@ -49,7 +49,7 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLogin />} />
         {/* private */}
-        <Route path="/admin/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+        <Route path="/admin/dashboard/*" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/admin/users" element={<PrivateRoute element={<UserList />} />} />
         <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />
         <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />

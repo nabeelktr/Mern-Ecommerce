@@ -15,6 +15,7 @@ const ProductTable = () => {
       cell: (info) =>
         info.getValue()[0]?.url ? (
           <img
+            onClick={() => navigate("/admin/products/edit", { state: info.row.original._id })}
             width="50px"
             height="75px"
             src={info.getValue()[0]?.url}

@@ -11,6 +11,7 @@ const ViewProduct = () => {
   const params = useParams();
   const [product, setproduct] = useState();
   const [qty, setqty] = useState();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const totalQuantity = (datas) => {
     const total = datas.reduce((acc, current) => acc + current.qty, 0);
@@ -77,12 +78,15 @@ const ViewProduct = () => {
         <div className=" max-w-5xl  flex flex-wrap pl-7 px-10">
           {product &&
             product.images.map((img, i) => (
+ 
               <img
-                src={img.url}
-                alt={product.name}
-                key={i}
-                className="pl-2 pb-2  w-1/2"
+              src={img.url}
+              alt={product.name}
+              key={i}
+              className={`pl-2 pb-2  w-1/2 ${!imageLoaded ? '' : ''}`}
+              onLoad={() => setImageLoaded(true)}
               />
+
             ))}
         </div>
         <div className="w-2/5">

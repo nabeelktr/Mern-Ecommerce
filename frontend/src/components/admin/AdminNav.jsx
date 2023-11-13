@@ -20,7 +20,7 @@ const AdminNav = () => {
     navigate('/admin');
   };
   const navigation = [
-    { name: 'DASHBOARD', current: currentRoute === '/admin/dashboard' },
+    { name: 'DASHBOARD', current: /^\/admin\/dashboard($|\/)/.test(currentRoute), onClick: () => navigate('/admin/dashboard')},
     { name: 'ORDERS', current: /^\/admin\/orders($|\/)/.test(currentRoute), onClick: () => navigate('/admin/orders')},
     { 
       name: 'PRODUCTS', current: /^\/admin\/products($|\/)/.test(currentRoute), onClick: () => navigate('/admin/products')

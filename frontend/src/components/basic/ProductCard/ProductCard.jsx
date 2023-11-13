@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import './productCard.css';
 import { useNavigate } from 'react-router-dom';
-import { Skeleton } from '@mui/material';
+
+
+
 
 const ProductCard = (props) => {
+ 
     const navigate = useNavigate()
     const [currentIndex, setcurrentIndex] = useState(0);
     const [autoChangeInterval, setAutoChangeInterval] = useState();
     const [imageLoaded, setImageLoaded] = useState(false);
 
-    const { _id, images, description, name, offerPrice } = props;
+    const { _id, images, description, name, offerPrice, color } = props;
 
     const handleMouseEnter = () => {
         setcurrentIndex((currentIndex + 1) % images.length);
@@ -39,8 +42,14 @@ const ProductCard = (props) => {
     
   return (
     <a className="product-card mt-4 "  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {!imageLoaded && (
+        
+        <div className={'h-[280px] bg-'+color+'-200 animate-pulse mb-2 '}>
+        </div>
+      )}
+
       <img className={`product-card__image cursor-pointer ${!imageLoaded ? 'hidden' : '' }`} src={images[currentIndex].url} width="210px" height="280px" onClick={viewImage} onLoad={() => setImageLoaded(true)}/>
-      {!imageLoaded && <Skeleton  width={"210px"} height={300} className='' />}
+      
       <p className="product-card__brand ml-2">{name}</p>
       <p className="product-card__description mx-2">{description}</p>
       <p className="product-card__price ml-2 mb-2">	&#8377;&nbsp;{offerPrice}</p>

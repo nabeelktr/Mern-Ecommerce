@@ -2,8 +2,8 @@ import { Stepper, Step, Typography } from "@material-tailwind/react";
 import {
   ClockIcon,
   ServerIcon,
-  ShoppingCartIcon,
   CheckBadgeIcon,
+  TruckIcon,
 } from "@heroicons/react/24/outline";
 
 const OrderStepper = ({ activeStep }) => {
@@ -32,7 +32,7 @@ const OrderStepper = ({ activeStep }) => {
         </div>
       </Step>
       <Step className="h-7 w-7">
-        <ShoppingCartIcon className="h-4 w-4" />
+        <TruckIcon className="h-4 w-4" />
         <div className="absolute -bottom-[2rem] w-max text-center">
           <Typography
             className="text-sm font-bold"
