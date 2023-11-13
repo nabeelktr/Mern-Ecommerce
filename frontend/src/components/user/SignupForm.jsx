@@ -8,31 +8,27 @@
 import React, { useEffect, useState } from "react";
 import { ErrorMessage, Form, Formik, useField } from "formik";
 import OtpInput from "react-otp-input";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "../../axiosInterceptors/axios.js";
 import { signupSchema } from "../yup";
+import { Toaster, toast } from "sonner";
 
 const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <>
-    <label>
-      {label}
-      
-          <input
-            {...field}
-            {...props}
-            className={`mt-4 text-sm sm:text-base placeholder-gray-400 pl-4 pr-4 border  w-full py-2 focus:outline-none  ${
-              meta.touched && meta.error
-              ? "border-red-500"
-              : "focus:border-black"
-            }`}
-            />
-         
-    </label>
+      <label>
+        {label}
 
+        <input
+          {...field}
+          {...props}
+          className={`mt-4 text-sm sm:text-base placeholder-gray-400 pl-4 pr-4 border  w-full py-2 focus:outline-none  ${
+            meta.touched && meta.error ? "border-red-500" : "focus:border-black"
+          }`}
+        />
+      </label>
     </>
   );
 };
@@ -68,59 +64,69 @@ const OtpField = ({ label, ...props }) => {
 };
 
 const SignupForm = () => {
-  const [formikval, setformikval] = useState()
+  const [formikval, setformikval] = useState();
   const [secondsRemaining, setSecondsRemaining] = useState();
-  const [resend, setresend] = useState(false)
+  const [resend, setresend] = useState(false);
   const [otp, setotp] = useState();
   const [send, setsend] = useState(false);
   const navigate = useNavigate();
 
-  const resendOTP = async() => {
+  const resendOTP = async () => {
+    setSecondsRemaining(60);
+    setresend(false);
+    setTimeout(() => setotp(), 1000 * 60 * 2);
+    setTimeout(() => setresend(true), 1000 * 60);
+    const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+
+      toast.promise(promise, {
+        loading: "OTP Sending...",
+        success: () => {
+          return `OTP was send to your email address`;
+        },
+        position: "top-center",
+        error: "Error",
+      });
+    setsend(true);
     const response = await Axios.post("/generateOtp", formikval);
     const { data } = response;
-      setotp(data.code);
-      setTimeout(() => setotp(), 1000 * 60 * 2)
-      toast.success("OTP was send to your email address", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      setsend(true);
-      setresend(false);
-      setSecondsRemaining(60);
-      setTimeout(() => setresend(true), 1000 * 60);
-  }
+    setotp(data.code);
+  };
 
   const firstSubmit = async (values, action) => {
     try {
-      const response = await Axios.post("/generateOtp", values);
-      console.log('send');
-      const { data } = response;
-      setotp(data.code);
-      setformikval(values)
-      setTimeout(() => setotp(), 1000 * 60 * 2)
-      toast.success("OTP was send to your email address", {
-        position: toast.POSITION.TOP_CENTER,
+      setSecondsRemaining(60);
+      setresend(false);
+      setTimeout(() => setresend(true), 1000 * 60);
+      const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+
+      toast.promise(promise, {
+        loading: "OTP Sending...",
+        success: () => {
+          return `OTP was send to your email address`;
+        },
+        position: "top-center",
+        error: "Error",
       });
       setsend(true);
-      setresend(false);
-      setSecondsRemaining(60);
-      setTimeout(() => setresend(true), 1000 * 60 );
+      const response = await Axios.post("/generateOtp", values);
+      const { data } = response;
+      setotp(data.code);
+      setformikval(values);
+      setTimeout(() => setotp(), 1000 * 60 * 2);
     } catch (error) {
-      console.log(error); // Log the error
+      console.log(error);
       action.setFieldError("email", "Email already exists");
+      setsend(false);
     }
   };
 
   const onSubmit = async (values, action) => {
     try {
       if (otp === values.otp) {
-      
         await Axios.post("/register", {
           values,
         }).then(() => {
-          setTimeout(() => navigate('/login'),3000);
-          toast.success("Thank You.. your registration was Successful", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+           navigate("/login", {state: "success register"});
         });
       } else {
         action.setFieldError("otp", "Invalid OTP");
@@ -138,10 +144,11 @@ const SignupForm = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  },[secondsRemaining])
+  }, [secondsRemaining]);
 
   return (
     <div className="flex flex-col  bg-white  px-4 sm:px-6 md:px-8 lg:px-10 py-8  w-full max-w-md font-serif">
+      <Toaster richColors={true} />
       <div className="font-medium  text-xl sm:text-2xl  text-gray-800">
         Signup
       </div>
@@ -206,9 +213,13 @@ const SignupForm = () => {
                     component="div"
                     className="text-xs text-red-600 mb-2"
                   />
-                    <p className="text-xs mt-1 text-gray-600 ml-2">- Uppercase letters (A-Z)</p>
-                    <p className="text-xs text-gray-600 ml-2">- Lowercase letters (a-z)</p>
-                    <p className="text-xs text-gray-600 ml-2">- Numbers (0-9)</p>
+                  <p className="text-xs mt-1 text-gray-600 ml-2">
+                    - Uppercase letters (A-Z)
+                  </p>
+                  <p className="text-xs text-gray-600 ml-2">
+                    - Lowercase letters (a-z)
+                  </p>
+                  <p className="text-xs text-gray-600 ml-2">- Numbers (0-9)</p>
 
                   <MyTextField
                     type="password"
@@ -230,11 +241,22 @@ const SignupForm = () => {
                     className="text-xs text-red-600 mb-2 -mt-2"
                   />
                   <span className="flex justify-between">
-                  <span className="text-xs">This OTP will expire in 2 minutes</span>
-                  <button type="button" disabled={!resend} className={`text-xs ${!resend ? 'text-gray-400' : 'text-blue-500'}`} onClick={resendOTP}>{secondsRemaining > 0 && secondsRemaining}&nbsp;Resend OTP</button>
+                    <span className="text-xs">
+                      This OTP will expire in 2 minutes
+                    </span>
+                    <button
+                      type="button"
+                      disabled={!resend}
+                      className={`text-xs ${
+                        !resend ? "text-gray-400" : "text-blue-500"
+                      }`}
+                      onClick={resendOTP}
+                    >
+                      {secondsRemaining > 0 && secondsRemaining}&nbsp;Resend OTP
+                    </button>
                   </span>
                   <a
-                    onClick={() => setsend(false)} 
+                    onClick={() => setsend(false)}
                     className="text-blue-500 underline text-xs cursor-pointer"
                   >
                     Change email
@@ -272,7 +294,10 @@ const SignupForm = () => {
                   >
                     <span
                       className="ml-2 cursor-pointer"
-                      onClick={(e) => { e.preventDefault(); navigate('/login'); }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/login");
+                      }}
                     >
                       Login
                     </span>

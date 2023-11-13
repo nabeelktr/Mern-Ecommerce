@@ -2,7 +2,7 @@ import {useReactTable, flexRender, getCoreRowModel, getPaginationRowModel, getSo
 import { useMemo, useState } from 'react';
 import { Button, Typography } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon, ChevronUpIcon, ChevronDownIcon, } from '@heroicons/react/24/outline';
-import { BeatLoader } from 'react-spinners';
+
 import { useNavigate } from 'react-router';
 import { Skeleton } from '@mui/material';
 
