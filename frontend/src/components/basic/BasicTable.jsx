@@ -154,6 +154,13 @@ const BasicTable = ({datas, columns, type}) => {
                 className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center'
                 >Add Category</button>
                 }
+
+                {type === 'coupon' &&
+                  <button
+                onClick={() => navigate('/admin/coupons/add')}
+                className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center'
+                >Add Coupon</button>
+                }
               </div>
             </div>
             <div className="overflow-x-auto">

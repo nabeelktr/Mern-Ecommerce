@@ -31,7 +31,7 @@ const AdminNav = () => {
     {
       name: 'CATEGORY', current: /^\/admin\/category($|\/)/.test(currentRoute), onClick: () => navigate('/admin/category'),
     },
-    { name: 'COUPONS', current: currentRoute === '/admin/coupons' },
+    { name: 'COUPONS', current: /^\/admin\/coupons($|\/)/.test(currentRoute), onClick: () => navigate('/admin/coupons') },
     { name: 'MESSAGES', current: currentRoute === '/admin/messages' },
   ];
   return (

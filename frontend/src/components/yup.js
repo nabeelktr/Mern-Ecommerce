@@ -98,11 +98,11 @@ export const AddProductSchema = yup.object().shape({
   offerPrice: yup.number()
   .positive('Price must be a positive number') 
   .test('offerPrice', 'Offer Price must be less than Price', function (value) {
-    const price = this.parent.price; // Access the value of the 'price' field
+    const price = this.parent.price; 
     if (value && price && value > price) {
-      return false; // Offer Price is not less than Price
+      return false; 
     }
-    return true; // Offer Price is less than Price
+    return true; 
   })
   .required('Offer Price is required'),
 
@@ -113,7 +113,7 @@ export const AddProductSchema = yup.object().shape({
     'should not have unusual spaces at the beginning',
     (value) => {
       if (typeof value === 'string') {
-        // Check if the string has unusual spaces at the beginning
+        
         return !value.match(/^\s/);
       }
       return true; 
@@ -126,7 +126,7 @@ export const AddProductSchema = yup.object().shape({
     'should not have unusual spaces at the beginning',
     (value) => {
       if (typeof value === 'string') {
-        // Check if the string has unusual spaces at the beginning
+        
         return !value.match(/^\s/);
       }
       return true; 
@@ -140,7 +140,7 @@ export const AddProductSchema = yup.object().shape({
     'should not have unusual spaces at the beginning',
     (value) => {
       if (typeof value === 'string') {
-        // Check if the string has unusual spaces at the beginning
+        
         return !value.match(/^\s/);
       }
       return true; 
@@ -262,4 +262,34 @@ export const editProfileSchema = yup.object().shape({
     .min(10, 'Enter a valid Phone Number')
     .required('Required'),  
   
+});
+
+//-------------------coupon-----------------------------------
+
+export const couponSchema = yup.object().shape({
+  couponCode: yup.string().max(30)
+  .test(
+    'no-leading-unusual-spaces',
+    'Name should not have unusual spaces at the beginning',
+    (value) => {
+      if (typeof value === 'string') {
+        return !value.match(/^\s/);
+      }
+      return true; 
+    }
+  )
+  .required('Name is required'),
+  percentage: yup.number()
+  .min(1, 'Percentage must be greater than or equal to 1')
+  .max(100, 'Percentage must be less than or equal to 100')
+  .required(),
+  // startDate: yup.date().min(new Date(), 'Start date must be after or equal to today').required('Start date is required'),
+  // expiry: yup.date().min(yup.ref('startDate'), 'Expiry date must be after the start date')
+  // .required('End date is required'),
+  minRate: yup.number()
+  .positive('Price must be a positive number') 
+  .required('Price is required'),
+  maxRate: yup.number()
+  .moreThan(yup.ref('minRate'), 'Max price must be greater than min price')
+  .required('Maximum rate id required'),
 })

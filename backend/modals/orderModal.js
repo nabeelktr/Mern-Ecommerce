@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
+import shortid from "shortid";
 
 const orderSchema = mongoose.Schema({
+    orderId: {
+        type: String,
+        default: shortid.generate, 
+        unique: true,
+    },
     userId: {
         type: String,
         required: true,

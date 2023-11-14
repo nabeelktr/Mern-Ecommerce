@@ -135,4 +135,29 @@ const paymentVerification = AsyncHandler(async (req, res) => {
     }
   });
 
-export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification }
+const salesReport = AsyncHandler(async (req, res) => {
+    const {startDate, endDate} = req.body.report;
+    const firstDate = new Date(startDate);
+    const lastDate = new Date(endDate);
+    lastDate.setDate(lastDate.getDate() + 1);
+    const orders = await Order.aggregate([
+        {
+            $match: {
+                status: 'Delivered',
+                createdAt: {
+                    $gte: firstDate,
+                    $lt: lastDate, 
+                  },
+            }
+        },     
+    ]);
+
+    if(orders){
+        res.status(201).json(orders)
+    }else{
+        res.status(402)
+        throw new Error('invalid error')
+    }
+});
+
+export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification, salesReport }

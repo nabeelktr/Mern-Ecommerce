@@ -4,6 +4,8 @@ import Product from "../modals/productModal.js";
 import Category from "../modals/categoryModal.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
 import mongoose from "mongoose";
+import Order from "../modals/orderModal.js";
+import Coupon from "../modals/couponModal.js";
 
 
 const adminAuth = AsyncHandler(async (req, res) => {
@@ -225,8 +227,88 @@ const editCategory = AsyncHandler(async (req, res) => {
   } else {
     throw new Error('Invalid Error')
   }
-})
+});
+
+const summary = AsyncHandler(async (req, res) => {
+  const totalUser = User.find({admin: false}).count();
+  const totalOrder = Order.find({status: 'Delivered'}).count();
+  const totalProduct = Product.find().count();
+  const totalOfferPrice = Order.aggregate([
+    {
+      $match: {
+        status: 'Delivered'
+      },
+    },
+
+    {
+      $group: {
+        _id: null,
+        totalOfferPrice: {$sum: '$totalOfferPrice'}
+      }
+    },
+   
+    {
+      $project: {
+        _id : 0,
+        totalOfferPrice: 1,
+      }
+    }
+  ]);
+ 
+  const [totalUsers, totalOrders, totalPrice, totalProducts] = await Promise.all([
+    totalUser,
+    totalOrder,
+    totalOfferPrice,
+    totalProduct,
+  ]);
+
+  res.status(201).json({totalUsers, totalOrders, totalPrice, totalProducts})
+});
+
+const addCoupon = AsyncHandler(async (req,res) => {
+  const { couponCode, startDate, percentage, expiry, minRate, maxRate } = req.body;
+  const code = couponCode.toUpperCase();
+  const existcode = await Coupon .findOne({couponCode: code})
+  if (existcode){
+
+    res.status(403);
+    throw new Error('coupon exists')
+  }else{
+
+    const coupon = await Coupon.create({
+      couponCode: code,
+      startDate,
+      percentage,
+      expiry,
+      minRate,
+      maxRate,
+    })
+  
+    if(coupon){
+      res.status(201).json({success: true});
+    }else{
+      res.status(402)
+      throw new Error('Invalid error')
+    }
+  }
+});
+
+const getCoupon = AsyncHandler(async (req, res) => {
+  let coupon;
+  if (req.params.id != null) {
+    coupon = await Coupon.findById(req.params.id);
+  } else {
+    coupon = await Coupon.find();
+  }
+  if (coupon) {
+    res.status(201).json(coupon)
+  } else {
+    res.status(404)
+    throw new Error('coupon fetching error')
+  }
+});
+
 
 export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts,
   editProduct, deleteProduct, editProductFirebase, addCategory, getCategories,
-  deleteCategory, editCategory };
+  deleteCategory, editCategory, summary, addCoupon, getCoupon };

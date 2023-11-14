@@ -17,6 +17,7 @@ import UserProducts from './pages/user/UserProducts';
 import CartPage from './pages/user/CartPage';
 import Order from './pages/admin/Order';
 import Profile from './pages/user/Profile';
+import Coupon from './pages/admin/Coupon';
 
 
 
@@ -52,9 +53,9 @@ function App() {
         <Route path="/admin/dashboard/*" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/admin/users" element={<PrivateRoute element={<UserList />} />} />
         <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />
-        <Route path="/admin/products/*" element={<PrivateRoute element={<Products />} />} />
         <Route path="/admin/orders/*" element={<PrivateRoute element={<Order />} />} />
         <Route path="/admin/category/*" element={<PrivateRoute element={<Category />} />} />
+        <Route path="/admin/coupons/*" element={<PrivateRoute element={<Coupon />} />} />
       </Routes>
     </Router>
     </>

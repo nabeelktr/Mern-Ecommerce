@@ -15,7 +15,7 @@ const OrderTable = () => {
   const columns = [
     // {
     //     header: 'Order Id',
-    //     accessorKey: '_id'
+    //     accessorKey: 'orderId'
     // },
     {
       header: 'User Name',
@@ -71,13 +71,8 @@ const OrderTable = () => {
         header: 'Order Date',
         accessorKey: 'createdAt',
         cell: (info) => {
-          
-          
-            
           const date = new Date(info.getValue());
           return <p>{date.toLocaleDateString()}</p>
-          
-          
         }
     },
     {
