@@ -5,6 +5,7 @@ import AddressForm from './addressForm/AddressForm'
 import AddressList from './listAddress/AddressList';
 
 const AddAddress = () => {
+    const [coupons, setcoupons] = useState()
     const navigate = useNavigate();
     const location = useLocation();
     const [cartId, setcartId] = useState();
@@ -16,6 +17,7 @@ const AddAddress = () => {
             navigate('/cart');
         }else{
             setcartId(location.state.cartId);
+            setcoupons(location.state.coupon)
         }
     },[])
 
@@ -25,7 +27,7 @@ const AddAddress = () => {
         <div className=' m-2  w-1/2 border-r h-full '><AddressList setAddressChosen={setAddressChosen} key={refreshKey} /></div>
         <div className=' m-2 w-1/2 '><AddressForm setRefreshKey={setRefreshKey} refreshKey={refreshKey} />  </div>
     </div>
-    <div className='w-4/12 h-full'> { cartId && <CartPrice  cartId={cartId} addressChosen={addressChosen} /> }</div>
+    <div className='w-4/12 h-full'> { cartId && <CartPrice  cartId={cartId} addressChosen={addressChosen} coupons={coupons} /> }</div>
 </div>
   )
 }

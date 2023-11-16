@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import Axios from "../../../../axiosInterceptors/userAxios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
+import ApplyCoupon from "../../profile/coupon/ApplyCoupon";
 
-const CartPrice = ({cartId, addressChosen, payment}) => {
+const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
+  const [coupon, setcoupon] = useState()
   const location = useLocation();
   const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState();
@@ -22,13 +24,22 @@ const CartPrice = ({cartId, addressChosen, payment}) => {
         }
        
     })   
-    const totalOfferPrice = offerPrices.reduce((a,b) => a+b, 0);
+    let totalOfferPrice = offerPrices.reduce((a,b) => a+b, 0);
     const totalPrice = prices.reduce((a,b) => a+b, 0);
+
+    if(coupon){
+      totalOfferPrice = totalOfferPrice - (totalOfferPrice * (coupon.percentage / 100))
+    }else if(coupons){
+      setcoupon(coupons);
+      totalOfferPrice = totalOfferPrice - (totalOfferPrice * (coupons.percentage / 100))
+
+    }
     setOrderDetails({
         totalPrice,
         totalOfferPrice,
         items,
     })
+
     };
 
     const continueCheckout = () => {
@@ -37,16 +48,21 @@ const CartPrice = ({cartId, addressChosen, payment}) => {
           ...prevOrderDetails,
           shippingAddress: addressChosen,
           cartId: cartId,
+          coupon: coupon?._id,
         };
-      navigate('/cart/address/payment', {state: updatedOrderDetails});
+        
+      navigate('/cart/address/payment', {state: {updatedOrderDetails, coupon}});
     })
   }
-
+  
   useEffect(() => {
+
     fetchdata();
-  }, []);
+  }, [coupon]);
 
   return (
+    <>
+    {location.state? '' : <ApplyCoupon orderDetails={orderDetails} setcoupon={setcoupon} coupon={coupon} />}
     <div className="flex flex-col mt-32 items-start ml-4 " >
         <Typography className="uppercase text-xs font-bold m-2">Price details</Typography>
       <div className="mt-6 h-full  border bg-white p-6 shadow-sm md:mt-0 md:w-[60%] text-sm">
@@ -56,8 +72,13 @@ const CartPrice = ({cartId, addressChosen, payment}) => {
         </div>
         <div className="flex justify-between mb-2">
           <p className="text-gray-700">Discount on MRP</p>
-          <p className="text-teal-500">-&#8377; {orderDetails?.totalPrice - orderDetails?.totalOfferPrice}</p>
+          <p className="text-teal-500">-&#8377; {orderDetails &&( Math.floor(orderDetails.totalPrice - orderDetails.totalOfferPrice))}</p>
         </div>
+        {coupon && 
+        <div className="flex justify-between mb-2">
+          <p className="text-teal-500">Coupon Applied!</p>
+        </div>
+        }
         <div className="flex justify-between">
           <p className="text-gray-700">Convinient Fee</p>
           <p className="text-gray-700">--</p>
@@ -87,17 +108,18 @@ const CartPrice = ({cartId, addressChosen, payment}) => {
               alert('add address');
             }else
             { 
-              navigate('/cart/address', {state: {orderDetails, cartId}});
+              navigate('/cart/address', {state: {orderDetails, cartId, coupon}});
             }
           } 
          }
-        className="bg-[#ff3c67]  mt-6 w-full rounded-md py-1.5 font-medium text-blue-50 hover:bg-blue-600 uppercase">
+        className="bg-[#ff3c67] text-xs  mt-6 w-full rounded-sm py-2.5 font-medium text-white uppercase">
           { location.state ? 'Continue' : 'Place order'}
         </button>
         }
        
       </div>
     </div>
+    </>
   );
 };
 

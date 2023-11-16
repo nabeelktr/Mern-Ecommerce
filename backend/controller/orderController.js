@@ -4,11 +4,12 @@ import Order from '../modals/orderModal.js';
 import Cart from '../modals/CartModal.js';
 import Product from '../modals/productModal.js';
 import { instance } from '../config/razorPay.js';
+import Coupon from '../modals/couponModal.js';
 
 
 const placeOrder = AsyncHandler(async(req,res) => {
     const orderDetails = req.body.orderDetails;
-    updateProductQty(orderDetails);
+    updateProductQty(orderDetails, req.user._id);
     const order = await Order.create({
         userName: req.user.name,
         userId: req.user._id,
@@ -30,7 +31,14 @@ const placeOrder = AsyncHandler(async(req,res) => {
     }
 });
 
-const updateProductQty = async(orderDetails) => {
+const updateProductQty = async(orderDetails, userId) => {
+    if(orderDetails.coupon){
+     
+        const updated = await Coupon.findByIdAndUpdate(orderDetails.coupon, {
+            $addToSet: { usedBy: userId }
+        }, { new: true });
+
+    }
     for (const item of orderDetails.items){
     const product = await Product.findById(item.productId)
     if (product){
@@ -68,7 +76,7 @@ const getUserOrders = AsyncHandler(async(req,res) => {
 });
 
 const changeOrderStatus = AsyncHandler(async(req,res) => {
-    const resp = await Order.findByIdAndUpdate(req.body.orderId, {
+    const resp = await Order.findByIdAndUpdate(req.body?.orderId, {
         status: req.body.option,
     });
     if(resp){
@@ -121,7 +129,7 @@ const paymentVerification = AsyncHandler(async (req, res) => {
         razorpay_payment_id,
 
       });
-      updateProductQty(orderDetails);
+      updateProductQty(orderDetails, req.user._id);
       await Cart.deleteOne({ _id: orderDetails.cartId });
         
     
@@ -160,4 +168,26 @@ const salesReport = AsyncHandler(async (req, res) => {
     }
 });
 
-export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification, salesReport }
+const checkCoupon = AsyncHandler(async(req,res) => {
+    const {code} = req.body.values; 
+    const {price} = req.body;
+    const coupon = await Coupon.aggregate([
+        {
+            $match: {
+                couponCode: code,
+                usedBy: {$ne: req.user._id},
+                minRate: {$lte: price},
+                maxRate: {$gte: price}
+            }
+        }
+    ])
+  
+    if(coupon.length){
+        res.status(201).json(coupon)
+    }else{
+        res.status(402)
+        throw new Error('coupon error')
+    }
+});
+
+export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification, salesReport, checkCoupon }

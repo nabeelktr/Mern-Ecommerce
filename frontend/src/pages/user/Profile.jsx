@@ -11,6 +11,7 @@ import OrderList from '../../components/user/profile/orders/orderList/OrderList'
 import Addresses from '../../components/user/profile/address/ViewAddress/Addresses'
 import EditAddress from '../../components/user/profile/address/edit/EditAddress'
 import OrderDetails from '../../components/user/profile/orders/orderdetails/OrderDetails'
+import ListCoupons from '../../components/user/profile/coupon/ListCoupons'
 
 
 const Profile = () => {
@@ -35,6 +36,7 @@ const Profile = () => {
                     <Route path='/editAddress' element={<EditAddress />} />
                     <Route path='/viewOrders' element={<OrderList />} />
                     <Route path='/viewOrder' element={<OrderDetails />} />
+                    <Route path='/coupons' element={<ListCoupons />} />
                     <Route path='/changePassword' element={<ResetPassword />} />
                 </Routes>
             </div>

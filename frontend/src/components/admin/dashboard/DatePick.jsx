@@ -15,6 +15,7 @@ const DatePick = ({setreport}) => {
   return (
     <div className="flex items-center ">
       <Datepicker
+      maxDate={new Date()}
         value={value}
         onChange={handleValueChange}
         showShortcuts={true}

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Axios from "../../../../../axiosInterceptors/userAxios";
 import { useEffect, useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { Toaster, toast } from "sonner";
 
 const Addresses = () => {
   const [address, setAddress] = useState();
@@ -28,6 +29,7 @@ const Addresses = () => {
   }, []);
   return (
     <div className="p-4 m-4 border  justify-center shadow-sm">
+      <Toaster position="top-center"  closeButton />
       <div className="border-b p-4 mx-40 px-8 font-bold ">
         <p>Address Details</p>
       </div>
@@ -73,7 +75,17 @@ const Addresses = () => {
                   </Typography>
                 </CardBody>
                 <button
-                  onClick={() => removeAddress(item._id)}
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    toast.warning('Delete Address', {
+                      description: 'Are you sure you want to delete.',
+                      action: {
+                        label: 'Yes, Iam sure.',
+                        onClick: () => removeAddress(item._id)
+                      },
+                    });
+                    
+                  }}
                   type="button"
                   className="absolute bg-white rounded-md p-1 h-6 right-1 top-1 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                 >

@@ -265,21 +265,60 @@ const summary = AsyncHandler(async (req, res) => {
   res.status(201).json({totalUsers, totalOrders, totalPrice, totalProducts})
 });
 
+const summaryFilter = AsyncHandler(async (req, res) => {
+  if (req.body) {
+    const summaryResult = await Order.aggregate([
+      {
+        $match: {
+          status: 'Delivered',
+          createdAt: {
+            $lte: new Date(req.body.endDate),
+            $gte: new Date(req.body.startDate),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+          totalPrice: { $sum: '$totalOfferPrice' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalOrders: 1,
+          totalPrice: 1,
+        },
+      },
+    ]);
+
+    const { totalOrders, totalPrice } = summaryResult[0] || { totalOrders: 0, totalPrice: 0 };
+
+    res.status(201).json({ totalOrders, totalPrice });
+  } else {
+    res.status(402);
+    throw new Error('Invalid error');
+  }
+});
+
+
 const addCoupon = AsyncHandler(async (req,res) => {
   const { couponCode, startDate, percentage, expiry, minRate, maxRate } = req.body;
   const code = couponCode.toUpperCase();
+  
   const existcode = await Coupon .findOne({couponCode: code})
   if (existcode){
 
     res.status(403);
     throw new Error('coupon exists')
   }else{
-
+   
     const coupon = await Coupon.create({
       couponCode: code,
-      startDate,
+      startDate: new Date(startDate),
       percentage,
-      expiry,
+      expiry : new Date(expiry),
       minRate,
       maxRate,
     })
@@ -308,7 +347,17 @@ const getCoupon = AsyncHandler(async (req, res) => {
   }
 });
 
+const getUserCoupon = AsyncHandler(async(req,res) => {
+  const coupons = await Coupon.find({
+    $or: [
+      {usedBy: null},
+      {usedBy: {$ne: req.user._id}}
+    ]
+  })
+  res.status(201).json(coupons)
+})
+
 
 export { adminAuth, getUsers, UpdateUser, searchUser, addProduct, getProducts,
   editProduct, deleteProduct, editProductFirebase, addCategory, getCategories,
-  deleteCategory, editCategory, summary, addCoupon, getCoupon };
+  deleteCategory, editCategory, summary, addCoupon, getCoupon, getUserCoupon, summaryFilter };

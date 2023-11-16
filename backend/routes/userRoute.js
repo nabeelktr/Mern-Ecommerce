@@ -4,7 +4,7 @@ import { AddToCart, addAddress, authUser, editAddress, editUser, generateOTP, ge
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
 import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
-import { checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
+import { checkCoupon, checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
 
 const router = express.Router()
 
@@ -36,6 +36,8 @@ router.route('/paymentverification').post(protect, paymentVerification);
 router.route('/getUser').get(protect, getUser)
 router.route('/editUser').post(protect, editUser)
 router.route('/resetPassword').post(protect, updatePassword);
+
+router.route('/checkcoupon').post(protect, checkCoupon);
 
 router.route('/refresh').get(protectRefreshToken);
 router.route('/logout').get(logout);

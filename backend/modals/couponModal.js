@@ -25,11 +25,15 @@ const couponSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-},
-{
-    expires: 'expiry',
+    usedBy: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
 }
 )
+couponSchema.index({ expiry: 1 }, { expireAfterSeconds: 0 });
 
 const Coupon = mongoose.model('Coupon', couponSchema);
 

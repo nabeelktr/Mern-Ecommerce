@@ -11,6 +11,7 @@ import {
     UserCircleIcon,
     Cog6ToothIcon,
     PowerIcon,
+    GiftIcon,
   } from "@heroicons/react/24/solid";
 import { IdentificationIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +40,12 @@ import { useNavigate } from "react-router-dom";
             </ListItemPrefix>
             Orders
           </ListItem>
-          
+          <ListItem onClick={() => navigate('/profile/coupons')}>
+            <ListItemPrefix>
+              <GiftIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Coupons
+          </ListItem>
           <ListItem onClick={() => navigate('/profile/changePassword')}>
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />

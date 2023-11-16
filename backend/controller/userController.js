@@ -1,12 +1,10 @@
 import AsyncHandler from 'express-async-handler'
 import otpGenerator from "otp-generator";
 import User from '../modals/userModal.js';
-import { generateAccessToken, generateRefreshToken } from '../utils/generateToken.js';
+import { generateAccessToken } from '../utils/generateToken.js';
 import Cart from '../modals/CartModal.js';
-import Product from '../modals/productModal.js';
 import mongoose from 'mongoose';
 
-import RefreshToken from '../modals/tokenModal.js';
 
 
 
@@ -75,9 +73,9 @@ const authUser = AsyncHandler(async (req, res) => {
 
   if (user && !user.admin && user.active) {
     if ((await user.matchPassword(password))) {
-       const refresh = await refreshToken(user._id);
+      const refresh = await refreshToken(user._id);
 
-       res.cookie('jwt', refresh, { httpOnly: true, secure: true });
+      res.cookie('jwt', refresh, { httpOnly: true, secure: true });
 
       res.json({
         accessToken: generateAccessToken(user._id),
@@ -93,27 +91,18 @@ const authUser = AsyncHandler(async (req, res) => {
   }
 });
 
-const refreshToken = async(userId) => {
-  const existingToken = await RefreshToken.findOne({userId: new mongoose.Types.ObjectId(userId)});
-  if (existingToken){
-    await RefreshToken.deleteOne({userId: new mongoose.Types.ObjectId(userId)});
-  }
-
-  const refreshToken = generateRefreshToken(userId)
-  await new RefreshToken({ userId, token: refreshToken}).save();
-  return refreshToken;
-}
 
 
-const updatePassword = AsyncHandler(async(req,res) => {
+
+const updatePassword = AsyncHandler(async (req, res) => {
   console.log(req.body);
-  const password =  req.body.current;
-  const user =await User.findById(req.user._id);
+  const password = req.body.current;
+  const user = await User.findById(req.user._id);
   if ((await user.matchPassword(password))) {
     console.log('matched');
     user.password = req.body.newPassword;
     user.save();
-    res.status(201).json({msg: 'password reset success'})
+    res.status(201).json({ msg: 'password reset success' })
   } else {
     res.status(403)
     throw new Error("invalid password");
@@ -125,7 +114,7 @@ const AddToCart = async (req, res) => {
   try {
     const userId = req.user._id;
     const newItem = req.body;
-    
+
     const existingCart = await Cart.findOne({ userId });
 
     if (existingCart) {
@@ -145,32 +134,32 @@ const AddToCart = async (req, res) => {
   }
 };
 
-const addToExistingCArt = AsyncHandler(async(existingCart, newItem, userId) => {
+const addToExistingCArt = AsyncHandler(async (existingCart, newItem, userId) => {
   const existingProduct = existingCart.items.find((prdt) => (prdt.productId === newItem.productId && prdt.size === newItem.size))
 
   if (existingProduct) {
-    await Cart.updateOne({userId: userId, 'items.productId': newItem.productId, 'items.size': newItem.size}, {$inc: {'items.$.qty': 1}});
-  }else{
+    await Cart.updateOne({ userId: userId, 'items.productId': newItem.productId, 'items.size': newItem.size }, { $inc: { 'items.$.qty': 1 } });
+  } else {
     existingCart.items.push(newItem);
     await existingCart.save();
   }
 });
 
-const getCartItems = AsyncHandler(async(req,res) => {
-  const items = await Cart.findOne({userId: req.user._id});
+const getCartItems = AsyncHandler(async (req, res) => {
+  const items = await Cart.findOne({ userId: req.user._id });
   if (items) {
     res.status(201).json(items);
- 
-  }else{
-    res.status(402).json({msg: 'No items in the cart'});
+
+  } else {
+    res.status(402).json({ msg: 'No items in the cart' });
     throw new Error('No items in the cart');
   }
 });
 
-const updateCartQty = AsyncHandler(async(req,res) => {
+const updateCartQty = AsyncHandler(async (req, res) => {
   const item = req.body.item
-  const cart =await Cart.findById(req.params.id)
-  if(cart){
+  const cart = await Cart.findById(req.params.id)
+  if (cart) {
     await Cart.updateOne(
       {
         userId: req.user._id,
@@ -184,17 +173,17 @@ const updateCartQty = AsyncHandler(async(req,res) => {
         arrayFilters: [{ 'elem.productId': item.productId, 'elem.size': item.size }]
       }
     );
-    res.status(201).json({msg: 'updated'});
-  }else{
+    res.status(201).json({ msg: 'updated' });
+  } else {
     res.status(402)
     throw new Error('cart not found');
   }
 });
 
-const updateCartQtyDec = AsyncHandler(async(req,res) => {
+const updateCartQtyDec = AsyncHandler(async (req, res) => {
   const item = req.body.item
-  const cart =await Cart.findById(req.params.id)
-  if(cart){
+  const cart = await Cart.findById(req.params.id)
+  if (cart) {
     await Cart.updateOne(
       {
         userId: req.user._id,
@@ -208,8 +197,8 @@ const updateCartQtyDec = AsyncHandler(async(req,res) => {
         arrayFilters: [{ 'elem.productId': item.productId, 'elem.size': item.size }]
       }
     );
-    res.status(201).json({msg: 'updated'});
-  }else{
+    res.status(201).json({ msg: 'updated' });
+  } else {
     res.status(402)
     throw new Error('cart not found');
   }
@@ -220,7 +209,7 @@ const test = AsyncHandler(async (req, res) => {
   try {
     const table = await Cart.aggregate([
       {
-        $match:{
+        $match: {
           _id: new mongoose.Types.ObjectId(req.params.id)
         }
       },
@@ -235,7 +224,7 @@ const test = AsyncHandler(async (req, res) => {
         },
       },
       {
-        $lookup:{
+        $lookup: {
           from: "products",
           localField: "productIdObjectId",
           foreignField: "_id",
@@ -245,36 +234,36 @@ const test = AsyncHandler(async (req, res) => {
       {
         $unwind: "$itemDetails"
       }
-     
+
     ])
-    res.status(201).json({  table });
+    res.status(201).json({ table });
   } catch (error) {
     console.error('An error occurred:', error);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 });
 
-const removeCartItem = AsyncHandler(async(req,res) => {
+const removeCartItem = AsyncHandler(async (req, res) => {
   const item = req.body.item
-  const cart =await Cart.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
+  const cart = await Cart.updateOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, {
     $pull: {
       items: {
         $and: [
-          {productId: item.productId},
-          {size: item.size}
+          { productId: item.productId },
+          { size: item.size }
         ]
       }
     }
   })
-  if(cart) {
-    res.status(201).json({msg: 'cart item removed'})
-  }else{
+  if (cart) {
+    res.status(201).json({ msg: 'cart item removed' })
+  } else {
     res.status(402)
     throw new Error('invalid cart')
   }
 });
 
-const addAddress = AsyncHandler(async(req,res) => {
+const addAddress = AsyncHandler(async (req, res) => {
 
   const newAddress = req.body;
   const resp = await User.findByIdAndUpdate(
@@ -284,67 +273,67 @@ const addAddress = AsyncHandler(async(req,res) => {
     },
     { new: true }
   );
-  if(resp){
-    res.status(201).json({msg: "updated"})
-  }else{
+  if (resp) {
+    res.status(201).json({ msg: "updated" })
+  } else {
     res.status(402)
     throw new Error('invalid error')
   }
 });
 
-const editAddress = AsyncHandler(async(req,res) => {
+const editAddress = AsyncHandler(async (req, res) => {
   const updatedAddress = req.body;
-;
-const resp = await User.updateOne(
-  {
-    _id: new mongoose.Types.ObjectId(req.user._id),
-    'shippingAddress._id': new mongoose.Types.ObjectId(updatedAddress._id),
-  },
-  {
-    $set: {
-      'shippingAddress.$[elem]': updatedAddress,
-    },
-  },
-  {
-    arrayFilters: [{ 'elem._id': new mongoose.Types.ObjectId(updatedAddress._id) }],
-  }
-);
 
-  if(resp ){
-    res.status(201).json({success: true})
-  }else{
+  const resp = await User.updateOne(
+    {
+      _id: new mongoose.Types.ObjectId(req.user._id),
+      'shippingAddress._id': new mongoose.Types.ObjectId(updatedAddress._id),
+    },
+    {
+      $set: {
+        'shippingAddress.$[elem]': updatedAddress,
+      },
+    },
+    {
+      arrayFilters: [{ 'elem._id': new mongoose.Types.ObjectId(updatedAddress._id) }],
+    }
+  );
+
+  if (resp) {
+    res.status(201).json({ success: true })
+  } else {
     res.status(402)
     throw new Error('invalid Error')
   }
-})
-
-const getUserAddress = AsyncHandler(async(req,res) => {
-  const address = await User.find({_id: new mongoose.Types.ObjectId(req.user._id)}, {shippingAddress: 1})
-  res.status(201).json({address})
 });
 
-const removeAddress = AsyncHandler(async(req,res) => {
+const getUserAddress = AsyncHandler(async (req, res) => {
+  const address = await User.find({ _id: new mongoose.Types.ObjectId(req.user._id) }, { shippingAddress: 1 })
+  res.status(201).json({ address })
+});
+
+const removeAddress = AsyncHandler(async (req, res) => {
   const resp = await User.findByIdAndUpdate(req.user._id, {
     $pull: {
-      shippingAddress: {_id: new mongoose.Types.ObjectId(req.params.id)}
+      shippingAddress: { _id: new mongoose.Types.ObjectId(req.params.id) }
     }
   })
-  res.status(201).json({msg: 'deleted'})
+  res.status(201).json({ msg: 'deleted' })
 });
 
-const getUser = AsyncHandler(async(req,res) => {
+const getUser = AsyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     res.status(201).json(user)
-  }else {
+  } else {
     res.status(404)
     throw new Error('invalid user')
   }
 });
 
-const editUser = AsyncHandler(async(req,res) => {
-  const user = await User.findByIdAndUpdate(req.user._id, req.body.values )
-  res.json({msg: 'updated'})
+const editUser = AsyncHandler(async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.user._id, req.body.values)
+  res.json({ msg: 'updated' })
 });
 
 const logout = (req, res) => {
@@ -353,8 +342,10 @@ const logout = (req, res) => {
   res.clearCookie('jwt', { httpOnly: true, secure: true })
 
   res.json({ message: 'Cookie cleared' })
+};
+
+
+export {
+  generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress
 }
-
-
-export { generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress }

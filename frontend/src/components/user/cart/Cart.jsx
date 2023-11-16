@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Axios from '../../../axiosInterceptors/userAxios'
 import React, { useEffect, useState } from 'react'
-import Card from './card/ItemCard';
 import CartPrice from './price/CartPrice';
 import CardList from './card/CardList';
 

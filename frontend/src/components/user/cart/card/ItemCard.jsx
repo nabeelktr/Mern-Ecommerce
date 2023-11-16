@@ -66,7 +66,6 @@ const ItemCard = ({ item, cartId, setRefreshKey, refreshKey, updateCart }) => {
       >
         <img
           src={product? product.images[0].url: ''}
-          alt="card-image"
           width={140}
           className="object-cover"
         />

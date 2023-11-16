@@ -1,11 +1,17 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
+import {
+  Button,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
+} from "@material-tailwind/react";
 import { useState } from "react";
 
-const SizeFilter = ({setproducts}) => {
-    const [sizeMenu, setsizeMenu] = useState(false);
+const SizeFilter = ({ setproducts }) => {
+  const [sizeMenu, setsizeMenu] = useState(false);
   return (
-    <Menu open={sizeMenu} handler={setsizeMenu} allowHover >
+    <Menu open={sizeMenu} handler={setsizeMenu} allowHover>
       <MenuHandler>
         <Button
           variant="text"
@@ -20,15 +26,13 @@ const SizeFilter = ({setproducts}) => {
           />
         </Button>
       </MenuHandler>
-      <MenuList >
-
+      <MenuList>
         <MenuItem>32</MenuItem>
         <MenuItem>34</MenuItem>
         <MenuItem>36</MenuItem>
-      
       </MenuList>
-      </Menu>
-  )
-}
+    </Menu>
+  );
+};
 
-export default SizeFilter
+export default SizeFilter;

@@ -35,7 +35,8 @@ const AdminNav = () => {
     { name: 'MESSAGES', current: currentRoute === '/admin/messages' },
   ];
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm">
+    <>
+    <Disclosure as="nav" className="bg-white shadow-sm w-full fixed z-10">
       {({ open }) => (
         <>
           <div className="mx-auto  px-2 sm:px-6 lg:px-8">
@@ -155,6 +156,8 @@ const AdminNav = () => {
         </>
       )}
     </Disclosure>
+    <div className='pt-16'></div>
+    </>
   );
 };
 
