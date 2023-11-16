@@ -28,7 +28,7 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="mx-6 h-48 border-b border-gray-300 flex items-end">
+      <div className="mx-6 h-48 border-b border-gray-300 flex items-end font-poppins">
         <div className=" w-1/6 p-4 ">
           <span className="md:ml-4 uppercase text-xs md:text-sm font-bold ">
             Filters

@@ -71,7 +71,7 @@ const ViewProduct = () => {
           className: "my-toast",
         }}
       />
-      <div className="pt-24 flex items-center justify-start p-6 pl-10 text-sm uppercase font-bold">
+      <div className="pt-24 flex items-center justify-start p-6 pl-10 text-sm uppercase font-semibold font-poppins">
         View Product
       </div>
       <div className=" flex">
@@ -89,17 +89,17 @@ const ViewProduct = () => {
 
             ))}
         </div>
-        <div className="w-2/5">
-          <span className="text-2xl font-bold mt-1 text-gray-900 flex">
+        <div className="w-2/5 font-poppins font-semibold">
+          <span className="text-2xl font-semibold mt-1 text-gray-900 flex">
             {product.name}
           </span>
           <span className="text-xl text-gray-600 font-light flex">
             {product.description}
           </span>
-          <span className="text-2xl font-semibold text-gray-900 pt-7 flex">
+          <span className="text-2xl  text-gray-900 pt-7 flex">
             Rs.&nbsp;{product.offerPrice}
           </span>
-          <span className="text-md font-semibold text-00A685 pt-2 flex">
+          <span className="text-md text-00A685 pt-2 flex">
             inclusive of all taxes
           </span>
           <span className="text-sm font-semibold pt-8 flex uppercase ">
@@ -113,7 +113,7 @@ const ViewProduct = () => {
               product.variants.map((data, i) =>
                 data.qty === 0 ? (
                   <button
-                    className="rounded-full border font-bold text-sm py-4 px-5 mr-3 mt-3 text-gray-500 "
+                    className="rounded-full border font-semibold text-sm py-4 px-5 mr-3 mt-3 text-gray-500 "
                     disabled={true}
                     key={i}
                   >
@@ -121,7 +121,7 @@ const ViewProduct = () => {
                   </button>
                 ) : (
                   <button
-                    className={`rounded-full border font-bold text-sm py-4 px-5 mr-3 mt-3 ${
+                    className={`rounded-full border font-semibold text-sm py-4 px-5 mr-3 mt-3 ${
                       size === data.size
                         ? "border-pink-500 text-pink-500"
                         : "border-gray-500"
@@ -134,7 +134,7 @@ const ViewProduct = () => {
                 )
               )
             ) : (
-              <span className="font-bold text-lg py-4 px-5 mr-3 mt-3 text-red-400">
+              <span className="font-semibold text-lg py-4 px-5 mr-3 mt-3 text-red-400">
                 Out of Stock
               </span>
             )}
@@ -146,7 +146,7 @@ const ViewProduct = () => {
               style={{ background: "#ff3c67" }}
               onClick={addToCart}
             >
-              <span className="mr-2 uppercase font-bold text-sm">
+              <span className="mr-2 uppercase font-semibold text-sm">
                 Add to Bag
               </span>
             </button>
@@ -155,7 +155,7 @@ const ViewProduct = () => {
               disabled={qty === 0}
               className="flex items-center rounded-sm border border-gray-500 justify-center focus:outline-none text-sm sm:text-base ml-4 py-4 w-1/4 transition duration-150 ease-in"
             >
-              <span className=" uppercase font-bold text-sm">Wishlist</span>
+              <span className=" uppercase font-semibold text-sm">Wishlist</span>
             </button>
           </div>
         </div>

@@ -12,6 +12,9 @@ export default withMT({
         '00A685': '#00A685',
         'ff3c67': '#ff3c67'
       },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],

@@ -23,9 +23,6 @@ const FilterDash = ({setorder}) => {
       showShortcuts={true}
       inputClassName={"border rounded-sm text-xs  w-full p-2"}
     />
-
-     
-
   </div>
   )
 }

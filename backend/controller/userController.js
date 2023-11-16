@@ -4,6 +4,7 @@ import User from '../modals/userModal.js';
 import { generateAccessToken } from '../utils/generateToken.js';
 import Cart from '../modals/CartModal.js';
 import mongoose from 'mongoose';
+import WishList from '../modals/wishListModal.js';
 
 
 
@@ -344,8 +345,24 @@ const logout = (req, res) => {
   res.json({ message: 'Cookie cleared' })
 };
 
+const addToWishlist = AsyncHandler(async(req,res) => {
+  
+  if(req.body._id){
+    const wishlist = await WishList.create({
+      userId : req.user._id,
+      productId: req.body._id,
+    })
+    if(wishlist){
+      res.status(201).json({success: true})
+    }
+  }else{
+    res.status(403)
+    throw new Error('invalid error')
+  }
+})
+
 
 export {
   generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress, addToWishlist
 }
