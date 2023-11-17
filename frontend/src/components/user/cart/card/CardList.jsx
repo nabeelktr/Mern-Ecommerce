@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ItemCard from './ItemCard'
 
 const CardList = ({items, setRefreshKey, refreshKey, updateCart }) => {
+
 
   
   return (
@@ -9,7 +10,7 @@ const CardList = ({items, setRefreshKey, refreshKey, updateCart }) => {
                 <div className=' w-full text-white p-4 flex flex-col items-center'>
                     {
                     items.items.map((item,i) => (
-                        <ItemCard item={item} key={i} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCart={updateCart} />
+                        <ItemCard item={item} key={[item.productId,i]} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCart={updateCart} />
                         ))
                         
                     }

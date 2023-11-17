@@ -20,11 +20,12 @@ const Cart = () => {
             }
         }
     }
+
     
     const updateCart = () => {
-        fetchdata();
         setcardKey(cardKey + 1);
         setRefreshKey(refreshKey + 1);
+        fetchdata();
     }
     useEffect(() => {
         fetchdata();
