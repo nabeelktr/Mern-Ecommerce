@@ -73,7 +73,6 @@ const AddProducts = () => {
       setcrop();
     }
   };
-
   const handleSubmit = async (values, action) => {
     try {
       if (!variants[0]) {
@@ -135,7 +134,6 @@ const AddProducts = () => {
                     name="offerPrice"
                     label="Offerprice"
                   />
-                  {/* <MyTextField type="text" name="category" label="Category" /> */}
                   <Category name="category" type="text" label="Category" />
                 </div>
                 <div className="w-1/2 pr-4">

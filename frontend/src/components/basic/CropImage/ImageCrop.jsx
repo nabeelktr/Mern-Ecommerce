@@ -7,6 +7,7 @@ import { Dialog, Transition } from "@headlessui/react";
 const ImageCrop = ({ crop, imgHandle }) => {
   const [src, setsrc] = useState();
 
+  const [name, setname] = useState();
   const [image, setimage] = useState();
   const [croppedImageUrl, setCroppedImageUrl] = useState();
   const [crops, setCrops] = useState();
@@ -19,6 +20,7 @@ const ImageCrop = ({ crop, imgHandle }) => {
       setimage(image); 
     };
     image.src = URL.createObjectURL(crop.image);
+    setname(crop.image.name);
   };
 
   const complete = (crop, pixelCrop) => {
@@ -34,6 +36,7 @@ const ImageCrop = ({ crop, imgHandle }) => {
   };
 
   const getCroppedImg = (src, crop) => {
+  
     return new Promise((resolve) => {
       const canvas = document.createElement("canvas");
       const scaleX = src.naturalWidth / src.width;
@@ -57,7 +60,7 @@ const ImageCrop = ({ crop, imgHandle }) => {
 
       canvas.toBlob(
         (blob) => {
-          const croppedImageFile = new File([blob], "cropped-image.jpg", {
+          const croppedImageFile = new File([blob], name, {
             type: "image/jpeg",
             lastModified: Date.now(),
           });

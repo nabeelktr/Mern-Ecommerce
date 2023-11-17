@@ -1,7 +1,7 @@
 import AsyncHandler from 'express-async-handler'
 import otpGenerator from "otp-generator";
 import User from '../modals/userModal.js';
-import { generateAccessToken } from '../utils/generateToken.js';
+import { generateAccessToken, generateRefreshToken } from '../utils/generateToken.js';
 import Cart from '../modals/CartModal.js';
 import mongoose from 'mongoose';
 import WishList from '../modals/wishListModal.js';
@@ -74,7 +74,7 @@ const authUser = AsyncHandler(async (req, res) => {
 
   if (user && !user.admin && user.active) {
     if ((await user.matchPassword(password))) {
-      const refresh = await refreshToken(user._id);
+      const refresh =  generateRefreshToken(user._id);
 
       res.cookie('jwt', refresh, { httpOnly: true, secure: true });
 
@@ -359,10 +359,43 @@ const addToWishlist = AsyncHandler(async(req,res) => {
     res.status(403)
     throw new Error('invalid error')
   }
-})
+});
+
+const getWishlist = AsyncHandler(async(req,res) => {
+
+    const wishlist = await WishList.find({ userId: req.user._id }).populate('productId');
+    if (wishlist) {
+    res.status(201).json(wishlist)
+  }else{
+    res.status(402)
+    throw new Error('invalid error')
+  }
+});
+
+const userwishlist = AsyncHandler(async(req,res) => {
+  const wishlist = await WishList.find({userId: req.user._id}, {productId: 1, _id: 0})
+  if(wishlist){
+    const productIdArray = wishlist.map(item => item.productId);
+    res.status(201).json(productIdArray)
+  }else{
+    res.status(402)
+    throw new Error('invalid error')
+  }
+});
+
+const removeWishlist = AsyncHandler(async(req,res) => {
+  if(req.body.wishlistId){
+    await WishList.findByIdAndDelete(req.body.wishlistId)
+    res.status(201).json({success: true})
+  }else{
+    res.status(402)
+    throw new Error('invalid error')
+  }
+});
 
 
 export {
   generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress, addToWishlist
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress, addToWishlist, 
+  getWishlist, userwishlist, removeWishlist
 }

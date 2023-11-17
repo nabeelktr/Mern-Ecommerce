@@ -1,7 +1,7 @@
 import Axios from "../../../../axiosInterceptors/userAxios";
 import ProductCard from "../../../basic/ProductCard/ProductCard";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProductCardSkeleton from "../../../basic/ProductCard/ProductCardSkeleton";
 
 import {  Checkbox,  } from "@material-tailwind/react";
@@ -12,11 +12,14 @@ import CategoryFilter from "./filterMenu/CategoryFilter";
 const ProductList = () => {
 
   const [products, setproducts] = useState([]);
-
+  const [userWishlist, setuserWishlist] = useState()
   const fetchdata = async () => {
-    const res = await Axios.get("/products");
-    setproducts(res.data);
+    const {data} = await Axios.get("/products");
+    const resp = await Axios.get('/userwishlist')
+    setproducts(data);
+    setuserWishlist(resp.data)
   };
+
 
   useEffect(() => {
     fetchdata();
@@ -24,6 +27,10 @@ const ProductList = () => {
 
   const updateProducts = (sortedProducts) => {
     setproducts([...sortedProducts]);
+  };
+
+  const isProductInWishlist = (productId) => {
+    return userWishlist.includes(productId);
   };
 
   return (
@@ -68,7 +75,8 @@ const ProductList = () => {
         <div className="w-5/6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 gap-4">
           {
           products[0]
-            ? products.map((product, i) => <ProductCard {...product} key={i} />)
+            ? products.map((product, i) => <ProductCard prdt={...product} isWishlisted={isProductInWishlist(product._id)} 
+              setuserWishlist={setuserWishlist} checkMark={false} key={i} />)
             : Array(50)
                 .fill(null)
                 .map((p, i) => <ProductCardSkeleton key={i} />)}

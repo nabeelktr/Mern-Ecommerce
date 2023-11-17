@@ -75,11 +75,12 @@ const ViewProduct = () => {
         View Product
       </div>
       <div className=" flex">
-        <div className=" max-w-5xl  flex flex-wrap pl-7 px-10">
+        <div className=" w-3/5  flex flex-wrap pl-7 px-10">
           {product &&
             product.images.map((img, i) => (
  
               <img
+              
               src={img.url}
               alt={product.name}
               key={i}

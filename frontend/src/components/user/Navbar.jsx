@@ -35,11 +35,11 @@ const Navbar = () => {
     token = localStorage.getItem('userToken')
   },[signout])
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm w-full fixed z-10">
+    <Disclosure as="nav" className="bg-white shadow-sm w-full fixed z-10 font-poppins">
       {({ open }) => (
         <>
           <div className="mr-4 ml-8  px-2 sm:px-6 lg:px-8">
-            <div className="relative flex h-16 items-center justify-between">
+            <div className="relative flex h-[4.7rem] items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -80,7 +80,7 @@ const Navbar = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex  items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-8 gap-4">
+              <div className="absolute inset-y-0 right-0 flex  items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-8 gap-3">
                 <button
                   type="button"
                   className="relative p-3 text-black hover:text-gray-700 "
@@ -94,7 +94,7 @@ const Navbar = () => {
                 <button
                   type="button"
                   className="relative p-3 text-black hover:text-gray-700 "
-                  
+                  onClick={() => navigate('/wishlist')}
                 >
                   <HeartIcon className="h-5 w-5" />
                  

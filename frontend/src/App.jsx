@@ -18,6 +18,7 @@ import CartPage from './pages/user/CartPage';
 import Order from './pages/admin/Order';
 import Profile from './pages/user/Profile';
 import Coupon from './pages/admin/Coupon';
+import Wishlist from './pages/user/Wishlist';
 
 
 
@@ -47,6 +48,7 @@ function App() {
         <Route path="/products/*" element={<UserProducts />} />
         <Route path="/cart/*" element={<CartPage />} />
         <Route path="/profile/*" element={<Profile />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLogin />} />
         {/* private */}
