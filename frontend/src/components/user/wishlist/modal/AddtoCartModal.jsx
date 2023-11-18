@@ -48,7 +48,8 @@ const AddtoCartModal = ({ modal, setmodal, modalId, setmodalId, setuserWishlist 
       );
       setsize();
       setTouched(false);
-      setmodal(false)
+      setmodal(false);
+      setmodalId();
       removeWishlist();
     }
   };

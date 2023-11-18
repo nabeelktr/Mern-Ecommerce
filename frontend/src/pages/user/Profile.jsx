@@ -12,6 +12,7 @@ import Addresses from '../../components/user/profile/address/ViewAddress/Address
 import EditAddress from '../../components/user/profile/address/edit/EditAddress'
 import OrderDetails from '../../components/user/profile/orders/orderdetails/OrderDetails'
 import ListCoupons from '../../components/user/profile/coupon/ListCoupons'
+import Wallet from '../../components/user/profile/wallet/Wallet'
 
 
 const Profile = () => {
@@ -36,6 +37,7 @@ const Profile = () => {
                     <Route path='/editAddress' element={<EditAddress />} />
                     <Route path='/viewOrders' element={<OrderList />} />
                     <Route path='/viewOrder' element={<OrderDetails />} />
+                    <Route path='/wallet' element={<Wallet />} />
                     <Route path='/coupons' element={<ListCoupons />} />
                     <Route path='/changePassword' element={<ResetPassword />} />
                 </Routes>

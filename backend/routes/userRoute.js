@@ -1,10 +1,10 @@
 import express from 'express'
-import { AddToCart, addAddress, addToWishlist, authUser, editAddress, editUser, generateOTP, getCartItems, getUser, getUserAddress, getWishlist, logout, registerUser, removeAddress, removeCartItem, removeWishlist, test, 
+import { AddToCart, addAddress, addToWishlist, authUser, editAddress, editUser, generateOTP, getCartItems, getUser, getUserAddress, getWallet, getWishlist, logout, registerUser, removeAddress, removeCartItem, removeWishlist, test, 
     updateCartQty, updateCartQtyDec, updatePassword, userwishlist } from '../controller/userController.js'
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
 import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
-import { checkCoupon, checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
+import { cancelOrder, checkCoupon, checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
 
 const router = express.Router()
 
@@ -39,9 +39,11 @@ router.route('/resetPassword').post(protect, updatePassword);
 
 router.route('/checkcoupon').post(protect, checkCoupon);
 router.route('/addtowishlist').post(protect, addToWishlist);
-router.route('/wishlist').get(protect, getWishlist)
-router.route('/userwishlist').get(protect, userwishlist)
-router.route('/removewishlist').post(protect, removeWishlist)
+router.route('/wishlist').get(protect, getWishlist);
+router.route('/userwishlist').get(protect, userwishlist);
+router.route('/removewishlist').post(protect, removeWishlist);
+router.route('/cancelorder').post(protect, cancelOrder);
+router.route('/wallet').get(protect, getWallet)
 
 router.route('/refresh').get(protectRefreshToken);
 router.route('/logout').get(logout);

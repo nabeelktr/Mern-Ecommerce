@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "../../../../axiosInterceptors/userAxios";
+import { Toaster, toast } from "sonner";
 const ListCoupons = () => {
   const [coupons, setcoupons] = useState();
 
@@ -12,8 +13,9 @@ const ListCoupons = () => {
     fetchdata();
   }, []);
   return (
-    <div className="p-4 m-4 border  justify-center shadow-sm">
-      <div className="border-b p-4  px-8 font-bold">
+    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wid">
+      <Toaster />
+      <div className="border-b p-4  px-8 font-semibold tracking-widest">
         <p>Coupons</p>
       </div>
       <div className="p-4  w-3/4 px-10 flex flex-col justify-start gap-10 mt-4 ">
@@ -41,7 +43,10 @@ const ListCoupons = () => {
                       </div>
                       
                       <span
-                        onClick={() => navigator.clipboard.writeText(coupon.couponCode)
+                        onClick={() => {
+                          navigator.clipboard.writeText(coupon.couponCode);
+                          toast.success('Copied to clipboard',{invert: true})
+                        }
                             
                             }
                         id="cpnBtn"

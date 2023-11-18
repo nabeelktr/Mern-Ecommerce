@@ -28,9 +28,9 @@ const Addresses = () => {
     fetchdata();
   }, []);
   return (
-    <div className="p-4 m-4 border  justify-center shadow-sm">
+    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide">
       <Toaster position="top-center"  closeButton />
-      <div className="border-b p-4 mx-40 px-8 font-bold ">
+      <div className="border-b p-4 mx-40 px-8 font-semibold tracking-widest">
         <p>Address Details</p>
       </div>
       <div className="mx-44 pt-4 flex justify-end mb-3  ">

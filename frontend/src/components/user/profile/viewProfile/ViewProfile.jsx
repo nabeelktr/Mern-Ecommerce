@@ -16,8 +16,8 @@ const ViewProfile = () => {
     fetchdata();
   },[])
   return (
-    <div className="p-4 m-4 border  justify-center shadow-sm">
-      <div className="border-b p-4 mx-40 px-8 font-bold" >
+    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide">
+      <div className="border-b p-4 mx-40 px-8 font-semibold tracking-widest" >
         <p>Profile Details</p>
       </div>
     <div className='p-4  mx-44 px-10 flex flex-row justify-start gap-44 mt-4'>

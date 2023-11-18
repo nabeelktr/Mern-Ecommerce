@@ -261,7 +261,6 @@ const summary = AsyncHandler(async (req, res) => {
     totalOfferPrice,
     totalProduct,
   ]);
-
   res.status(201).json({totalUsers, totalOrders, totalPrice, totalProducts})
 });
 

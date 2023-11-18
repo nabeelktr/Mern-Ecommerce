@@ -5,6 +5,7 @@ import { generateAccessToken, generateRefreshToken } from '../utils/generateToke
 import Cart from '../modals/CartModal.js';
 import mongoose from 'mongoose';
 import WishList from '../modals/wishListModal.js';
+import Wallet from '../modals/walletModal.js';
 
 
 
@@ -246,16 +247,17 @@ const test = AsyncHandler(async (req, res) => {
 
 const removeCartItem = AsyncHandler(async (req, res) => {
   const item = req.body.item
-  const cart = await Cart.updateOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, {
-    $pull: {
-      items: {
-        $and: [
-          { productId: item.productId },
-          { size: item.size }
-        ]
+  const cart = await Cart.updateOne(
+    { _id: new mongoose.Types.ObjectId(req.params.id) },
+    {
+      $pull: {
+        items: {
+          productId: item.productId,
+          size: item.size
+        }
       }
     }
-  })
+  );
   if (cart) {
     res.status(201).json({ msg: 'cart item removed' })
   } else {
@@ -393,9 +395,14 @@ const removeWishlist = AsyncHandler(async(req,res) => {
   }
 });
 
+const getWallet = AsyncHandler(async (req,res) => {
+  const wallet = await Wallet.findOne({userId: req.user._id});
+  res.status(201).json(wallet)
+}) 
+
 
 export {
   generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
   addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress, addToWishlist, 
-  getWishlist, userwishlist, removeWishlist
+  getWishlist, userwishlist, removeWishlist, getWallet
 }

@@ -12,8 +12,9 @@ import {
     Cog6ToothIcon,
     PowerIcon,
     GiftIcon,
+    WalletIcon,
   } from "@heroicons/react/24/solid";
-import { IdentificationIcon } from "@heroicons/react/24/outline";
+import { IdentificationIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
    
   export function SidebarProfile() {
@@ -45,6 +46,12 @@ import { useNavigate } from "react-router-dom";
               <GiftIcon className="h-5 w-5" />
             </ListItemPrefix>
             Coupons
+          </ListItem>
+          <ListItem onClick={() => navigate('/profile/wallet')}>
+            <ListItemPrefix>
+              <WalletIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Wallet
           </ListItem>
           <ListItem onClick={() => navigate('/profile/changePassword')}>
             <ListItemPrefix>

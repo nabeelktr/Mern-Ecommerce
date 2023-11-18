@@ -13,7 +13,7 @@ const OrderStepper = ({ activeStep }) => {
         <ClockIcon className="h-4 w-4" />
         <div className="absolute -bottom-[2rem] w-max text-center">
           <Typography
-          className="text-sm font-bold"
+          className="text-sm font-semibold"
             color={activeStep === 0 ? "blue-gray" : "gray"}
           >
             Pending
@@ -24,7 +24,7 @@ const OrderStepper = ({ activeStep }) => {
         <ServerIcon className="h-4 w-4" />
         <div className="absolute -bottom-[2rem] w-max text-center">
           <Typography
-            className="text-sm font-bold"
+            className="text-sm font-semibold"
             color={activeStep === 1 ? "blue-gray" : "gray"}
           >
             Proccessing
@@ -35,7 +35,7 @@ const OrderStepper = ({ activeStep }) => {
         <TruckIcon className="h-4 w-4" />
         <div className="absolute -bottom-[2rem] w-max text-center">
           <Typography
-            className="text-sm font-bold"
+            className="text-sm font-semibold"
             color={activeStep === 2 ? "blue-gray" : "gray"}
           >
             Shipped
@@ -46,7 +46,7 @@ const OrderStepper = ({ activeStep }) => {
         <CheckBadgeIcon className="h-5 w-5" />
         <div className="absolute -bottom-[2rem] w-max text-center">
           <Typography
-            className="text-sm font-bold"
+            className="text-sm font-semibold"
             color={activeStep === 3 ? "blue-gray" : "gray"}
           >
             Delivered

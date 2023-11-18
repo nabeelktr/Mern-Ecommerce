@@ -18,8 +18,8 @@ const OrderList = () => {
   }, []);
 
   return (
-    <div className="p-4 m-4 border  justify-center shadow-sm">
-      <div className="border-b p-4  px-8 font-bold">
+    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide">
+      <div className="border-b p-4  px-8 font-semibold tracking-widest">
         <p>Order History</p>
       </div>
       <div className="p-4  w-full px-10 flex flex-col justify-start gap-10 mt-4 ">
@@ -29,16 +29,16 @@ const OrderList = () => {
             <div className="p-4 bg-gray-50 w-full border" >
             <div className="flex m-4 gap-10">
                 <div>
-                    <p className="text-sm font-bold">Order Date</p>
+                    <p className="text-sm font-semibold">Order Date</p>
                     <p className="text-sm ">{new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div>
-                    <p className="text-sm font-bold">Total Price</p>
+                    <p className="text-sm font-semibold">Total Price</p>
                     <p className="text-sm ">&#x20B9;&nbsp;{order.totalOfferPrice}</p>
                 </div>
                 <div>
-                    <p className="text-sm font-bold">Order Status</p>
-                    <p className="text-sm ">{(order.status)}</p>
+                    <p className="text-sm font-semibold">Order Status</p>
+                    <p className={`text-sm ${order.status === 'Cancelled' ? 'text-red-800' : order.status === 'Delivered' ? 'text-green-500' : ''} `}>{(order.status)}</p>
                 </div>
             </div>
               {order.items.map((order, y) => (

@@ -22,8 +22,12 @@ const AdminDashboard = () => {
   })
   const fetchdata = async() => {
     const {data} = await Axios.get('/admin/summary')
-    const [{totalOfferPrice}] = data.totalPrice
-
+    let totalOfferPrice;
+    if(data.totalPrice.length){
+      totalOfferPrice = data.totalPrice[0].totalOfferPrice  ;
+    }else{
+       totalOfferPrice = 0;
+    }
     setdata({
       totalUsers: data.totalUsers,
       totalOrders: data.totalOrders,
@@ -49,7 +53,7 @@ const AdminDashboard = () => {
       </div>
       <div className="flex  justify-center gap-10 ">
         <div className="bg-white relative flex-col flex border border-t-[#ff3c67] border-t-[3px] shadow-sm antialiased h-32 p-3 mt-5 w-[15rem] rounded-sm">
-          <span className="font-bold text-xl tracking-widest pb-2">{data.totalUsers}</span>
+          <span className="font-bold text-xl tracking-widest pb-2">{data?.totalUsers}</span>
           <span className="font-semibold text-xs text-gray-500">
             Total Users
           </span>
@@ -65,7 +69,7 @@ const AdminDashboard = () => {
         </div>
 
         <div className="relative bg-white flex-col flex border border-t-[#ff3c67] border-t-[3px] shadow-sm antialiased h-32 p-3 mt-5 w-[15rem] rounded-sm">
-          <span className="font-bold text-xl tracking-widest pb-2">&#8377;&nbsp;{order.price ? order.price : data.totalPrice}</span>
+          <span className="font-bold text-xl tracking-widest pb-2">&#8377;&nbsp;{order.price ? order.price : data?.totalPrice}</span>
           <span className="font-semibold text-xs text-gray-500">
             Total Sales
           </span>

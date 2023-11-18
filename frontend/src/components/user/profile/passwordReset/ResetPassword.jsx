@@ -14,7 +14,7 @@ const ResetPassword = () => {
       
         return (
           <>
-            <label className="  text-sm font-bold text-gray-900 dark:text-white">
+            <label className="  text-sm font-semibold text-gray-900 dark:text-white">
               {label}
             </label>
             <input
@@ -39,8 +39,8 @@ const ResetPassword = () => {
         }
     }
   return (
-    <div className="p-4 m-4 border w-1/2  justify-center shadow-sm">
-      <div className="border-b p-4 font-bold" >
+    <div className="p-4 m-4 border w-1/2  justify-center shadow-sm font-poppins tracking-wide">
+      <div className="border-b p-4 font-semibold tracking-widest" >
         <p>Change Password</p>
       </div>
       <div className='p-4   px-10 flex flex-row justify-start  mt-4 '>
