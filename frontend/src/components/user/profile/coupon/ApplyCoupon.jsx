@@ -34,6 +34,7 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
     }
   }
 
+
   return (
     <div className="flex flex-col -mb-20 items-start ml-4 ">
       <Toaster position="top-center" />

@@ -93,9 +93,6 @@ const authUser = AsyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 const updatePassword = AsyncHandler(async (req, res) => {
   console.log(req.body);
   const password = req.body.current;
@@ -205,7 +202,6 @@ const updateCartQtyDec = AsyncHandler(async (req, res) => {
     throw new Error('cart not found');
   }
 });
-
 
 const test = AsyncHandler(async (req, res) => {
   try {

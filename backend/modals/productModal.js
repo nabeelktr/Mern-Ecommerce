@@ -54,7 +54,7 @@ const productSchema = mongoose.Schema({
     variants:[variantSchema],
 },
 {
-    timeStamp:true,
+    timestamps:true,
 }
 )
 

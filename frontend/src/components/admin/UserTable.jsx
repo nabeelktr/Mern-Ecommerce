@@ -12,6 +12,7 @@ import DeleteModal from './DeleteModal';
 import UpdateModal from './UpdateModal';
 
 const UserTable = () => {
+  
   const [deleteModal, setdeleteModal] = useState(false);
   const [editModal, seteditModal] = useState(false);
   const [users, setusers] = useState([]);

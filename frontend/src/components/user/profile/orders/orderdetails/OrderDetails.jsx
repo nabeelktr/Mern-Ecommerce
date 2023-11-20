@@ -65,8 +65,15 @@ const OrderDetails = () => {
               <p className="text-sm font-semibold">Order Status</p>
               <p className="text-sm ">{order?.status}</p>
             </div>
+            {order?.coupon?.couponCode &&
+            <div className="flex flex-col items-center ">
+              <p className="text-sm font-semibold">Coupon</p>
+              <p className="text-sm "> {order.coupon.couponCode}</p>
+            </div>
+            }
           </div>
-          <div className="flex m-4 mb-10 justify-between ">
+          <div className="flex m-4 mb-10 justify-between">
+          
             <div className="w-2/4">
               <p className="text-sm font-semibold">Shipping Address</p>
               <p className="text-sm ">{order?.shippingAddress.name}</p>

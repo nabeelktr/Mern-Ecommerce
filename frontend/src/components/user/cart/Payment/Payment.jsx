@@ -17,7 +17,7 @@ const Payment = () => {
   const [cartId, setcartId] = useState();
   const [orderDetails, setOrderDetails] = useState();
   const [method, setmethod] = useState();
-
+console.log(orderDetails);
   const placeOrder = async () => {
     try{
     await Axios.post("/placeOrder", {

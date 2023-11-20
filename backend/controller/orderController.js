@@ -37,6 +37,7 @@ const placeOrder = AsyncHandler(async (req, res) => {
         paymentMethod: req.body.paymentMode,
         createdAt: Date.now(),
         status: 'Pending',
+        coupon: orderDetails.coupon,
     });
 
     if (order) {
@@ -51,7 +52,7 @@ const placeOrder = AsyncHandler(async (req, res) => {
 const updateProductQty = async (orderDetails, userId) => {
     if (orderDetails.coupon) {
 
-        const updated = await Coupon.findByIdAndUpdate(orderDetails.coupon, {
+        const updated = await Coupon.findByIdAndUpdate(orderDetails.coupon.couponId, {
             $addToSet: { usedBy: userId }
         }, { new: true });
 
@@ -145,7 +146,7 @@ const paymentVerification = AsyncHandler(async (req, res) => {
             createdAt: Date.now(),
             status: 'Pending',
             razorpay_payment_id,
-
+            coupon: orderDetails.coupon,
         });
         updateProductQty(orderDetails, req.user._id);
         await Cart.deleteOne({ _id: orderDetails.cartId });
@@ -242,6 +243,16 @@ const cancelOrder = AsyncHandler(async (req, res) => {
     }
 });
 
+const getUserOrder = AsyncHandler(async(req,res) => {
+    if(req.params.id){
+        const order = await Order.findById(req.params.id);
+        res.status(201).json(order)
+    }else{
+        res.status(402)
+        throw new Error('invalid error')
+    }
+})
 
 
-export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification, salesReport, checkCoupon, cancelOrder }
+
+export { placeOrder, getOrders, changeOrderStatus, getUserOrders, checkout, paymentVerification, salesReport, checkCoupon, cancelOrder, getUserOrder }

@@ -2,9 +2,11 @@ import Axios from '../../../axiosInterceptors/axios'
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../basic/BasicTable'
 import { Toaster, toast } from 'sonner';
+import { EyeIcon, ViewfinderCircleIcon } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 
 const OrderTable = () => {
-  const options = ['Processing', 'Shipped', 'Delivered', 'Refunded'];
+  const navigate = useNavigate();
   const [products, setproducts] = useState()
 
   const cancelOrder = async (id, userID) => {
@@ -30,12 +32,12 @@ const OrderTable = () => {
 
     /** @type import('@tanstack/react-table').columndef<any> */
   const columns = [
-    // {
-    //     header: 'Order Id',
-    //     accessorKey: 'orderId'
-    // },
     {
-      header: 'User Name',
+        header: 'Order Id',
+        accessorKey: 'orderId'
+    },
+    {
+      header: 'UserName',
       accessorKey: 'userName'
     },
     {
@@ -75,11 +77,6 @@ const OrderTable = () => {
             onChange={(e) => handleStatus(e.target.value, orderId)}
             >
             <option>{current}</option>
-          {/* {options.map((option) => (
-            <option key={option} value={option} >
-              {option}
-            </option>
-          ))} */}
           {current === 'Pending' &&  <option value={'Processing'} key={'Processing'}>Processing</option>}
           {current === 'Processing' &&  <option value={'Shipped'} key={'Shipped'}>Shipped</option>}
            {current === 'Shipped' && <option value={'Delivered'} key={'Delivered'}>Delivered</option>}
@@ -127,6 +124,15 @@ const OrderTable = () => {
         ''
       )
   },
+  {
+    header: 'View',
+    accessorKey: '_id',
+    cell : (info) => (
+      <>
+      <EyeIcon className='h-5 w-5 ml-2 cursor-pointer text-gray-600 transform transition-transform hover:scale-110' onClick={() => navigate('/admin/orders/orderdetails', {state: info.getValue()})} />
+      </>
+    )
+},
 ] 
 
   const fetchdata = async() => {

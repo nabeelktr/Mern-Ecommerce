@@ -48,7 +48,7 @@ const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
           ...prevOrderDetails,
           shippingAddress: addressChosen,
           cartId: cartId,
-          coupon: coupon?._id,
+          coupon: coupon ? {couponId: coupon._id, couponCode: coupon.couponCode, percentage: coupon.percentage} : false,
         };
         
       navigate('/cart/address/payment', {state: {updatedOrderDetails, coupon}});
@@ -77,6 +77,8 @@ const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
         {coupon && 
         <div className="flex justify-between mb-2">
           <p className="text-teal-500">Coupon Applied!</p>
+          <p className="text-teal-500">-{coupon?.percentage}%</p>
+
         </div>
         }
         <div className="flex justify-between">

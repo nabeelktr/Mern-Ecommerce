@@ -301,7 +301,6 @@ const summaryFilter = AsyncHandler(async (req, res) => {
   }
 });
 
-
 const addCoupon = AsyncHandler(async (req,res) => {
   const { couponCode, startDate, percentage, expiry, minRate, maxRate } = req.body;
   const code = couponCode.toUpperCase();

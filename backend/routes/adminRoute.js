@@ -1,7 +1,7 @@
 import express from "express";
 import { UpdateUser, adminAuth, getUsers, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase, addCategory, getCategories, deleteCategory, editCategory, summary, addCoupon, getCoupon, getUserCoupon, summaryFilter } from "../controller/adminController.js";
 import { protect } from "../middlewares/authmiddleware.js";
-import { changeOrderStatus, salesReport } from "../controller/orderController.js";
+import { changeOrderStatus, getUserOrder, salesReport } from "../controller/orderController.js";
 const router = express.Router()
 
 
@@ -27,6 +27,7 @@ router.route('/orderStatus').post(protect, changeOrderStatus);
 router.route('/summary').get(protect, summary);
 router.route('/salesreport').post(protect, salesReport);
 router.route('/dashboardfilter').post(protect, summaryFilter);
+router.route('/getuserorder/:id').get(protect, getUserOrder);
 
 router.route('/addCoupon').post(protect, addCoupon);
 router.route('/coupons').get(protect, getCoupon);
