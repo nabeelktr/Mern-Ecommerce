@@ -20,7 +20,7 @@ const OrderDetails = () => {
     if (order.status === "Shipped") setactiveStep(2);
     if (order.status === "Delivered") setactiveStep(3);
   };
-
+ 
   const closeModal = () => {
     setmodal(false);
   };
@@ -93,7 +93,7 @@ const OrderDetails = () => {
           {order &&
           order.status === "Delivered" &&
           Math.floor(
-            (Date.now() - new Date(order.createdAt)) / (24 * 60 * 60 * 1000)
+            (new Date() - new Date(order.updatedAt)) / (24 * 60 * 60 * 1000)
           ) <= 7 &&
           order.paymentMethod === "RazorPay"
             ? cancelButton()

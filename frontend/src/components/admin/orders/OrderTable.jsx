@@ -1,10 +1,27 @@
 import Axios from '../../../axiosInterceptors/axios'
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../basic/BasicTable'
+import { Toaster, toast } from 'sonner';
 
 const OrderTable = () => {
-  const options = ['Processing', 'Shipped', 'Delivered', 'Refunded', 'Completed'];
+  const options = ['Processing', 'Shipped', 'Delivered', 'Refunded'];
   const [products, setproducts] = useState()
+
+  const cancelOrder = async (id, userID) => {
+    try{
+      toast('Are you sure you want to cancel this Order ?', {
+        action: {
+          label: 'Yes, Iam Sure',
+          onClick: async() => {
+            await Axios.post('/cancelorder', {id, userID});
+            fetchdata();
+          },
+        },
+      });
+    }catch{
+      toast.warning('This Order cannot be cancelled')
+    }
+}
 
   const handleStatus = async(option, orderId) => {
     await Axios.post('/admin/orderStatus', {option, orderId});
@@ -53,16 +70,19 @@ const OrderTable = () => {
           const current = info.getValue();
           const orderId = info.row.original._id;
           return (
-            <select className={`${(current === 'Delivered' || current === 'Refunded' || current === 'Completed' ) ? 'text-green-800' :  'text-yellow-800'}`}
+            <select className={`${(current === 'Delivered' || current === 'Refunded'  ) ? 'text-green-800' :  'text-yellow-800'} cursor-pointer`}
             value={current}
             onChange={(e) => handleStatus(e.target.value, orderId)}
             >
             <option>{current}</option>
-          {options.map((option) => (
+          {/* {options.map((option) => (
             <option key={option} value={option} >
               {option}
             </option>
-          ))}
+          ))} */}
+          {current === 'Pending' &&  <option value={'Processing'} key={'Processing'}>Processing</option>}
+          {current === 'Processing' &&  <option value={'Shipped'} key={'Shipped'}>Shipped</option>}
+           {current === 'Shipped' && <option value={'Delivered'} key={'Delivered'}>Delivered</option>}
           </select>
           )
         }
@@ -78,15 +98,33 @@ const OrderTable = () => {
     {
       header: 'Action',
       cell: (info) => (
+        info.row.original.status === 'Delivered' && 
+        Math.floor((new Date() - new Date(info.row.original.updatedAt)) / (24 * 60 * 60 * 1000)) <= 7 &&
+        info.row.original.paymentMethod === "RazorPay" ?
+        <>
         <button
-         onClick={() => handleStatus("Cancelled", info.row.original._id)}
-        type="button"
-        className="flex w-full items-center py-2 px-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400">
+         onClick={() => cancelOrder(info.row.original._id, info.row.original.userId)}
+         type="button"
+         className="flex w-full items-center py-2 px-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
           <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
         </svg>
          Cancel
         </button>
+        </>
+        :
+        info.row.original.status  !== 'Delivered' && info.row.original.status  !== 'Cancelled' ?
+        <button
+        onClick={() => cancelOrder(info.row.original._id, info.row.original.userId)}
+        type="button"
+        className="flex w-full items-center py-2 px-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
+         <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+       </svg>
+        Cancel
+       </button>
+       :
+        ''
       )
   },
 ] 
@@ -100,7 +138,10 @@ const OrderTable = () => {
     fetchdata();
   },[])
   return (
+    <>
+    <Toaster position='top-center'/>
     <BasicTable datas={products} columns={columns} type={"orders"}/>
+    </>
   )
 }
 

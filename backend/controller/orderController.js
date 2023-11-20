@@ -10,6 +10,22 @@ import Wallet from '../modals/walletModal.js';
 
 const placeOrder = AsyncHandler(async (req, res) => {
     const orderDetails = req.body.orderDetails;
+    if(req.body.paymentMode === 'Wallet'){
+        const wallet = await Wallet.findOne({userId: req.user._id});
+
+        if(orderDetails.totalOfferPrice <= wallet.balance ){
+            wallet.balance -= orderDetails.totalOfferPrice;
+            wallet.transactions.push({
+                date: Date.now(),
+                status: 'Debited',
+                amount: orderDetails.totalOfferPrice,
+            })
+            await wallet.save();
+        }else{
+            res.status(403)
+            throw new Error('Not enough amount')
+        }
+    }
     updateProductQty(orderDetails, req.user._id);
     const order = await Order.create({
         userName: req.user.name,
@@ -79,6 +95,7 @@ const getUserOrders = AsyncHandler(async (req, res) => {
 const changeOrderStatus = AsyncHandler(async (req, res) => {
     const resp = await Order.findByIdAndUpdate(req.body?.orderId, {
         status: req.body.option,
+        updatedAt: Date.now(),
     });
     if (resp) {
         res.status(201).json({ msg: 'status updtd' })
@@ -192,11 +209,11 @@ const checkCoupon = AsyncHandler(async (req, res) => {
 });
 
 const cancelOrder = AsyncHandler(async (req, res) => {
-    const { id } = req.body;
-    const userId = req.user._id;
+    const { id, userID } = req.body;
+    const userId = userID || req.user._id;
     if (id) {
         const order = await Order.findById(id);
-        if (order.paymentMethod === 'RazorPay') {
+        if (order.paymentMethod === 'RazorPay' || order.paymentMethod === 'Wallet') {
             const transaction = {
                 date: Date.now(),
                 status: 'Credited',
