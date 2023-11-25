@@ -3,8 +3,9 @@ import Axios from "../../../../axiosInterceptors/userAxios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import ApplyCoupon from "../../profile/coupon/ApplyCoupon";
+import { toast } from "sonner";
 
-const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
+const CartPrice = ({cartId, addressChosen, payment, coupons, wallet}) => {
   const [coupon, setcoupon] = useState()
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,7 +33,13 @@ const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
     }else if(coupons){
       setcoupon(coupons);
       totalOfferPrice = totalOfferPrice - (totalOfferPrice * (coupons.percentage / 100))
-
+    }
+    if(wallet){
+      totalOfferPrice -= wallet;
+    }
+    if(totalOfferPrice < 0){
+      toast.warning('Product is out of Stock');
+      navigate('/cart')
     }
     setOrderDetails({
         totalPrice,
@@ -81,6 +88,13 @@ const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
 
         </div>
         }
+        {wallet && 
+        <div className="flex justify-between mb-2">
+          <p className="text-gray-700">Wallet</p>
+          <p className="text-teal-500">-{wallet}</p>
+
+        </div>
+        }
         <div className="flex justify-between">
           <p className="text-gray-700">Convinient Fee</p>
           <p className="text-gray-700">--</p>
@@ -88,9 +102,9 @@ const CartPrice = ({cartId, addressChosen, payment, coupons}) => {
        
         <hr className="my-4" />
         <div className="flex justify-between ">
-          <p className="text-sm font-bold">Total</p>
+          <p className="text-sm font-semibold">Total</p>
           <div className="">
-            <p className="mb-1 text-sm font-bold ">&#8377; {orderDetails?.totalOfferPrice}</p>
+            <p className="mb-1 text-sm font-semibold ">&#8377; {orderDetails?.totalOfferPrice}</p>
           </div>
         </div>
      

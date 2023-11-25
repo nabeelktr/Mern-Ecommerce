@@ -5,6 +5,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Dialog, Transition } from "@headlessui/react";
 
 const CropImage = ({upImage, setUploadedImg, setCrop}) => {
+
   const [src, setsrc] = useState();
 
   const [image, setimage] = useState();
@@ -57,7 +58,7 @@ const CropImage = ({upImage, setUploadedImg, setCrop}) => {
 
       canvas.toBlob(
         (blob) => {
-          const croppedImageFile = new File([blob], "cropped-image.jpg", {
+          const croppedImageFile = new File([blob], crop.image.name, {
             type: "image/jpeg",
             lastModified: Date.now(),
           });

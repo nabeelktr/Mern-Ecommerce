@@ -10,10 +10,10 @@ import Wallet from '../modals/walletModal.js';
 
 const placeOrder = AsyncHandler(async (req, res) => {
     const orderDetails = req.body.orderDetails;
-    if(req.body.paymentMode === 'Wallet'){
-        const wallet = await Wallet.findOne({userId: req.user._id});
+    if (req.body.paymentMode === 'Wallet') {
+        const wallet = await Wallet.findOne({ userId: req.user._id });
 
-        if(orderDetails.totalOfferPrice <= wallet.balance ){
+        if (orderDetails.totalOfferPrice <= wallet.balance) {
             wallet.balance -= orderDetails.totalOfferPrice;
             wallet.transactions.push({
                 date: Date.now(),
@@ -21,12 +21,19 @@ const placeOrder = AsyncHandler(async (req, res) => {
                 amount: orderDetails.totalOfferPrice,
             })
             await wallet.save();
-        }else{
+        } else {
             res.status(403)
             throw new Error('Not enough amount')
         }
     }
-    updateProductQty(orderDetails, req.user._id);
+    try {
+        await updateProductQty(orderDetails, req.user._id);
+    } catch {
+        res.status(403);
+        throw new Error('out of stock');
+    }
+    if (req.body.wallet) { updateWallet(req.body.wallet, req.user._id); }
+
     const order = await Order.create({
         userName: req.user.name,
         userId: req.user._id,
@@ -38,6 +45,7 @@ const placeOrder = AsyncHandler(async (req, res) => {
         createdAt: Date.now(),
         status: 'Pending',
         coupon: orderDetails.coupon,
+        wallet: req.body.wallet,
     });
 
     if (order) {
@@ -49,32 +57,49 @@ const placeOrder = AsyncHandler(async (req, res) => {
     }
 });
 
+const updateWallet = async (walletAmount, userId) => {
+    const wallet = await Wallet.findOne({ userId: userId })
+    wallet.balance -= walletAmount;
+    wallet.transactions.push({
+        date: Date.now(),
+        status: 'Debited',
+        amount: walletAmount,
+    })
+    await wallet.save();
+};
+
 const updateProductQty = async (orderDetails, userId) => {
-    if (orderDetails.coupon) {
 
-        const updated = await Coupon.findByIdAndUpdate(orderDetails.coupon.couponId, {
-            $addToSet: { usedBy: userId }
-        }, { new: true });
-
-    }
-    for (const item of orderDetails.items) {
-        const product = await Product.findById(item.productId)
-        if (product) {
-            const variant = product.variants.find((v) => v.size === item.size);
-            if (variant) {
-                variant.qty -= item.qty;
+    try {
+        for (const item of orderDetails.items) {
+            const product = await Product.findById(item.productId);
+            if (product) {
+                const variant = product.variants.find((v) => v.size === item.size);
+                if (variant && variant.qty >= item.qty) {
+                    variant.qty -= item.qty;
+                } else {
+                    throw new Error(`Variant not found or quantity is insufficient for size ${item.size}`);
+                }
+                await product.save();
             } else {
-                throw new Error(`variant not found for the size ${item.qty}`)
+                throw new Error(`Product not found for the id ${item.productId}`);
             }
-            await product.save();
-        } else {
-            throw new Error(`product not found for the id ${item.productId}`)
         }
+
+        if (orderDetails.coupon) {
+            const updated = await Coupon.findByIdAndUpdate(orderDetails.coupon.couponId, {
+                $addToSet: { usedBy: userId }
+            }, { new: true });
+        }
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to update product quantity');
     }
 };
 
 const getOrders = AsyncHandler(async (req, res) => {
-    const orders = await Order.find();
+    const orders = await Order.find().sort({ createdAt: -1 });
     if (orders) {
         res.status(201).json(orders);
     } else {
@@ -119,42 +144,43 @@ const checkout = AsyncHandler(async (req, res) => {
 });
 
 const paymentVerification = AsyncHandler(async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderDetails } =
-        req.body;
-
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderDetails, wallet } = req.body;
     const body = razorpay_order_id + "|" + razorpay_payment_id;
-
     const expectedSignature = crypto
         .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
         .update(body.toString())
         .digest("hex");
-
     const isAuthentic = expectedSignature === razorpay_signature;
 
-
     if (isAuthentic) {
+        try {
+            await updateProductQty(orderDetails, req.user._id);
 
+            await Order.create({
+                userName: req.user.name,
+                userId: req.user._id,
+                items: orderDetails.items,
+                totalPrice: orderDetails.totalPrice,
+                totalOfferPrice: orderDetails.totalOfferPrice,
+                shippingAddress: orderDetails.shippingAddress,
+                paymentMethod: 'RazorPay',
+                createdAt: Date.now(),
+                status: 'Pending',
+                razorpay_payment_id,
+                coupon: orderDetails.coupon,
+                wallet: wallet,
+            });
+            if (req.body.wallet) { updateWallet(wallet, req.user._id); }
+            await Cart.deleteOne({ _id: orderDetails.cartId });
+        } catch {
+            res.status(403).json({
+                razorpay_payment_id,
+                error: 'Insufficient quantity for one or more items',
+            });
+            throw new Error('Insufficient quantity for one or more items')
+        }
+        res.status(201).json({ razorpay_payment_id });
 
-        await Order.create({
-            userName: req.user.name,
-            userId: req.user._id,
-            items: orderDetails.items,
-            totalPrice: orderDetails.totalPrice,
-            totalOfferPrice: orderDetails.totalOfferPrice,
-            shippingAddress: orderDetails.shippingAddress,
-            paymentMethod: 'RazorPay',
-            createdAt: Date.now(),
-            status: 'Pending',
-            razorpay_payment_id,
-            coupon: orderDetails.coupon,
-        });
-        updateProductQty(orderDetails, req.user._id);
-        await Cart.deleteOne({ _id: orderDetails.cartId });
-
-
-
-        res.status(201)
-            .json({ razorpay_payment_id })
     } else {
         res.status(400).json({
             success: false,
@@ -218,36 +244,59 @@ const cancelOrder = AsyncHandler(async (req, res) => {
             const transaction = {
                 date: Date.now(),
                 status: 'Credited',
-                amount: order.totalOfferPrice,
+                amount: order.wallet ? (order.totalOfferPrice + order.wallet) : order.totalOfferPrice,
             }
             const wallet = await Wallet.findOne({ userId: userId });
             if (wallet) {
-                wallet.balance = wallet.balance + order.totalOfferPrice;
-                wallet.transactions.push(transaction);
+                wallet.balance = wallet.balance + (order.wallet ? (order.totalOfferPrice + order.wallet) : order.totalOfferPrice),
+                    wallet.transactions.push(transaction);
                 await wallet.save()
             }
             else {
                 await Wallet.create({
                     userId: userId,
-                    balance: order.totalOfferPrice,
+                    balance: order.wallet ? (order.totalOfferPrice + order.wallet) : order.totalOfferPrice,
                     transactions: transaction,
                 })
             }
         }
+        await IncProductQty(order);
         order.status = 'Cancelled';
         await order.save();
-        res.status(201).json({success: true});
+        res.status(201).json({ success: true });
     } else {
         res.status(402);
         throw new Error('invalid error');
     }
 });
 
-const getUserOrder = AsyncHandler(async(req,res) => {
-    if(req.params.id){
+const IncProductQty = async (orderDetails) => {
+
+    try {
+        for (const item of orderDetails.items) {
+            const product = await Product.findById(item.productId);
+            if (product) {
+                const variant = product.variants.find((v) => v.size === item.size);
+                if (variant) {
+                    variant.qty += item.qty;
+                } else {
+                    throw new Error(`Variant not found for the size ${item.size}`);
+                }
+                await product.save();
+            } else {
+                throw new Error(`Product not found for the id ${item.productId}`);
+            }
+        }
+    } catch (error) {
+        throw new Error('Failed to update product quantity');
+    }
+};
+
+const getUserOrder = AsyncHandler(async (req, res) => {
+    if (req.params.id) {
         const order = await Order.findById(req.params.id);
         res.status(201).json(order)
-    }else{
+    } else {
         res.status(402)
         throw new Error('invalid error')
     }

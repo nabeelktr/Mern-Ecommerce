@@ -23,43 +23,43 @@ import { useNavigate } from "react-router-dom";
       <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-none">
       
         <List>
-        <ListItem onClick={() => navigate('/profile')}>
+        <ListItem onClick={() => navigate('/profile')} className="font-poppins">
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
             Account
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/viewAddress')}>
+          <ListItem onClick={() => navigate('/profile/viewAddress')} className="font-poppins">
             <ListItemPrefix>
               <IdentificationIcon className="h-5 w-5" />
             </ListItemPrefix>
             Addresses
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/viewOrders')}>
+          <ListItem onClick={() => navigate('/profile/viewOrders')} className="font-poppins">
             <ListItemPrefix>
               <ShoppingBagIcon className="h-5 w-5" />
             </ListItemPrefix>
             Orders
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/coupons')}>
+          <ListItem onClick={() => navigate('/profile/coupons')} className="font-poppins">
             <ListItemPrefix>
               <GiftIcon className="h-5 w-5" />
             </ListItemPrefix>
             Coupons
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/wallet')}>
+          <ListItem onClick={() => navigate('/profile/wallet')} className="font-poppins">
             <ListItemPrefix>
               <WalletIcon className="h-5 w-5" />
             </ListItemPrefix>
             Wallet
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/changePassword')}>
+          <ListItem onClick={() => navigate('/profile/changePassword')} className="font-poppins">
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
             </ListItemPrefix>
             Password
           </ListItem>
-          <ListItem>
+          <ListItem className="font-poppins">
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>

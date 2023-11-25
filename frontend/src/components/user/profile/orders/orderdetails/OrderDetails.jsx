@@ -46,42 +46,50 @@ const OrderDetails = () => {
           <div className="p-4 px-8 mb-10 ">
             <OrderStepper activeStep={activeStep} />
           </div>
-          <div className="flex m-4 mb-6  justify-between  border-t border-gray-500  pt-10">
+          <div className="flex m-4 mb-6 border-t gap-28 border-gray-500  pt-10">
             <div className="">
               <p className="text-sm font-semibold">Order Date</p>
-              <p className="text-sm ">
+              <p className="text-sm font-light">
                 {new Date(order?.createdAt).toLocaleDateString()}
               </p>
             </div>
             <div>
               <p className="text-sm font-semibold">Total Price</p>
-              <p className="text-sm ">&#x20B9;&nbsp;{order?.totalOfferPrice}</p>
+              <p className="text-sm font-light">&#x20B9;&nbsp;{order?.totalOfferPrice}</p>
             </div>
             <div>
               <p className="text-sm font-semibold">Payment Mode</p>
-              <p className="text-sm ">{order?.paymentMethod}</p>
+              <p className="text-sm font-light">{order?.paymentMethod}</p>
             </div>
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-start ">
               <p className="text-sm font-semibold">Order Status</p>
-              <p className="text-sm ">{order?.status}</p>
+              <p className="text-sm font-light">{order?.status}</p>
             </div>
+            </div>
+            <div className="flex mb-6 m-4 gap-32">
             {order?.coupon?.couponCode &&
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-start">
               <p className="text-sm font-semibold">Coupon</p>
-              <p className="text-sm "> {order.coupon.couponCode}</p>
+              <p className="text-sm font-light"> {order.coupon.couponCode}</p>
             </div>
             }
+            {order?.wallet &&
+            <div className="flex flex-col items-start ">
+            <p className="text-sm font-semibold">Wallet</p>
+            <p className="text-sm font-light"> &#x20B9;&nbsp;{order.wallet}</p>
           </div>
-          <div className="flex m-4 mb-10 justify-between">
+            }
+          </div>
+          <div className="flex m-4 mb-10 justify-between ">
           
             <div className="w-2/4">
               <p className="text-sm font-semibold">Shipping Address</p>
-              <p className="text-sm ">{order?.shippingAddress.name}</p>
-              <p className="text-sm ">
+              <p className="text-sm font-light">{order?.shippingAddress.name}</p>
+              <p className="text-sm font-light">
                 {order?.shippingAddress.address},{" "}
                 {order?.shippingAddress.pincode}.{" "}
               </p>
-              <p className="text-sm ">
+              <p className="text-sm font-light">
                 {order?.shippingAddress.location},{" "}
                 {order?.shippingAddress.district},{" "}
                 {order?.shippingAddress.state}.{" "}

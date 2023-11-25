@@ -48,6 +48,9 @@ const orderSchema = mongoose.Schema({
     coupon: {
         type: Object,
     },
+    wallet: {
+        type: Number,
+    },
     updatedAt: {
         type: Date,
     }

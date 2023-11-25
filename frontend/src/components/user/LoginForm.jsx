@@ -13,6 +13,8 @@ import { LoginSchema } from '../yup';
 // eslint-disable-next-line import/extensions
 import Axios from '../../axiosInterceptors/axios.js';
 import Axiosuser from '../../axiosInterceptors/userAxios.js';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../redux/features/authSlice.js';
 
 
 const MyTextField = ({ label, ...props }) => {
@@ -37,6 +39,7 @@ const MyTextField = ({ label, ...props }) => {
 };
 
 const LoginForm = (props) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   const adminHandleSubmit = async (values, action) => {
@@ -53,6 +56,7 @@ const LoginForm = (props) => {
     try {
       const response = await Axiosuser.post('/login', values);
       localStorage.setItem('userToken', response.data.accessToken);
+      dispatch(userLogin());
      // localStorage.setItem('userRefreshToken', response.data.refreshToken);
       navigate('/home');
     } catch (err) {

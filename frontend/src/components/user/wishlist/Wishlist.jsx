@@ -83,7 +83,7 @@ const Wishlist = () => {
         <div className="w-5/6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 gap-4">
           {
           products
-            ? products.map((product, i) => <ProductCard prdt={...product} isWishlisted={true} setuserWishlist={setrefreshKey} checkMark={true} setmodal={setmodal} setmodalId={setmodalId} key={i} />)
+            ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={true} setuserWishlist={setrefreshKey} checkMark={true} setmodal={setmodal} setmodalId={setmodalId} key={i} />)
             : Array(50)
                 .fill(null)
                 .map((p, i) => <ProductCardSkeleton key={i} />)}

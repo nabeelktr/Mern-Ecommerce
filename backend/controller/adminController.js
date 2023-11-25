@@ -14,7 +14,6 @@ const adminAuth = AsyncHandler(async (req, res) => {
   if (user && user.admin) {
     if ((await user.matchPassword(password))) {
       const refreshToken = generateRefreshToken(user._id)
-    console.log(refreshToken);
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         path: '/refresh',
@@ -171,7 +170,6 @@ const editProductFirebase = AsyncHandler(async (req, res) => {
 
 const addCategory = AsyncHandler(async (req, res) => {
   const existingCategory = await Category.findOne({ name: req.body.name });
-  console.log(req.body);
   if (existingCategory) {
     res.status(400).json({ msg: 'Category already exists' });
   } else {

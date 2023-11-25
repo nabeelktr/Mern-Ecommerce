@@ -6,6 +6,7 @@ import Cart from '../modals/CartModal.js';
 import mongoose from 'mongoose';
 import WishList from '../modals/wishListModal.js';
 import Wallet from '../modals/walletModal.js';
+import Product from '../modals/productModal.js';
 
 
 
@@ -38,6 +39,27 @@ const generateOTP = AsyncHandler(async (req, res, next) => {
   }
 });
 
+
+const getFilters = AsyncHandler(async (req, res) => {
+  if(req.params){
+  let products;
+  if (req.params.category) {
+    products = await Product.find({ category: req.params.category });
+
+  } else if (req.params.gender) {
+    products = await Product.find({ gender: req.params.gender });
+  }
+  if (products.length) {
+    res.status(201).json(products)
+  } else {
+    res.status(404)
+    throw new Error('Product fetching error')
+  }
+}else {
+  res.status(404)
+  throw new Error('No params error')
+}
+});
 
 const registerUser = AsyncHandler(async (req, res) => {
 
@@ -75,7 +97,7 @@ const authUser = AsyncHandler(async (req, res) => {
 
   if (user && !user.admin && user.active) {
     if ((await user.matchPassword(password))) {
-      const refresh =  generateRefreshToken(user._id);
+      const refresh = generateRefreshToken(user._id);
 
       res.cookie('jwt', refresh, { httpOnly: true, secure: true });
 
@@ -343,62 +365,79 @@ const logout = (req, res) => {
   res.json({ message: 'Cookie cleared' })
 };
 
-const addToWishlist = AsyncHandler(async(req,res) => {
-  
-  if(req.body._id){
+const addToWishlist = AsyncHandler(async (req, res) => {
+
+  if (req.body._id) {
     const wishlist = await WishList.create({
-      userId : req.user._id,
+      userId: req.user._id,
       productId: req.body._id,
     })
-    if(wishlist){
-      res.status(201).json({success: true})
+    if (wishlist) {
+      res.status(201).json({ success: true })
     }
-  }else{
+  } else {
     res.status(403)
     throw new Error('invalid error')
   }
 });
 
-const getWishlist = AsyncHandler(async(req,res) => {
+const getWishlist = AsyncHandler(async (req, res) => {
 
-    const wishlist = await WishList.find({ userId: req.user._id }).populate('productId');
-    if (wishlist) {
+  const wishlist = await WishList.find({ userId: req.user._id }).populate('productId');
+  if (wishlist) {
     res.status(201).json(wishlist)
-  }else{
+  } else {
     res.status(402)
     throw new Error('invalid error')
   }
 });
 
-const userwishlist = AsyncHandler(async(req,res) => {
-  const wishlist = await WishList.find({userId: req.user._id}, {productId: 1, _id: 0})
-  if(wishlist){
+const userwishlist = AsyncHandler(async (req, res) => {
+  const wishlist = await WishList.find({ userId: req.user._id }, { productId: 1, _id: 0 })
+  if (wishlist) {
     const productIdArray = wishlist.map(item => item.productId);
     res.status(201).json(productIdArray)
-  }else{
+  } else {
     res.status(402)
     throw new Error('invalid error')
   }
 });
 
-const removeWishlist = AsyncHandler(async(req,res) => {
-  if(req.body.wishlistId){
+const removeWishlist = AsyncHandler(async (req, res) => {
+  if (req.body.wishlistId) {
     await WishList.findByIdAndDelete(req.body.wishlistId)
-    res.status(201).json({success: true})
-  }else{
+    res.status(201).json({ success: true })
+  } else {
     res.status(402)
     throw new Error('invalid error')
   }
 });
 
-const getWallet = AsyncHandler(async (req,res) => {
-  const wallet = await Wallet.findOne({userId: req.user._id});
+const getWallet = AsyncHandler(async (req, res) => {
+  const wallet = await Wallet.findOne({ userId: req.user._id });
   res.status(201).json(wallet)
-}) 
+});
+
+const addBalance = AsyncHandler(async (req, res) => {
+  if (req.body.amount) {
+    const wallet = await Wallet.findOne({ userId: req.user._id });
+    wallet.balance += parseInt(req.body.amount);
+    wallet.transactions.push({
+      date: Date.now(),
+      status: 'Credited',
+      amount: req.body.amount,
+    })
+    await wallet.save();
+    res.status(201).json({ success: true });
+  } else {
+    res.status(402);
+    throw new Error('invalid error')
+  }
+})
 
 
 export {
   generateOTP, registerUser, authUser, AddToCart, getCartItems, updateCartQty, updateCartQtyDec, test, removeCartItem,
-  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress, addToWishlist, 
-  getWishlist, userwishlist, removeWishlist, getWallet
+  addAddress, getUserAddress, removeAddress, getUser, editUser, updatePassword, logout, editAddress, addToWishlist,
+  getWishlist, userwishlist, removeWishlist, getWallet, addBalance, getFilters
 }

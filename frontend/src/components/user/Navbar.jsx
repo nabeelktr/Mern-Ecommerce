@@ -1,41 +1,81 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, HeartIcon, UserIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  HeartIcon,
+  UserIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import Axios from '../../axiosInterceptors/userAxios'
+import Axios from "../../axiosInterceptors/userAxios";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../../redux/features/authSlice";
+import { setRefresh } from "../../redux/features/filterSlice";
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const Navbar = () => {
+  const [profileMenu, setprofileMenu] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  let token;
-  const signout = async() => {
-    if(token){
-      localStorage.removeItem('userToken');
-      await Axios.get('/logout');
-      navigate('/home');
-    }else{
-      navigate('/login');
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const signout = async () => {
+    if (isLoggedIn) {
+      dispatch(signOut());
+      localStorage.removeItem("userToken");
+      await Axios.get("/logout");
+      navigate("/home");
+    } else {
+      navigate("/login");
     }
   };
 
   const navigation = [
-    { name: "HOME", current: false, onClick: () => navigate('/home') },
-    { name: "MEN", current: false },
-    { name: "WOMEN", current: false },
-    { name: "KIDS", current: false },
-    { name: "SHOP", current: false, onClick: () => navigate('/products') },
+    {
+      name: "MEN",
+      current: false,
+      onClick: () => {
+        dispatch(setRefresh());
+        navigate("/products", { state: { gender: "Men" } });
+      },
+    },
+    {
+      name: "WOMEN",
+      current: false,
+      onClick: () => {
+        dispatch(setRefresh());
+        navigate("/products", { state: { gender: "Women" } });
+      },
+    },
+    {
+      name: "KIDS",
+      current: false,
+      onClick: () => {
+        dispatch(setRefresh());
+        navigate("/products", { state: { gender: "Kids" } });
+      },
+    },
+    {
+      name: "SHOP",
+      current: false,
+      onClick: () => {
+        dispatch(setRefresh());
+        navigate("/products");
+      },
+    },
   ];
-  
-  useEffect(() => {
-    token = localStorage.getItem('userToken')
-  },[signout])
+
+
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm w-full fixed z-10 font-poppins">
+    <Disclosure
+      as="nav"
+      className="bg-white shadow-sm w-full fixed z-10 font-poppins"
+    >
       {({ open }) => (
         <>
           <div className="mr-4 ml-8  px-2 sm:px-6 lg:px-8">
@@ -52,13 +92,13 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-                <div className="ml-14 item-center sm:ml-0 sm:block">
-                  <img
-                    className="h-8 ml-1 -mb-1 w-auto"
-                    src="/src/assets/Logo.svg"
-                    alt="Your Company"
-                  />
-                </div>
+              <div className="ml-14 item-center sm:ml-0 sm:block cursor-pointer" onClick={() => navigate('/home')} >
+                <img
+                  className="h-8 ml-1 -mb-1 w-auto"
+                  src="/src/assets/Logo.svg"
+                  alt="Your Company"
+                />
+              </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -84,25 +124,25 @@ const Navbar = () => {
                 <button
                   type="button"
                   className="relative p-3 text-black hover:text-gray-700 "
-                  onClick={() => navigate('/cart')}
+                  onClick={() => navigate("/cart")}
                 >
-
                   <ShoppingBagIcon className="h-5 w-5" />
-
-              
                 </button>
                 <button
                   type="button"
                   className="relative p-3 text-black hover:text-gray-700 "
-                  onClick={() => navigate('/wishlist')}
+                  onClick={() => navigate("/wishlist")}
                 >
                   <HeartIcon className="h-5 w-5" />
-                 
-                 
                 </button>
 
                 {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
+                <Menu
+                  as="div"
+                  className="relative ml-3"
+                  onMouseEnter={() => setprofileMenu(true)}
+                  onMouseLeave={() => setprofileMenu(false)}
+                >
                   <div>
                     <Menu.Button className="relative flex  text-sm   focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
@@ -118,23 +158,24 @@ const Navbar = () => {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
+                    show={profileMenu}
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {token &&
+                      {isLoggedIn && (
                         <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            onClick={() => navigate('/profile')}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      }
+                          {({ active }) => (
+                            <a
+                              onClick={() => navigate("/profile")}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Your Profile
+                            </a>
+                          )}
+                        </Menu.Item>
+                      )}
 
                       <Menu.Item>
                         {({ active }) => (
@@ -145,7 +186,7 @@ const Navbar = () => {
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            {token ? 'Sign out' : 'Login'}
+                            {isLoggedIn ? "Sign out" : "Login"}
                           </a>
                         )}
                       </Menu.Item>
@@ -164,9 +205,7 @@ const Navbar = () => {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current
-                      ? "bg-gray-300"
-                      : "text-gray-500",
+                    item.current ? "bg-gray-300" : "text-gray-500",
                     "block rounded-md px-3 py-2 text-base font-normal"
                   )}
                   aria-current={item.current ? "page" : undefined}

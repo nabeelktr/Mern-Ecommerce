@@ -44,7 +44,7 @@ const OrderTable = () => {
         header: 'Price',
         accessorKey: 'totalOfferPrice',
         cell: (info) => (
-          <p>&#x20B9;{' '}{info.getValue()}</p>
+          <p>&#x20B9;&nbsp;{info.getValue()}</p>
         )
     },
     {

@@ -18,6 +18,10 @@ const CancelModal = ({ id, modal, closeModal }) => {
             closeModal();
         }
     }
+    const contactSeller = async() => {
+      const {data} = await Axios.post('/chat/createConnection', {id})
+      navigate('/userchat');
+    }
   return (
     <Transition.Root show={modal} as={Fragment}>
       <Dialog as="div" className="relative z-10 " onClose={closeModal}>
@@ -49,6 +53,7 @@ const CancelModal = ({ id, modal, closeModal }) => {
                 </span>
                 <div className="mt-4 flex justify-end gap-2">
                   <Button
+                    onClick={contactSeller}
                     className="mt-2 flex gap-1 items-center border border-black bg-white hover:bg-gray-400 text-black font-light py-2 px-4 rounded font-poppins tracking-wider"
                   >
                      contact seller

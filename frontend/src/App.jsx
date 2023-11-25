@@ -19,6 +19,8 @@ import Order from './pages/admin/Order';
 import Profile from './pages/user/Profile';
 import Coupon from './pages/admin/Coupon';
 import Wishlist from './pages/user/Wishlist';
+import Chat from './pages/admin/Chat';
+import UserChat from './pages/user/UserChat';
 
 
 
@@ -49,6 +51,7 @@ function App() {
         <Route path="/cart/*" element={<CartPage />} />
         <Route path="/profile/*" element={<Profile />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/userchat" element={<UserChat />} />
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLogin />} />
         {/* private */}
@@ -58,6 +61,7 @@ function App() {
         <Route path="/admin/orders/*" element={<PrivateRoute element={<Order />} />} />
         <Route path="/admin/category/*" element={<PrivateRoute element={<Category />} />} />
         <Route path="/admin/coupons/*" element={<PrivateRoute element={<Coupon />} />} />
+        <Route path="/admin/chat"  element={<Chat />} />
       </Routes>
     </Router>
     </>

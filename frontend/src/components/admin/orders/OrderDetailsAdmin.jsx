@@ -21,24 +21,27 @@ const OrderDetailsAdmin = () => {
   };
 
   const cancelOrder = async (id, userID) => {
-    try{
-      toast('Are you sure you want to cancel this Order ?', {
+    try {
+      toast("Are you sure you want to cancel this Order ?", {
         action: {
-          label: 'Yes, Iam Sure',
-          onClick: async() => {
-            await Axios.post('/cancelorder', {id: order._id, userID: order.userId});
+          label: "Yes, Iam Sure",
+          onClick: async () => {
+            await Axios.post("/cancelorder", {
+              id: order._id,
+              userID: order.userId,
+            });
             fetchdata();
           },
         },
       });
-    }catch{
-      toast.warning('This Order cannot be cancelled')
+    } catch {
+      toast.warning("This Order cannot be cancelled");
     }
-}
+  };
 
   const cancelButton = () => (
     <Button
-    onClick={() => cancelOrder()}
+      onClick={() => cancelOrder()}
       variant="gradient"
       className="m-2 items-center bg-gray-300 hover:bg-gray-400 text-gray-200 font-light py-2 px-4 rounded font-poppins tracking-wider"
     >
@@ -64,7 +67,7 @@ const OrderDetailsAdmin = () => {
                 <div className="p-4 px-8 mb-10 ">
                   <OrderStepper activeStep={activeStep} />
                 </div>
-                <div className="flex m-4 mb-6  justify-between  border-t border-gray-500  pt-10">
+                <div className="flex m-4 mb-6 gap-40 border-t border-gray-500  pt-10">
                   <div className="">
                     <p className="text-sm font-semibold">Order Date</p>
                     <p className="text-sm ">
@@ -85,15 +88,27 @@ const OrderDetailsAdmin = () => {
                     <p className="text-sm font-semibold">Order Status</p>
                     <p className="text-sm ">{order?.status}</p>
                   </div>
+                </div>
+                <div className="flex mb-6 w-full m-4 gap-40">
                   {order?.coupon?.couponCode && (
-                    <div className="flex flex-col items-center ">
+                    <div className="flex flex-col items-start ">
                       <p className="text-sm font-semibold">Coupon</p>
-                      <p className="text-sm "> {`${order.coupon.couponCode}(${order.coupon.percentage}%)`}</p>
+                      <p className="text-sm ">
+                        {" "}
+                        {`${order.coupon.couponCode}(${order.coupon.percentage}%)`}
+                      </p>
+                    </div>
+                  )}
+                  {order?.wallet && (
+                    <div className="flex flex-col items-start">
+                      <p className="text-sm font-semibold">Wallet</p>
+                      <p className="text-sm font-light"> &#x20B9;&nbsp;{order.wallet}</p>
                     </div>
                   )}
                 </div>
-                <div className="flex m-4 mb-10 justify-between">
-                  <div className="w-2/4">
+
+                <div className="flex m-4 mb-10 justify-between w-1/4">
+                  <div className="">
                     <p className="text-sm font-semibold">Shipping Address</p>
                     <p className="text-sm ">{order?.shippingAddress.name}</p>
                     <p className="text-sm ">

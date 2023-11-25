@@ -15,7 +15,7 @@
   .product-card__image {
     max-width: 100%;
     height: auto;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
   }
  
 
@@ -25,7 +25,7 @@
   .product-card__brand {
     margin: 0.2rem 0;
     font-size: 14px;
-    line-height: 1;
+    /* line-height: 1; */
   }
   
   .product-card__brand {

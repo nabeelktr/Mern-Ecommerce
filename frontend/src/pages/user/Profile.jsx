@@ -22,7 +22,7 @@ const Profile = () => {
 
     <div className='min-h-screen px-10 '>
         <div className='border-b h-36 relative'>
-            <Typography className='uppercase absolute sm:pl-10 sm:text-sm  bottom-0 text-xs font-bold p-4 pl-2'>Profile</Typography>
+            <Typography className='uppercase absolute sm:pl-10  bottom-0  font-semibold p-4 pl-2 font-poppins tracking-wider'>Profile</Typography>
         </div>
         <div className='flex flex-row l h-screen'>
             <div className='w-3/12 border-r '>

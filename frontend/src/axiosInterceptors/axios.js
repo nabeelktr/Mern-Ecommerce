@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
-import { base_URL } from './constants';
+import { base_URL } from '../utils/constants';
+
 
 
   const instance = axios.create({

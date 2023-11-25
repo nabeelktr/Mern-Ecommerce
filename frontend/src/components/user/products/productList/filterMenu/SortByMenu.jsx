@@ -24,7 +24,7 @@ const SortByMenu = ({updateProducts,products}) => {
       <MenuHandler>
         <Button
           variant="text"
-          className="flex items-center -mb-3 gap-1 text-sm text-gray-700 font-normal capitalize tracking-normal"
+          className="flex items-center -mb-3 gap-1 md:text-sm text-xs text-gray-700 font-normal capitalize tracking-normal"
         >
           Sort&nbsp;By{" "}
           <ChevronDownIcon

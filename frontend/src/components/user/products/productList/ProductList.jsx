@@ -8,16 +8,36 @@ import {  Checkbox,  } from "@material-tailwind/react";
 import SortByMenu from "./filterMenu/sortByMenu";
 import SizeFilter from "./filterMenu/SizeFilter";
 import CategoryFilter from "./filterMenu/CategoryFilter";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 const ProductList = () => {
-
-  const [products, setproducts] = useState([]);
-  const [userWishlist, setuserWishlist] = useState()
+  const location = useLocation();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+  const [products, setproducts] = useState();
+  const [userWishlist, setuserWishlist] = useState([])
   const fetchdata = async () => {
-    const {data} = await Axios.get("/products");
-    const resp = await Axios.get('/userwishlist')
-    setproducts(data);
-    setuserWishlist(resp.data)
+    try{
+    let response;
+    if(location.state?.category ){
+      response = await Axios.get(`/products/category/${location.state.category}`)
+    }
+    else if(location.state?.gender){
+      response = await Axios.get(`/products/gender/${location.state.gender}`)
+    }
+    else{  
+      response = await Axios.get("/products");
+    }
+    setproducts(response.data);
+  }catch(err){
+    toast.error('No products found')
+    setproducts([])
+  }
+    if(isLoggedIn){
+      const resp = await Axios.get('/userwishlist')
+      setuserWishlist(resp.data)
+    }
   };
 
 
@@ -35,49 +55,45 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="mx-6 h-48 border-b border-gray-300 flex items-end font-poppins">
-        <div className=" w-1/6 p-4 ">
+    <Toaster position="top-center" />
+      <div className="md:mx-6 mx-2 md:h-48 h-32 border-b border-gray-300 flex items-end font-poppins">
+        <div className=" w-1/6 md:p-4 p-2">
           <span className="md:ml-4 uppercase text-xs md:text-sm font-bold ">
             Filters
           </span>
         </div>
-        <div className="p-4 w-2/6 flex">
+        <div className="md:p-4 p-2 w-2/6 flex">
         <SortByMenu updateProducts={updateProducts} products={products}  />
-        <SizeFilter setproducts={setproducts} />
-        <CategoryFilter setproducts={setproducts} />
+        {/* <SizeFilter setproducts={setproducts} /> */}
+        <CategoryFilter />
       
         </div>
       </div>
 
-      <div className="flex ml-6 ">
-        <div className="w-1/6 border-r p-4 ml-1">
-          <span className="uppercase ml-3 text-sm font-bold">brand</span><br/>
+      <div className="flex md:ml-6 ">
+        <div className="md:w-1/6 border-r md:p-4 p-2">
+          <span className="uppercase md:ml-3 ml-1 md:text-sm text-xs font-bold ">brand</span><br/>
+          <div className="md:mt-4 -mt-0">
+        {products && products.map((product, i) => (
+          <div key={i}>
           <Checkbox 
           color="pink" 
-          label={ <span className="text-sm">H&M</span>}
+          label={ <span className="md:text-xs text-[0.6rem] p-0 -m-2 md:m-0 truncate">{product.name}</span>}
           ripple={false}
-          className="h-4 w-4 rounded-sm border-gray-900/20 bg-white transition-all hover:scale-105 hover:before:opacity-0"
+          className="md:h-4 md:w-4 h-2 w-2 rounded-sm -my-2 border-gray-900/20 bg-white transition-all hover:scale-105 hover:before:opacity-0 "
           /><br/>
-          <Checkbox 
-          color="pink" 
-          label={ <span className="text-sm">Allensolly</span>}
-          ripple={false}
-          className="h-4 w-4 rounded-sm border-gray-900/20 bg-white transition-all hover:scale-105 hover:before:opacity-0 "
-          /><br/>
-          <Checkbox 
-          color="pink" 
-          label={ <span className="text-sm">Addres</span>}
-          ripple={false}
-          className="h-4 w-4 rounded-sm border-gray-900/20 bg-white  transition-all hover:scale-105 hover:before:opacity-0 "
-          />
+          </div>
+        ))}
+
+          </div>
 
         </div>
-        <div className="w-5/6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 gap-4">
+        <div className="md:w-5/6 grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 md:gap-4 gap-2">
           {
-          products[0]
-            ? products.map((product, i) => <ProductCard prdt={...product} isWishlisted={isProductInWishlist(product._id)} 
+          products
+            ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={isProductInWishlist(product._id)} 
               setuserWishlist={setuserWishlist} checkMark={false} key={i} />)
-            : Array(50)
+            : Array(20)
                 .fill(null)
                 .map((p, i) => <ProductCardSkeleton key={i} />)}
         </div>

@@ -58,6 +58,19 @@ const userSchema = mongoose.Schema({
         type:Boolean
     },
     shippingAddress: [addressSchema],
+    status: {
+        type: String,
+        enum: ["Online", "Offline"]
+    },
+    socket_id: {
+        type: String,
+    },
+    friends: [
+        {
+            type: String,
+            ref: 'User',
+        }
+    ]
    
 },
 {

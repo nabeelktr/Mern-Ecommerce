@@ -4,8 +4,11 @@ import Navbar from '../../components/user/Navbar';
 import LoginForm from '../../components/user/LoginForm';
 import { useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../../redux/features/authSlice';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [toastShown, setToastShown] = useState(false);
 
@@ -17,6 +20,7 @@ const Login = () => {
       });
       setToastShown(true);
     }
+    dispatch(signOut());
   }, []);
   return (
     <>
