@@ -75,10 +75,10 @@ const ProductCard = ({ prdt, isWishlisted, setuserWishlist, checkMark, setmodal,
       <p className=" md:ml-2 ml-1 md:mb-2 md:mt-0 font-light md:text-sm text-[0.4rem] mb-[-0.2rem] truncate">
         {description}
       </p>
-      <p className="product-card__price md:ml-2 ml-1 md:mb-2 mb-[-0.2rem] font-semibold text-xs md:text-sm text-[0.4rem] truncate">
+      <p className="product-card__price md:ml-2 ml-1 md:mb-2 mb-[-0.2rem] font-semibold text-[0.5rem] md:text-sm  truncate">
         {" "}
         Rs.&nbsp;{offerPrice}&nbsp;&nbsp;
-        <span className=" font-normal text-gray-700 line-through md:text-[0.7rem] text-[0.4rem]">
+        <span className="text-[0.4rem] font-normal text-gray-700 line-through md:text-[0.7rem] ">
           Rs. {price}
         </span>
         &nbsp;&nbsp;

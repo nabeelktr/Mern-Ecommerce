@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Axios from "../../../../axiosInterceptors/userAxios";
 import { Toaster, toast } from "sonner";
 import { useEffect, useState } from "react";
+import Footer from "../../home/footer/Footer";
 
 
 const ViewProduct = () => {
@@ -59,7 +60,8 @@ const ViewProduct = () => {
     return <div className="pt-20">Loading..</div>;
   }
   return (
-    <div>
+    <>
+    <div className="mb-16">
       <Toaster
       className=""
         toastOptions={{
@@ -71,11 +73,11 @@ const ViewProduct = () => {
           className: "my-toast",
         }}
       />
-      <div className="pt-24 flex items-center justify-start p-6 pl-10 text-sm uppercase font-semibold font-poppins">
+      <div className="pt-24 flex items-center justify-start p-6 md:pl-10 text-sm uppercase font-semibold font-poppins">
         View Product
       </div>
-      <div className=" flex">
-        <div className=" w-3/5  flex flex-wrap pl-7 px-10">
+      <div className=" md:flex">
+        <div className=" md:w-3/5   flex flex-wrap md:pl-7 md:px-10 px-2">
           {product &&
             product.images.map((img, i) => (
  
@@ -90,31 +92,31 @@ const ViewProduct = () => {
 
             ))}
         </div>
-        <div className="w-2/5 font-poppins font-semibold">
-          <span className="text-2xl font-semibold mt-1 text-gray-900 flex">
+        <div className="md:w-2/5 p-4 font-poppins font-semibold">
+          <span className="md:text-2xl text-lg font-semibold mt-1 text-gray-900 flex">
             {product.name}
           </span>
-          <span className="text-xl text-gray-600 font-light flex">
+          <span className="md:text-2xl text-sm text-gray-600 font-light flex">
             {product.description}
           </span>
-          <span className="text-2xl  text-gray-900 pt-7 flex">
+          <span className="md:text-2xl text-lg  text-gray-900 md:pt-7 flex">
             Rs.&nbsp;{product.offerPrice}
           </span>
-          <span className="text-md text-00A685 pt-2 flex">
+          <span className="md:text-[1rem] text-xs text-00A685 md:pt-2 flex">
             inclusive of all taxes
           </span>
-          <span className="text-sm font-semibold pt-8 flex uppercase ">
+          <span className="text-sm font-semibold md:pt-8 pt-3 flex uppercase ">
             Select size
           </span>
           {!size && touched && (
             <span className="text-xs text-red-200">Please select a size</span>
           )}
-          <div className="pt-4">
+          <div className="md:pt-4">
             {qty > 0 ? (
               product.variants.map((data, i) =>
                 data.qty === 0 ? (
                   <button
-                    className="rounded-full border font-semibold text-sm py-4 px-5 mr-3 mt-3 text-gray-500 "
+                    className="rounded-full border font-semibold md:text-sm text-xs  py-4 px-5 mr-3 mt-3 text-gray-500 "
                     disabled={true}
                     key={i}
                   >
@@ -122,7 +124,7 @@ const ViewProduct = () => {
                   </button>
                 ) : (
                   <button
-                    className={`rounded-full border font-semibold text-sm py-4 px-5 mr-3 mt-3 ${
+                    className={`rounded-full border font-semibold md:text-sm text-xs  py-4 px-5 mr-3 mt-3 ${
                       size === data.size
                         ? "border-pink-500 text-pink-500"
                         : "border-gray-500"
@@ -140,9 +142,9 @@ const ViewProduct = () => {
               </span>
             )}
           </div>
-          <div className="flex pt-10">
+          <div className="flex md:pt-10 pt-6 pb-2">
             <button
-              className="flex items-center rounded-sm  justify-center focus:outline-none text-white text-sm sm:text-base py-4 w-2/4 transition duration-150 ease-in"
+              className="flex items-center rounded-sm  justify-center focus:outline-none text-white text-sm sm:text-base py-4 md:w-2/4 w-3/5 transition duration-150 ease-in"
               disabled={qty === 0}
               style={{ background: "#ff3c67" }}
               onClick={addToCart}
@@ -154,7 +156,7 @@ const ViewProduct = () => {
 
             <button
               disabled={qty === 0}
-              className="flex items-center rounded-sm border border-gray-500 justify-center focus:outline-none text-sm sm:text-base ml-4 py-4 w-1/4 transition duration-150 ease-in"
+              className="flex items-center rounded-sm border border-gray-500 justify-center focus:outline-none text-sm sm:text-base ml-4 py-4 md:w-1/4 w-2/5 transition duration-150 ease-in"
             >
               <span className=" uppercase font-semibold text-sm">Wishlist</span>
             </button>
@@ -162,6 +164,8 @@ const ViewProduct = () => {
         </div>
       </div>
     </div>
+      <Footer />
+      </>
   );
 };
 

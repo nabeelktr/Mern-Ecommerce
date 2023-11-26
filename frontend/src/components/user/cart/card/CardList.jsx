@@ -6,8 +6,8 @@ const CardList = ({items, setRefreshKey, refreshKey, updateCart }) => {
 
   
   return (
-    <div className='w-3/5  mt-2 flex items-start '>
-                <div className=' w-full text-white p-4 flex flex-col items-center'>
+    <div className='md:w-3/5  mt-2 flex items-start '>
+                <div className=' w-full text-white md:p-4 p-1 flex flex-col items-center'>
                     {
                     items.items.map((item,i) => (
                         <ItemCard item={item} key={[item.productId,i]} cartId={items._id} setRefreshKey={setRefreshKey} refreshKey={refreshKey} updateCart={updateCart} />

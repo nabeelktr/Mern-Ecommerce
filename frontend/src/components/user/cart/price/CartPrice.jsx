@@ -70,26 +70,26 @@ const CartPrice = ({cartId, addressChosen, payment, coupons, wallet}) => {
   return (
     <>
     {location.state? '' : <ApplyCoupon orderDetails={orderDetails} setcoupon={setcoupon} coupon={coupon} />}
-    <div className="flex flex-col mt-32 items-start ml-4 " >
-        <Typography className="uppercase text-xs font-bold m-2">Price details</Typography>
-      <div className="mt-6 h-full  border bg-white p-6 shadow-sm md:mt-0 md:w-[60%] text-sm">
-        <div className="mb-2 flex justify-between">
+    <div className="flex flex-col mt-32 items-start md:ml-4 ml-2 " >
+        <Typography className="uppercase md:text-xs text-[0.6rem] font-bold m-2  ">Price details</Typography>
+      <div className=" h-full  border bg-white md:p-6 p-2 shadow-sm md:mt-0 md:w-[60%] w-[95%] md:text-sm text-[0.6rem]">
+        <div className="md:mb-2 flex justify-between">
           <p className="text-gray-700">Total MRP</p>
           <p className="text-gray-700">&#8377; {orderDetails?.totalPrice}</p>
         </div>
-        <div className="flex justify-between mb-2">
+        <div className="flex justify-between md:mb-2">
           <p className="text-gray-700">Discount on MRP</p>
           <p className="text-teal-500">-&#8377; {orderDetails &&( Math.floor(orderDetails.totalPrice - orderDetails.totalOfferPrice))}</p>
         </div>
         {coupon && 
-        <div className="flex justify-between mb-2">
+        <div className="flex justify-between md:mb-2">
           <p className="text-teal-500">Coupon Applied!</p>
           <p className="text-teal-500">-{coupon?.percentage}%</p>
 
         </div>
         }
         {wallet && 
-        <div className="flex justify-between mb-2">
+        <div className="flex justify-between md:mb-2">
           <p className="text-gray-700">Wallet</p>
           <p className="text-teal-500">-{wallet}</p>
 
@@ -100,11 +100,11 @@ const CartPrice = ({cartId, addressChosen, payment, coupons, wallet}) => {
           <p className="text-gray-700">--</p>
         </div>
        
-        <hr className="my-4" />
+        <hr className="md:my-4 my-2 " />
         <div className="flex justify-between ">
-          <p className="text-sm font-semibold">Total</p>
+          <p className="md:text-sm text-[0.7rem] font-semibold">Total</p>
           <div className="">
-            <p className="mb-1 text-sm font-semibold ">&#8377; {orderDetails?.totalOfferPrice}</p>
+            <p className="mb-1 md:text-sm text-[0.7rem] font-semibold ">&#8377; {orderDetails?.totalOfferPrice}</p>
           </div>
         </div>
      
@@ -128,7 +128,7 @@ const CartPrice = ({cartId, addressChosen, payment, coupons, wallet}) => {
             }
           } 
          }
-        className="bg-[#ff3c67] text-xs  mt-6 w-full rounded-sm py-2.5 font-medium text-white uppercase">
+        className="bg-[#ff3c67] md:text-xs text-[0.6rem] mt-2 md:mt-6 w-full rounded-sm md:py-2.5 py-2 font-medium text-white uppercase">
           { location.state ? 'Continue' : 'Place order'}
         </button>
         }

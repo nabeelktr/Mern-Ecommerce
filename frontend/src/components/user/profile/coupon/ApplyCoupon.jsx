@@ -14,7 +14,7 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
         <input
           {...field}
           {...props}
-          className={` text-sm placeholder-gray-400 pl-4 pr-4 border  w-full py-2 focus:outline-none  ${
+          className={` md:text-sm placeholder-gray-400 pl-4 pr-4 border  w-full py-2 focus:outline-none  ${
             meta.touched && meta.error ? 'border-red-500' : 'focus:border-black'
           }`}
         />
@@ -36,12 +36,12 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
 
 
   return (
-    <div className="flex flex-col -mb-20 items-start ml-4 ">
+    <div className="flex flex-col -mb-20 items-start md:ml-4 ml-2 ">
       <Toaster position="top-center" />
-      <Typography className="uppercase text-xs font-bold m-2">
+      <Typography className="uppercase md:text-xs text-[0.6rem] font-bold m-2">
         Apply Coupon
       </Typography>
-      <div className="mt-6 h-full  border bg-white p-6 shadow-sm md:mt-0 md:w-[60%] text-sm flex">
+      <div className=" h-full  border bg-white md:p-6 p-2 shadow-sm md:mt-0 md:w-[60%] w-[95%] md:text-sm text-[0.5rem] flex">
         <Formik 
         initialValues={{
           code: '',
@@ -57,7 +57,7 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
                     setcoupon();
                   }}
                   type="button"
-                  className="absolute bg-white rounded-md p-1 h-6 right-24 top-[0.4rem] text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                  className="absolute bg-white rounded-md p-1 h-6  md:right-24 right-16 md:top-[0.4rem] top-[0.2rem] text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                 >
                   <svg
                     className="h-4 w-4"
@@ -86,7 +86,7 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
         <button 
         disabled={coupon}
         type="submit"
-        className="bg-[#ff3c67] border-white text-xs ml-3 rounded-sm py-[0.5rem] px-3 font-medium text-white uppercase">
+        className="bg-[#ff3c67] border-white md:text-xs md:ml-3 ml-1 rounded-sm py-[0.5rem] px-3 font-medium text-white uppercase">
               {coupon ? 'Applied' : 'Apply'}
             </button>
           </div>
