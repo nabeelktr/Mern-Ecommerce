@@ -18,27 +18,27 @@ const OrderList = () => {
   }, []);
 
   return (
-    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide">
-      <div className="border-b p-4  px-8 font-semibold tracking-widest">
+    <div className="p-4  m-4 border w-full  justify-center shadow-sm font-poppins tracking-wide">
+      <div className="border-b md:p-4  md:px-8 font-semibold tracking-widest text-[0.7rem] md:text-sm">
         <p>Order History</p>
       </div>
-      <div className="p-4  w-full px-10 flex flex-col justify-start gap-10 mt-4 ">
+      <div className="md:p-4  w-full md:px-10 flex flex-col justify-start md:gap-10 gap-1 mt-4 ">
         {orders &&
           orders.map((order, i) => (
             <div key={i} className="cursor-pointer hover:shadow-md" onClick={() => navigate('/profile/viewOrder', {state: order})}>
-            <div className="p-4 bg-gray-50 w-full border" >
-            <div className="flex m-4 gap-10">
+            <div className="md:p-4 p-1 bg-gray-50 w-full border" >
+            <div className="flex md:m-4 gap-3 md:gap-10">
                 <div>
-                    <p className="text-sm font-semibold">Order Date</p>
-                    <p className="text-sm ">{new Date(order.createdAt).toLocaleDateString()}</p>
+                    <p className="text-[0.6rem] md:text-sm font-semibold">Order Date</p>
+                    <p className="text-[0.6rem] md:text-sm ">{new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div>
-                    <p className="text-sm font-semibold">Total Price</p>
-                    <p className="text-sm ">&#x20B9;&nbsp;{order.totalOfferPrice}</p>
+                    <p className="text-[0.6rem] md:text-sm font-semibold">Total Price</p>
+                    <p className="text-[0.6rem] md:text-sm ">&#x20B9;&nbsp;{order.totalOfferPrice}</p>
                 </div>
                 <div>
-                    <p className="text-sm font-semibold">Order Status</p>
-                    <p className={`text-sm ${order.status === 'Cancelled' ? 'text-red-800' : order.status === 'Delivered' ? 'text-green-500' : ''} `}>{(order.status)}</p>
+                    <p className="text-[0.6rem] md:text-sm font-semibold">Order Status</p>
+                    <p className={`text-[0.6rem] md:text-sm ${order.status === 'Cancelled' ? 'text-red-800' : order.status === 'Delivered' ? 'text-green-500' : ''} `}>{(order.status)}</p>
                 </div>
             </div>
               {order.items.map((order, y) => (

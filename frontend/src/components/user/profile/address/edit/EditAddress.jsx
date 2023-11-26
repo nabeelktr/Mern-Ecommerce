@@ -56,7 +56,7 @@ const EditAddress = ({}) => {
     return <div></div>
   }
   return (
-    <div className="p-4 m-4  ml-52 justify-center  w-3/6">
+    <div className="p-4 md:m-4  md:ml-52 justify-center  md:w-3/6 w-[17.5rem]">
     <div className="flex flex-col shadow-sm border  bg-white  px-4 sm:px-6 md:px-8 lg:px-10 py-8  w-full  font-serif">
       <div >
         <Formik

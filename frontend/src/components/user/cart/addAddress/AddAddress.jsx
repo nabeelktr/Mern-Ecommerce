@@ -13,6 +13,10 @@ const AddAddress = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [modal, setmodal] = useState(false);
 
+  const closeModal = () => {
+    setmodal(false)
+  }
+
   useEffect(() => {
     if (!location.state) {
       navigate("/cart");
@@ -50,7 +54,7 @@ const AddAddress = () => {
         setRefreshKey={setRefreshKey}
         refreshKey={refreshKey}
         modal={modal}
-        setmodal={setmodal}
+        closeModal={closeModal}
       />
 
     </>

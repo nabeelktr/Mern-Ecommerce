@@ -33,10 +33,10 @@ const Footer = () => {
         <div>
           <p className="md:text-base font-semibold tracking-wide text-gray-900">WYNTRA IS ALSO AVAILABLE ON</p>
           <div className="flex items-center gap-1 px-2">
-            <a href="#" className="w-full min-w-xl sm:min-w-sm">
+            <a className="w-full min-w-xl sm:min-w-sm">
               <img src="https://mcqmate.com/public/images/icons/playstore.svg" alt="Playstore Button" className="h-10" />
             </a>
-            <a className="w-full min-w-xl" href="https://www.youtube.com/channel/UCo8tEi6SrGFP8XG9O0ljFgA">
+            <a className="w-full min-w-xl" >
               <img src="https://mcqmate.com/public/images/icons/youtube.svg" alt="Youtube Button" className="h-28 " />
             </a>
           </div>

@@ -72,7 +72,7 @@ const Wishlist = () => {
           className: "my-toast",
         }}
       />
-      <div className="mx-6 h-48 border-b border-gray-300 flex items-end font-poppins">
+      <div className="mx-6 md:h-48 h-32 border-b border-gray-300 flex items-end font-poppins">
         <div className=" w-1/6 p-4 ">
           <span className="md:ml-4 uppercase text-xs md:text-sm font-bold ">
             Wishlist
@@ -80,7 +80,7 @@ const Wishlist = () => {
         </div>
       </div>
       <div className="flex ml-6 justify-center">
-        <div className="w-5/6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 gap-4">
+        <div className="w-5/6 grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 gap-4">
           {
           products
             ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={true} setuserWishlist={setrefreshKey} checkMark={true} setmodal={setmodal} setmodalId={setmodalId} key={i} />)

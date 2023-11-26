@@ -7,7 +7,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
 
-const AddressForm = ({ setRefreshKey, refreshKey, modal, setmodal }) => {
+const AddressForm = ({ setRefreshKey, refreshKey, modal, closeModal }) => {
   const MyTextField = ({ label, ...props }) => {
     const [field, meta] = useField(props);
     return (
@@ -52,12 +52,13 @@ const AddressForm = ({ setRefreshKey, refreshKey, modal, setmodal }) => {
     }
     action.resetForm();
     toast.success("Address added successful");
+    closeModal();
   };
 
   return (
     <>
       <Transition.Root show={modal} as={Fragment}>
-        <Dialog as="div" className="relative z-10 " onClose={() => setmodal(false)}>
+        <Dialog as="div" className="relative z-10 " onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

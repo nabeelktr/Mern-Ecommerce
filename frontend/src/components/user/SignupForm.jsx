@@ -213,14 +213,7 @@ const SignupForm = () => {
                     component="div"
                     className="text-xs text-red-600 mb-2"
                   />
-                  <p className="text-xs mt-1 text-gray-600 ml-2">
-                    - Uppercase letters (A-Z)
-                  </p>
-                  <p className="text-xs text-gray-600 ml-2">
-                    - Lowercase letters (a-z)
-                  </p>
-                  <p className="text-xs text-gray-600 ml-2">- Numbers (0-9)</p>
-
+                  
                   <MyTextField
                     type="password"
                     name="confirmPassword"
@@ -231,6 +224,13 @@ const SignupForm = () => {
                     component="div"
                     className="text-xs text-red-600 mb-2"
                   />
+                   <p className="text-xs mt-1 text-gray-600 ml-2">
+                    - Uppercase letters (A-Z)
+                  </p>
+                  <p className="text-xs text-gray-600 ml-2">
+                    - Lowercase letters (a-z)
+                  </p>
+                  <p className="text-xs text-gray-600 ml-2">- Numbers (0-9)</p>
                 </>
               ) : (
                 <div className="mt-40">

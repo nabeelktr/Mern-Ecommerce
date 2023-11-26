@@ -78,17 +78,17 @@ const Navbar = () => {
     >
       {({ open }) => (
         <>
-          <div className="mr-4 ml-8  px-2 sm:px-6 lg:px-8">
+          <div className="mr-4 md:ml-8  px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-[4.7rem] items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2  hover:text-white ">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="block h-6 w-6 text-gray-500" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="block h-6 w-6 text-gray-500" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
@@ -144,7 +144,7 @@ const Navbar = () => {
                   onMouseLeave={() => setprofileMenu(false)}
                 >
                   <div>
-                    <Menu.Button className="relative flex  text-sm   focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="relative flex  text-sm">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <UserIcon className="h-5 w-5" />
@@ -202,11 +202,12 @@ const Navbar = () => {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
+                  onClick={item.onClick}
                   as="a"
                   href={item.href}
                   className={classNames(
                     item.current ? "bg-gray-300" : "text-gray-500",
-                    "block rounded-md px-3 py-2 text-base font-normal"
+                    "block rounded-md px-3 py-2 text-xs font-normal"
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >

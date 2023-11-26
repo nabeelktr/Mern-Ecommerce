@@ -20,48 +20,48 @@ import { useNavigate } from "react-router-dom";
   export function SidebarProfile() {
     const navigate = useNavigate()
     return (
-      <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-none">
+      <Card className="h-[calc(100vh-2rem)] max-w-[20rem] md:p-4 shadow-none">
       
         <List>
-        <ListItem onClick={() => navigate('/profile')} className="font-poppins">
+        <ListItem onClick={() => navigate('/profile')} className="font-poppins p-0 md:p-3 w-[5rem] md:w-[15rem] text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
+              <UserCircleIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Account
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/viewAddress')} className="font-poppins">
+          <ListItem onClick={() => navigate('/profile/viewAddress')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <IdentificationIcon className="h-5 w-5" />
+              <IdentificationIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Addresses
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/viewOrders')} className="font-poppins">
+          <ListItem onClick={() => navigate('/profile/viewOrders')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-5 w-5" />
+              <ShoppingBagIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Orders
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/coupons')} className="font-poppins">
+          <ListItem onClick={() => navigate('/profile/coupons')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <GiftIcon className="h-5 w-5" />
+              <GiftIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Coupons
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/wallet')} className="font-poppins">
+          <ListItem onClick={() => navigate('/profile/wallet')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <WalletIcon className="h-5 w-5" />
+              <WalletIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Wallet
           </ListItem>
-          <ListItem onClick={() => navigate('/profile/changePassword')} className="font-poppins">
+          <ListItem onClick={() => navigate('/profile/changePassword')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
+              <Cog6ToothIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Password
           </ListItem>
-          <ListItem className="font-poppins">
+          <ListItem className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>
-              <PowerIcon className="h-5 w-5" />
+              <PowerIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Log Out
           </ListItem>

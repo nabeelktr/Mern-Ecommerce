@@ -18,7 +18,7 @@ const OrderProductCard = ({order}) => {
         fetchdata();
     },[])
   return (
-    <Card className="flex-row gap-20 p-2 m-2 relative rounded-none border shadow-sm" >
+    <Card className="flex-row items-center md:gap-20 gap-5  md:p-2 p-1 md:m-2 m-1 relative rounded-none border shadow-sm" >
     <CardHeader
       shadow={false}
       floated={false}
@@ -26,19 +26,17 @@ const OrderProductCard = ({order}) => {
     >
       <img
         src={product? product.images[0].url: ''}
-        alt="card-image"
-        width={90}
-        className="object-cover"
+        className="object-cover w-[2.5rem] md:w-[6rem]"
       />
     </CardHeader>
-    <CardBody>
-      <Typography color="gray" className="mb-2 font-semibold">
+    <CardBody className='m-0 p-0'>
+      <Typography color="gray" className="md:mb-2 md:text-sm text-[0.6rem] font-semibold ">
         {product? product.name : ''}
       </Typography>
-      <Typography className='text-xs'>
+      <Typography className='md:text-xs text-[0.6rem] '>
         Size:&nbsp;{order.size}
       </Typography>
-      <Typography className='text-xs'>
+      <Typography className='md:text-xs text-[0.6rem] '>
         Qty:&nbsp;{order.qty}
       </Typography>
     </CardBody>

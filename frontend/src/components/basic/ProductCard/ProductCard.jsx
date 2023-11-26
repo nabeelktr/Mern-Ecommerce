@@ -87,9 +87,9 @@ const ProductCard = ({ prdt, isWishlisted, setuserWishlist, checkMark, setmodal,
         </span>
       </p>
       <span
-        className={`h-[5rem] w-full bg-white absolute bottom-[1.5rem] opacity-${opacity} `}
+        className={`h-[5rem] w-full bg-white hidden md:block absolute bottom-[1.5rem] opacity-${opacity} `}
       >
-        <div className="p-2">
+        <div className="p-2 ">
           {
           isWishlisted && checkMark ?
           (
@@ -137,10 +137,10 @@ const ProductCard = ({ prdt, isWishlisted, setuserWishlist, checkMark, setmodal,
         <button
         onClick={removeWishlist}
         type="button"
-        className="absolute bg-gray-50 rounded-full p-1 h-6 right-2 top-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 "
+        className="absolute bg-gray-50 rounded-full md:p-1 p-[0.1rem] md:h-6 md:right-2 right-[0.1rem] md:top-2 top-[0.1rem] text-gray-400 hover:text-gray-500 hover:bg-gray-100 "
       >
         <svg
-          className="h-4 w-4"
+          className="md:h-4 h-2 md:w-4 w-2"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

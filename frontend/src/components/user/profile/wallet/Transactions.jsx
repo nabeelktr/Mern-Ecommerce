@@ -48,7 +48,7 @@ const table = useReactTable({
     <div className="overflow-x-auto font-poppins">
             
     <table className="min-w-full divide-y text-left text-gray-500 dark:text-gray-400">
-      <thead className=" text-xs md:text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 tracking-wider">
+      <thead className="text-[0.6rem] md:text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 tracking-wider">
         {table.getHeaderGroups().map(headergroup => (
           <tr key={headergroup.id}>
              {headergroup.headers.map(header => <th scope="col" className="font-semibold px-1 py-1 md:px-6 md:py-3 cursor-pointer" key={header.id} onClick={header.column.getToggleSortingHandler()}>
@@ -66,9 +66,9 @@ const table = useReactTable({
       </thead>
       <tbody>
           {table.getRowModel().rows.map(row => (
-            <tr className="border-b dark:border-gray-700 text-xs md:text-sm" key={row.id}>
+            <tr className="border-b dark:border-gray-700 text-[0.6rem] md:text-sm" key={row.id}>
               {row.getVisibleCells().map(cell => (
-                <td className="px-1 py-1 md:px-6 md:py-3 text-xs" key={cell.id}>
+                <td className="px-1 py-1 md:px-6 md:py-3 text-[0.6rem] md:text-xs" key={cell.id}>
                   {flexRender(
                       cell.column.columnDef.cell,
                       cell.getContext()
@@ -79,10 +79,10 @@ const table = useReactTable({
           ))}
       </tbody>
     </table> 
-    <div className="flex mb-4 h-16 justify-center items-end gap-4 ">
+    <div className="flex md:mb-4 md:h-16 justify-center items-end md:gap-4 gap-1 ">
           <Button
             variant="text"
-            className="flex items-center gap-2"
+            className="flex items-center md:gap-2 text-[0.6rem] md:text-sm"
             onClick={() => 
               table.previousPage()}
             disabled={!table.getCanPreviousPage()}
@@ -91,7 +91,7 @@ const table = useReactTable({
             {' '}
             Previous
           </Button>
-          <Typography color="gray" className="font-normal text-xs mb-3">
+          <Typography color="gray" className="font-normal md:text-xs text-[0.6rem] flex mb-3">
             Page
             <strong className="text-gray-900">
               {' '}
@@ -104,7 +104,7 @@ const table = useReactTable({
           </Typography>
           <Button
             variant="text"
-            className="flex items-center gap-2"
+            className="flex items-center md:gap-2 text-[0.6rem] md:text-sm"
             onClick={() => 
               table.nextPage()}
             disabled={!table.getCanNextPage()}

@@ -63,30 +63,29 @@ const Wallet = () => {
   return (
     <>
     <Toaster position="top-center" />
-      <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-widest">
-        <div className="border-b p-4  px-8 font-semibold">
+      <div className="p-4 m-4 border w-full  justify-center shadow-sm font-poppins tracking-widest">
+        <div className="border-b md:p-4 md:px-8 text-[0.7rem] md:text-sm font-semibold">
           <p>My Wallet</p>
         </div>
-        <div className="px-16 pt-4 flex justify-end mb-3  ">
+        <div className="md:px-16 md:pt-4 pt-2 flex justify-end mb-3  ">
           <button
             onClick={() => setmodal(true)}
-            className="bg-white hover:bg-gray-100 font-semibold py-2 px-4 border border-gray-400 text-xs flex items-center gap-2 shadow-sm"
+            className="bg-white hover:bg-gray-100 font-semibold md:py-2 py-1 px-2 md:px-4 border border-gray-400 md:text-xs text-[0.6rem] flex items-center gap-2 shadow-sm"
           >
-            <PlusIcon className="h-5 w-5" />
+            <PlusIcon className="md:h-5 h-3 md:w-5 w-3" />
             ADD BALANCE
           </button>
         </div>
-        <div className="p-4   px-10 flex flex-col justify-start gap-10 ">
-          <div className="p-4  w-full flex flex-col justify-center ">
+        <div className="md:p-4   md:px-10 flex flex-col justify-start gap-5 md:gap-10 ">
+          <div className="md:p-4  w-full flex flex-col justify-center ">
             <div className="flex justify-center items-center gap-3">
-              <img src="/src/assets/mantra-credit-logo.svg" width={80} />
-              <span className="font-semibold text-[1.5rem] mt-5">
+              <img src="/src/assets/mantra-credit-logo.svg" className="w-[4rem] md:w-[5rem]" />
+              <span className="font-semibold md:text-[1.5rem] text-[1rem] mt-5">
                 &#8377; {Wallet ? Wallet.balance : 0}
               </span>
             </div>
-            <div className="border mt-16 items-center justify-between flex shadow-sm cursor-pointer">
-              <span className="py-3 px-5 text-sm">Transaction Log</span>
-              {/* <ChevronRightIcon className='h-5 w-5 mr-3' /> */}
+            <div className="border md:mt-16 mt-4 items-center justify-between flex shadow-sm cursor-pointer">
+              <span className="py-3 px-5 text-[0.7rem] md:text-sm">Transaction Log</span>
             </div>
             {Wallet && <Transactions transactions={Wallet?.transactions} />}
           </div>

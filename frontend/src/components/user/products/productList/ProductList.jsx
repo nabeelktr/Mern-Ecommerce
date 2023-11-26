@@ -62,7 +62,7 @@ const ProductList = () => {
             Filters
           </span>
         </div>
-        <div className="md:p-4 p-2 w-2/6 flex">
+        <div className="md:p-4 p-2 md:w-2/6 flex">
         <SortByMenu updateProducts={updateProducts} products={products}  />
         {/* <SizeFilter setproducts={setproducts} /> */}
         <CategoryFilter />
@@ -70,8 +70,8 @@ const ProductList = () => {
         </div>
       </div>
 
-      <div className="flex md:ml-6 ">
-        <div className="md:w-1/6 border-r md:p-4 p-2">
+      <div className="flex md:ml-6  ">
+        <div className="md:w-1/6 border-r md:p-4 p-2 md:block lg:block hidden">
           <span className="uppercase md:ml-3 ml-1 md:text-sm text-xs font-bold ">brand</span><br/>
           <div className="md:mt-4 -mt-0">
         {products && products.map((product, i) => (
@@ -88,7 +88,7 @@ const ProductList = () => {
           </div>
 
         </div>
-        <div className="md:w-5/6 grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 md:gap-4 gap-2">
+        <div className="md:w-5/6 grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 md:gap-4 gap-2">
           {
           products
             ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={isProductInWishlist(product._id)} 

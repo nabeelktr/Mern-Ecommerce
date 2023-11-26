@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../components/user/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import ViewProfile from '../../components/user/profile/viewProfile/ViewProfile'
@@ -16,13 +16,14 @@ import Wallet from '../../components/user/profile/wallet/Wallet'
 
 
 const Profile = () => {
+    const [refreshKey, setRefreshKey] = useState(0)
   return (
     <>
     <Navbar />
 
-    <div className='min-h-screen px-10 '>
+    <div className='min-h-screen md:px-10 '>
         <div className='border-b h-36 relative'>
-            <Typography className='uppercase absolute sm:pl-10  bottom-0  font-semibold p-4 pl-2 font-poppins tracking-wider'>Profile</Typography>
+            <Typography className='uppercase absolute sm:pl-10 md:text-sm text-xs bottom-0  font-semibold p-4 pl-2 font-poppins tracking-wider'>Profile</Typography>
         </div>
         <div className='flex flex-row l h-screen'>
             <div className='w-3/12 border-r '>
@@ -32,8 +33,7 @@ const Profile = () => {
                 <Routes>
                     <Route path='/' element={<ViewProfile />} />
                     <Route path='/editProfile' element={<EditProfile />} />
-                    <Route path='/viewAddress' element={<Addresses />} />
-                    <Route path='/addAddress' element={<AddAddressProfile />} />
+                    <Route path='/viewAddress' element={<Addresses refreshKey={refreshKey} setRefreshKey={setRefreshKey} key={refreshKey}/>} />
                     <Route path='/editAddress' element={<EditAddress />} />
                     <Route path='/viewOrders' element={<OrderList />} />
                     <Route path='/viewOrder' element={<OrderDetails />} />

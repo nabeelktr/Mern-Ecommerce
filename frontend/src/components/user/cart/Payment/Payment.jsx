@@ -158,20 +158,20 @@ const Payment = () => {
   return (
     <div className="flex pt-24 font-poppins">
       <Toaster position="top-center" />
-      <div className="flex p-2 w-8/12  border-r min-h-screen justify-end">
-        <div className="h-auto  w-3/4 p-2 mt-20">
-          <div className=" border items-center bg-white  font-serif ">
-            <div className="flex">
-              <List className="w-1/3 bg-blue-gray-100 p-0 text-black text-sm">
+      <div className="flex md:p-2 md:w-8/12 w-7/12 border-r min-h-screen md:justify-end ">
+        <div className="h-auto  md:w-3/4 w-full md:p-2 mt-20 p-1">
+          <div className=" border items-center w-full bg-white  font-poppins ">
+            <div className="md:flex w-full ">
+              <List className="md:w-1/3  min-w-0 w-[13rem] bg-blue-gray-100 p-0 text-black md:text-sm text-[0.7rem] ">
                 <ListItem
                   onClick={() => {
                     setmethod("Cash on Delivery");
                     clearData();
                   }}
-                  className="rounded-none p-6 "
+                  className="rounded-none md:p-6 p-2 "
                 >
                   <ListItemPrefix>
-                    <UserCircleIcon className="h-5 w-5" />
+                    <UserCircleIcon className="md:h-5 h-4 md:w-5 w-4" />
                   </ListItemPrefix>
                   Cash on Delivery
                 </ListItem>
@@ -181,19 +181,19 @@ const Payment = () => {
                     setmethod("Wallet");
                     fetchWallet();
                   }}
-                  className="rounded-none p-6 "
+                  className="rounded-none md:p-6 p-2 "
                 >
                   <ListItemPrefix>
-                    <WalletIcon className="h-5 w-5" />
+                    <WalletIcon className="md:h-5 h-4 md:w-5 w-4" />
                   </ListItemPrefix>
                   Wallet
                 </ListItem>
                 <ListItem
                   onClick={() => setmethod("Razorpay")}
-                  className="rounded-none p-6"
+                  className="rounded-none md:p-6 p-2"
                 >
                   <ListItemPrefix>
-                    <IdentificationIcon className="h-5 w-5" />
+                    <IdentificationIcon className="md:h-5 h-4 md:w-5 w-4" />
                   </ListItemPrefix>
                   RazorPay
                 </ListItem>
@@ -201,9 +201,9 @@ const Payment = () => {
               {method === "Cash on Delivery" ||
               method === "Wallet" ||
               method === "Razorpay" ? (
-                <div className="flex flex-col w-full m-4 justify-between">
+                <div className="flex flex-col md:w-full w-[12rem] md:m-4 m-2 justify-between">
                   {method === "Wallet" && (
-                    <div className="flex gap-4 border px-4 py-3 font-poppins text-sm justify-center font-medium">
+                    <div className="flex gap-4 border px-4 py-3 font-poppins md:text-sm text-[0.7rem] justify-center font-medium">
                       <span className="uppercase font-light">Balance : </span>
                       <span> &#8377; {wallet?.balance}</span>
                     </div>
@@ -231,21 +231,21 @@ const Payment = () => {
                   )}
                   {method === "Razorpay" && (
                     <div>
-                      <span className="text-sm uppercase font-poppins font-medium">
+                      <span className="md:text-sm text-[0.7rem] uppercase font-poppins font-medium">
                         Add Wallet Amount
                       </span>
-                      <div className="flex">
+                      <div className="flex py-2">
                         <input
                           type="number"
                           value={amount}
                           onChange={(e) => setamount(e.target.value)}
-                          className="mt-1 peer h-full w-3/4 rounded-[3px] border border-blue-gray-200  bg-transparent px-3 py-2 font-sans text-lg font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200
+                          className="mt-1 peer h-full w-3/4 rounded-[3px] border border-blue-gray-200  bg-transparent px-3 py-2 font-sans md:text-lg text-[0.7rem] font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200
                 placeholder-shown:border-t-blue-gray-200  focus:border-black  "
                         />
                         <Button
                           onClick={addWallet}
                           variant="gradient"
-                          className="ml-2 mt-1 w-1/4 items-center bg-gray-300 hover:bg-gray-400 text-gray-200 font-light py-2 px-4 rounded font-poppins tracking-wider"
+                          className="ml-2 mt-1 w-1/4 items-center  bg-gray-300 hover:bg-gray-400 text-gray-200 font-light py-2 px-4 rounded font-poppins tracking-wider"
                         >
                           ADD
                         </Button>
@@ -256,17 +256,17 @@ const Payment = () => {
                     onClick={() =>
                       method === "Razorpay" ? checkoutHandler() : placeOrder()
                     }
-                    className="flex rounded-sm items-center justify-center focus:outline-none  h-10
-                  sm:text-base bg-blue-600 hover:bg-blue-700  py-2 w-full transition duration-150 ease-in"
+                    className="flex rounded-sm items-center justify-center focus:outline-none  md:h-10
+                   bg-blue-600 hover:bg-blue-700  md:py-2 py-1 md:w-full w-[12rem] transition duration-150 ease-in"
                     style={{ background: "#ff3c67" }}
                   >
-                    <Typography className="mr-2 uppercase p-1 font-bold text-gray-100 text-sm">
+                    <Typography className="mr-2 uppercase p-1 font-bold text-gray-100 md:text-sm text-[0.7rem]">
                       Place Order
                     </Typography>
                   </button>
                 </div>
               ) : (
-                <div className="items-center flex px-6">
+                <div className="items-center flex md:px-6 p-2 md:text-sm text-[0.7rem] ">
                   Choose a Payment method
                 </div>
               )}
@@ -275,7 +275,7 @@ const Payment = () => {
         </div>
       </div>
 
-      <div className="w-4/12 ">
+      <div className="md:w-4/12 w-5/12">
         {cartId && (
           <CartPrice
             cartId={cartId}
@@ -287,6 +287,9 @@ const Payment = () => {
           />
         )}
       </div>
+
+
+
     </div>
   );
 };

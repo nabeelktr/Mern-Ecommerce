@@ -17,34 +17,33 @@ const ViewProfile = () => {
   },[])
   return (
     <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide">
-      <div className="border-b p-4 mx-40 px-8 font-semibold tracking-widest" >
+      <div className="border-b p-4 md:mx-40 md:px-8 font-semibold tracking-widest md:text-sm text-[0.7rem]" >
         <p>Profile Details</p>
       </div>
-    <div className='p-4  mx-44 px-10 flex flex-row justify-start gap-44 mt-4'>
+    <div className='p-4  md:mx-44 md:px-10 flex flex-row justify-start md:gap-44 gap-8 mt-4'>
         <div className="">
-              <p className=" text-sm mb-8">FullName</p>
-              <p className=" text-sm mb-8">Email</p>
-              <p className=" text-sm mb-8">Mobile&nbsp;Number</p>
-              <p className=" text-sm mb-8">Gender</p>
-              <p className=" text-sm mb-8">Location</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">FullName</p>
+              <p className="md:text-sm text-[0.5rem] md:mb-8 mb-2">Email</p>
+              <p className="md:text-sm text-[0.5rem] md:mb-8 mb-2">Mobile&nbsp;Number</p>
+              <p className="md:text-sm text-[0.5rem] md:mb-8 mb-2">Gender</p>
+              <p className="md:text-sm text-[0.5rem] md:mb-8 mb-2">Location</p>
         </div>
         <div className="">
-              <p className=" text-sm mb-8">{user?.name}</p>
-              <p className=" text-sm mb-8">{user?.email}</p>
-              <p className=" text-sm mb-8">{user?.phone}</p>
-              <p className=" text-sm mb-8">{user?.gender ? user.gender : '-not added-'}</p>
-              <p className=" text-sm mb-8">{user?.location ? user.location : '-not added-'}</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.name}</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.email}</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.phone}</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.gender ? user.gender : '-not added-'}</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.location ? user.location : '-not added-'}</p>
         </div>
     </div>
-    <div className="mx-44 ">
+    <div className="md:mx-44 text-[0.7rem] md:text-sm ">
 
         <button
           onClick={() => navigate('/profile/editProfile')}
-          className="flex rounded-sm items-center justify-center focus:outline-none mt-10 mb-6   
-            sm:text-base bg-blue-600 hover:bg-blue-700  py-2 w-full transition duration-150 ease-in"            
-          style={{ background: "#ff3c67" }}
+          className="flex rounded-sm items-center justify-center focus:outline-none md:mt-10 md:mb-6
+             md:py-2 w-full transition duration-150 ease-in bg-[#ff3c67] "            
         >
-          <Typography className="mr-2 uppercase p-1 font-bold text-gray-100 text-sm">Edit Profile</Typography>
+          <span className=" mr-2 uppercase p-1 font-semibold text-gray-100 tracking-wider">Edit Profile </span>
          </button>
     </div>
     </div>

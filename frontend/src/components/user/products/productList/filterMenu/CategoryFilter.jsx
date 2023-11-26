@@ -15,12 +15,12 @@ const CategoryFilter = () => {
       <MenuHandler>
         <Button
           variant="text"
-          className="flex items-center -mb-3 gap-1  md:text-sm text-xs text-gray-700 font-normal capitalize tracking-normal"
+          className="flex items-center -mb-3 gap-1   md:text-sm text-xs text-gray-700 font-normal capitalize tracking-normal"
         >
           Category{" "}
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3.5 w-3.5 transition-transform ${
+            className={`md:h-3.5 h-3 md:w-3.5 w-3 transition-transform ${
               categoryMenu ? "rotate-180" : ""
             }`}
           />

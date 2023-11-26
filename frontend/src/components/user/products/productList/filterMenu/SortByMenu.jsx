@@ -29,7 +29,7 @@ const SortByMenu = ({updateProducts,products}) => {
           Sort&nbsp;By{" "}
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3.5 w-3.5 transition-transform ${
+            className={`md:h-3.5 h-3 md:w-3.5 w-3 transition-transform ${
               sortMenu ? "rotate-180" : ""
             }`}
           />
