@@ -41,24 +41,26 @@ const generateOTP = AsyncHandler(async (req, res, next) => {
 
 
 const getFilters = AsyncHandler(async (req, res) => {
-  if(req.params){
-  let products;
-  if (req.params.category) {
-    products = await Product.find({ category: req.params.category });
+  if (req.params) {
+    let products;
+    if (req.params.category) {
+      products = await Product.find({ category: req.params.category });
 
-  } else if (req.params.gender) {
-    products = await Product.find({ gender: req.params.gender });
-  }
-  if (products.length) {
-    res.status(201).json(products)
+    } else if (req.params.gender) {
+      products = await Product.find({ gender: req.params.gender });
+    } else if (req.params.search) {
+      products = await Product.find({name: { $regex: new RegExp(req.params.search, 'i') }})
+    }
+    if (products.length) {
+      res.status(201).json(products)
+    } else {
+      res.status(404)
+      throw new Error('Product fetching error')
+    }
   } else {
     res.status(404)
-    throw new Error('Product fetching error')
+    throw new Error('No params error')
   }
-}else {
-  res.status(404)
-  throw new Error('No params error')
-}
 });
 
 const registerUser = AsyncHandler(async (req, res) => {

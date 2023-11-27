@@ -16,11 +16,11 @@ const ViewProfile = () => {
     fetchdata();
   },[])
   return (
-    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide">
+    <div className="p-4 m-4 border  justify-center shadow-sm font-poppins tracking-wide w-full">
       <div className="border-b p-4 md:mx-40 md:px-8 font-semibold tracking-widest md:text-sm text-[0.7rem]" >
         <p>Profile Details</p>
       </div>
-    <div className='p-4  md:mx-44 md:px-10 flex flex-row justify-start md:gap-44 gap-8 mt-4'>
+    <div className='p-4 md:mx-44 md:px-10 flex flex-row justify-start md:gap-44 gap-8 mt-4'>
         <div className="">
               <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">FullName</p>
               <p className="md:text-sm text-[0.5rem] md:mb-8 mb-2">Email</p>
@@ -30,7 +30,7 @@ const ViewProfile = () => {
         </div>
         <div className="">
               <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.name}</p>
-              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.email}</p>
+              <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2 truncate w-[7rem] md:w-[100%]">{user?.email}</p>
               <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.phone}</p>
               <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.gender ? user.gender : '-not added-'}</p>
               <p className=" md:text-sm text-[0.5rem] md:mb-8 mb-2">{user?.location ? user.location : '-not added-'}</p>

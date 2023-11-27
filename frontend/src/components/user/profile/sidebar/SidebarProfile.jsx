@@ -13,6 +13,7 @@ import {
     PowerIcon,
     GiftIcon,
     WalletIcon,
+    ChatBubbleLeftRightIcon,
   } from "@heroicons/react/24/solid";
 import { IdentificationIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +53,12 @@ import { useNavigate } from "react-router-dom";
               <WalletIcon className="md:h-5 h-3 md:w-5 w-3" />
             </ListItemPrefix>
             Wallet
+          </ListItem>
+          <ListItem onClick={() => navigate('/userchat')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
+            <ListItemPrefix>
+              <ChatBubbleLeftRightIcon className="md:h-5 h-3 md:w-5 w-3" />
+            </ListItemPrefix>
+            Chat
           </ListItem>
           <ListItem onClick={() => navigate('/profile/changePassword')} className="font-poppins w-[5rem] md:w-[15rem] p-0 md:p-3 text-[0.6rem] md:text-sm">
             <ListItemPrefix>

@@ -18,6 +18,7 @@ const ProductList = () => {
   const [products, setproducts] = useState();
   const [userWishlist, setuserWishlist] = useState([])
   const fetchdata = async () => {
+
     try{
     let response;
     if(location.state?.category ){
@@ -25,6 +26,9 @@ const ProductList = () => {
     }
     else if(location.state?.gender){
       response = await Axios.get(`/products/gender/${location.state.gender}`)
+    }
+    else if(location.state?.search){
+      response = await Axios.get(`/products/search/${location.state.search}`)
     }
     else{  
       response = await Axios.get("/products");

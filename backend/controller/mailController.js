@@ -1,23 +1,23 @@
 import AsyncHandler from 'express-async-handler';
 import Mailgen from 'mailgen'
 import nodemailer from 'nodemailer'
-
+import 'dotenv/config';
 
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    service: 'gmail',
     port: 587,
     auth: {
-        user: 'hans.johnson@ethereal.email',
-        pass: '3W5M96yuXZE4XJJakf'
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
     }
 });
 
 let MailGenerator = new Mailgen({
     theme: "default",
     product: {
-      name: "Mailgen",
-      link: "https://mailgen.js/",
+      name: "Wyntra",
+      link: "https://google.com/",
     },
   });
 
@@ -28,7 +28,7 @@ let MailGenerator = new Mailgen({
         name: name ,
         intro:
           
-          `Your OTP for register ecommerce website is ${req.app.locals.OTP}`,
+          `Your OTP for register Wyntra website is ${req.app.locals.OTP}`,
         outro:
           "Please reach us if you have any queries",
       },
@@ -37,7 +37,7 @@ let MailGenerator = new Mailgen({
     var emailBody = MailGenerator.generate(email);
   
     let message = {
-      from: 'hans.johnson@ethereal.email',
+      from: process.env.EMAIL,
       to: userEmail ,
       subject:  "OTP Verification",
       html: emailBody,

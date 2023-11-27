@@ -12,9 +12,10 @@ router.route('/generateOtp').post(generateOTP, registerMail)
 router.route('/register').post(registerUser)
 router.route('/login').post(authUser)
 
-router.route('/products').get(getProducts)
-router.route('/products/category/:category').get(getFilters)
-router.route('/products/gender/:gender').get(getFilters)
+router.route('/products').get(getProducts);
+router.route('/products/category/:category').get(getFilters);
+router.route('/products/gender/:gender').get(getFilters);
+router.route('/products/search/:search').get(getFilters);
 router.route('/viewproduct/:id').get(getProducts)
 
 router.route('/addtocart').post(protect, AddToCart)

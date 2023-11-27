@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   HeartIcon,
+  MagnifyingGlassIcon,
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -13,6 +14,7 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../../redux/features/authSlice";
 import { setRefresh } from "../../redux/features/filterSlice";
+import { Field, Form, Formik } from "formik";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -34,6 +36,12 @@ const Navbar = () => {
       navigate("/login");
     }
   };
+
+  const handleSubmit = (values) => {
+    console.log(values);
+    dispatch(setRefresh());
+    navigate('/products', { state: values})
+  }
 
   const navigation = [
     {
@@ -120,7 +128,20 @@ const Navbar = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex  items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-8 gap-3">
+              <div className="absolute inset-y-0 right-0 flex  items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-8 gap-3 ">
+                <div className="relative pr-10 md:block hidden">
+                <Formik
+                initialValues={{
+                  search: '',
+                }}
+                onSubmit={handleSubmit}
+                >
+                  <Form>
+                    <MagnifyingGlassIcon className="absolute left-3.5 top-2.5 w-4 h-4 text-gray-600" />
+                    <Field type="text" name="search" placeholder="Search for products, brand and more" className=" bg-gray-100 py-[0.7rem] text-xs  font-poppins rounded-sm pl-12 w-[35rem] placeholder:text-gray-600 placeholder:font-light" />
+                  </Form>
+                </Formik>
+                </div>
                 <button
                   type="button"
                   className="relative p-3 text-black hover:text-gray-700 "
@@ -199,6 +220,19 @@ const Navbar = () => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
+            <div className="relative">
+                <Formik
+                initialValues={{
+                  search: '',
+                }}
+                onSubmit={handleSubmit}
+                >
+                  <Form>
+                    <MagnifyingGlassIcon className="absolute left-3.5 top-3 w-3 h-3 text-gray-600" />
+                    <input type="text" name="search" placeholder="Search for products, brand and more" className="w-full bg-gray-100 py-[0.6rem] text-[0.7rem]  font-poppins rounded-sm pl-10  placeholder:text-gray-600 placeholder:font-light" />
+                  </Form>
+                </Formik>
+                </div>
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}

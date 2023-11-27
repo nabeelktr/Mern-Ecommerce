@@ -1,39 +1,15 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import ChatHeader from "./ChatHeader";
-import Footer from "./Footer";
-import { Socket, io } from "socket.io-client";
+import {  io } from "socket.io-client";
 import { base_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
 import AxiosAdmin from "../../axiosInterceptors/axios";
 import Axios from "../../axiosInterceptors/userAxios";
+import ChatHead from "./ChatHead";
+import SendBox from "./SendBox";
 
-const TextMsg = ({ incoming, message }) => {
-  return (
-    <Stack
-      direction="row"
-      justifyContent={incoming ? "start" : "end"}
-      padding={0.5}
-    >
-      <Box
-        px={1.5}
-        py={1.5}
-        sx={{
-          backgroundColor: incoming ? "#fff" : "#008EFF",
-          borderRadius: 1.5,
-          width: "max-content",
-        }}
-      >
-        <Typography variant="body2" color={incoming ? "black" : "#fff"}>
-          {message}
-        </Typography>
-      </Box>
-    </Stack>
-  );
-};
-
-const Conversation = ({ isAdmin }) => {
-  const [messages, setmessages] = useState([]);
+const Messages = ({ isAdmin }) => {
+    const [messages, setmessages] = useState([]);
   const chatId = useSelector((state) => state.chatId.chatId);
   const user = useSelector((state) => state.orderId)
   const [socket, setsocket] = useState();
@@ -80,21 +56,13 @@ const Conversation = ({ isAdmin }) => {
   }, [messages]);
 
   return (
-    <div className="w-[50%]">
-      <div  >
-        <ChatHeader name={isAdmin ? user.username : 'Seller'}  orderId={user.orderId} />
-        <Box
-          height={600}
-          ref={scrollBoxRef}
-          sx={{
-            position: "relative",
-            flexGrow: 1,
-            overflow: "scroll",
-            backgroundColor: "#F0F4FA",
-            boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
-          }}
-        >
-          {messages &&
+
+    <div className="md:w-[50rem] w-[100vw] border-r">
+    <div  >
+      <ChatHead name={isAdmin ? user.username : 'Seller'}  orderId={user.orderId} />
+      <div className=" flex-grow overflow-scroll no-scrollbar bg-[#F0F4FA]" ref={scrollBoxRef} 
+      style={{ height: `${isAdmin ? 'calc(85vh - 5rem)' : 'calc(81vh - 5rem)' }`, backgroundImage: 'url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png")' }} >
+      {messages &&
             (isAdmin
               ? messages.map((msg, i) =>
                   msg.sender === "user" ? (
@@ -110,12 +78,38 @@ const Conversation = ({ isAdmin }) => {
                     <TextMsg incoming={false} message={msg.text} key={i} />
                   )
                 ))}
-        </Box>
-
-        <Footer handleSubmit={handleSubmit} />
       </div>
+      <SendBox handleSubmit={handleSubmit} />
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Conversation;
+const TextMsg = ({ incoming, message }) => {
+    return (
+      <Stack
+        direction="row"
+        justifyContent={incoming ? "start" : "end"}
+        padding={0.6}
+      >
+        <Box
+          px={1}
+          pr={incoming ? 1.5 : 4}
+          pl={incoming ? 4 : 1.5}
+          py={1}
+          sx={{
+            backgroundColor: incoming ? "#fff" : "#DCF8C6",
+            borderRadius: 1.5,
+            width: "max-content",
+          }}
+        >
+          <Typography variant="body2" color={ "black"}>
+            {message}
+          </Typography>
+        </Box>
+      </Stack>
+    );
+  };
+  
+
+export default Messages

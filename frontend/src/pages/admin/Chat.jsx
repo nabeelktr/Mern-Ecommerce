@@ -1,8 +1,8 @@
 import React from "react";
 import AdminNav from "../../components/admin/AdminNav";
-import Conversation from "../../chat/conversation/Conversation";
-import Chats from "../../chat/Chats";
 import { useSelector } from "react-redux";
+import AllChats from "../../chat/AllChats";
+import Messages from "../../chat/conversation/Messages";
 
 
 
@@ -14,8 +14,8 @@ const Chat = () => {
     <>
       <AdminNav />
       <div className="flex fixed">
-          <Chats isAdmin={true} />
-          {chatId ? <Conversation isAdmin={true} /> : ''}
+          <AllChats isAdmin={true} />
+          {chatId ? <Messages isAdmin={true} /> : ''}
       </div>
     </>
   );
