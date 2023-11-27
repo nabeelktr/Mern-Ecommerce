@@ -13,7 +13,7 @@ const HomePage = () => {
             Coupons to Grab
           </span>
           <div className="flex justify-between">
-            <img src="/src/assets/coupon1.webp" className="w-1/2" />
+            <img src="../../../src/assets/coupon1.webp" className="w-1/2" />
             <img src="/src/assets/coupon2.webp" className="w-1/2" />
           </div>
         </div>
