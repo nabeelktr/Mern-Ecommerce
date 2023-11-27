@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import {  io } from "socket.io-client";
+import {Socket,  io } from "socket.io-client";
 import { base_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
 import AxiosAdmin from "../../axiosInterceptors/axios";
@@ -8,43 +8,39 @@ import Axios from "../../axiosInterceptors/userAxios";
 import ChatHead from "./ChatHead";
 import SendBox from "./SendBox";
 
+
+
 const Messages = ({ isAdmin }) => {
+  const [socket, setsocket] = useState()
     const [messages, setmessages] = useState([]);
   const chatId = useSelector((state) => state.chatId.chatId);
   const user = useSelector((state) => state.orderId)
-  const [socket, setsocket] = useState();
+
   const scrollBoxRef = useRef();
 
   const handleSubmit = (input) => {
+    
     socket.emit("new_chat", {
       sender: isAdmin ? "admin" : "user",
       text: input,
       chatId: chatId,
     });
 
-    socket.on("chat_history", (data) => {
-      if (data._id === chatId) {
-        setmessages(data.messages);
-      }
-    });
   };
 
   const fetchdata = async () => {
-    if (isAdmin) {
-      const { data } = await AxiosAdmin.get(`/chat/history/${chatId}`);
-      setmessages(data.messages);
-
-    } else {
-      const { data } = await Axios.get(`/chat/history/${chatId}`);
-      setmessages(data.messages);
-
-    }
+    const socket = io(base_URL);
+    socket.emit('history', chatId);
+    socket.on('updatedMessage', (info) => {
+      if(info.id === chatId){
+        setmessages(info.datas.messages)
+      }
+    })
   };
 
   useEffect(() => {
     const socket = io(base_URL);
-    socket.emit("join_room", { chatId });
-    setsocket(socket);
+    setsocket(socket)
     fetchdata();
     return () => socket.disconnect();
   }, [chatId]);

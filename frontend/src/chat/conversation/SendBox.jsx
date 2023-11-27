@@ -2,7 +2,7 @@ import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react'
 
 const SendBox = ({handleSubmit}) => {
-  const [input, setinput] = useState();
+  const [input, setinput] = useState('');
   return (
     <div className='bg-white p-4 h-[5rem] shadow-sm'>
         <div>

@@ -1,9 +1,8 @@
 
 import { Server } from "socket.io";
 import User from "../modals/userModal.js";
-import { MessageRequest } from "../modals/messageModal.js";
 import { Chat } from "../modals/chatModal.js";
-import mongoose from "mongoose";
+
 
 
 const socket = (httpServer) => {
@@ -34,19 +33,24 @@ const socket = (httpServer) => {
         }
 
         socket.on('new_chat', async (data) => {
-
-            const chat = await Chat.findByIdAndUpdate(data.chatId,
+            const datas = await Chat.findByIdAndUpdate(data.chatId,
                 {
                     $push: { messages: { sender: data.sender, text: data.text } },
                 },
                 { new: true }
             )
-            io.to(data.chatId).emit('chat_history', chat);
+            const info = {id: data.chatId, datas}
+            io.emit('updatedMessage', info);
+            
         })
 
-        socket.on('join_room', (data) => {
-            socket.join(data.chatId);
-          });
+        socket.on('history', async (id) => {
+            const datas = await Chat.findById(id)
+            const info = {id, datas}
+            io.emit( 'updatedMessage', info)
+        })
+
+       
 
         socket.on("end", async (data) => {
             if (data.user_id) {
