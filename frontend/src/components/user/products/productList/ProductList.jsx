@@ -1,12 +1,11 @@
 import Axios from "../../../../axiosInterceptors/userAxios";
 import ProductCard from "../../../basic/ProductCard/ProductCard";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCardSkeleton from "../../../basic/ProductCard/ProductCardSkeleton";
 
 import {  Checkbox,  } from "@material-tailwind/react";
-import SortByMenu from "./filterMenu/sortByMenu";
-import SizeFilter from "./filterMenu/SizeFilter";
+import SortByMenu from "./filterMenu/SortByMenu";
 import CategoryFilter from "./filterMenu/CategoryFilter";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
