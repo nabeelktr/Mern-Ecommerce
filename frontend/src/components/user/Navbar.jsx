@@ -103,8 +103,7 @@ const Navbar = () => {
               <div className="ml-14 item-center sm:ml-0 sm:block cursor-pointer" onClick={() => navigate('/home')} >
                 <img
                   className="h-8 ml-1 -mb-1 w-auto"
-                  src="/src/assets/Logo.svg"
-                  alt="Your Company"
+                  src="assets/Logo-ce168ce9.svg"
                 />
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
