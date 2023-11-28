@@ -1,3 +1,3 @@
-const base_URL = "http://localhost:3000"
+const base_URL = "https://www.wyntra.shop"
 
 export {base_URL}
