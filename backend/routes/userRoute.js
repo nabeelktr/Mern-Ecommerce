@@ -6,7 +6,7 @@ import {
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
 import { cancelOrder, checkCoupon, checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
-import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
+import { protect, protectRefreshToken } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 
