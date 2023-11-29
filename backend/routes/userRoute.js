@@ -1,10 +1,12 @@
 import express from 'express'
-import { AddToCart, addAddress, addBalance, addToWishlist, authUser, editAddress, editUser, generateOTP, getCartItems, getFilters, getUser, getUserAddress, getWallet, getWishlist, logout, registerUser, removeAddress, removeCartItem, removeWishlist, test, 
-    updateCartQty, updateCartQtyDec, updatePassword, userwishlist } from '../controller/userController.js'
+import {
+    AddToCart, addAddress, addBalance, addToWishlist, authUser, editAddress, editUser, generateOTP, getCartItems, getFilters, getUser, getUserAddress, getWallet, getWishlist, logout, registerUser, removeAddress, removeCartItem, removeWishlist, test,
+    updateCartQty, updateCartQtyDec, updatePassword, userwishlist
+} from '../controller/userController.js'
 import { registerMail } from '../controller/mailController.js'
 import { getProducts } from '../controller/adminController.js'
-import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
 import { cancelOrder, checkCoupon, checkout, getOrders, getUserOrders, paymentVerification, placeOrder } from '../controller/orderController.js'
+import { protect, protectRefreshToken } from '../middlewares/authmiddleware.js'
 
 const router = express.Router()
 
@@ -20,8 +22,8 @@ router.route('/viewproduct/:id').get(getProducts)
 
 router.route('/addtocart').post(protect, AddToCart)
 router.route('/getCartItems').get(protect, getCartItems)
-router.route('/incqty/:id').post(protect,updateCartQty)
-router.route('/decqty/:id').post(protect,updateCartQtyDec)
+router.route('/incqty/:id').post(protect, updateCartQty)
+router.route('/decqty/:id').post(protect, updateCartQtyDec)
 router.route('/test/:id').get(protect, test)
 router.route('/removeCartItem/:id').post(protect, removeCartItem)
 

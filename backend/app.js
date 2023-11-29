@@ -25,7 +25,7 @@ socket(httpServer)
 
 app.use(
     cors({
-      origin: '*',
+      origin: 'https://d2rgjckqghj9og.cloudfront.net',
       credentials: true,
     })
   );
