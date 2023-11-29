@@ -1,7 +1,7 @@
 import AsyncHandler from 'express-async-handler'
 import crypto from "crypto";
 import Order from '../modals/orderModal.js';
-import Cart from '../modals/CartModal.js';
+import Cart from '../modals/cartModal.js';
 import Product from '../modals/productModal.js';
 import { instance } from '../config/razorPay.js';
 import Coupon from '../modals/couponModal.js';

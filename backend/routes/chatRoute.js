@@ -1,5 +1,5 @@
 import express from 'express'
-import { protect } from '../middlewares/authmiddleware.js'
+import { protect } from '../middlewares/authMiddleware.js'
 import { createConnection, getChatHistory, getConnections } from '../controller/chatController.js'
 const router = express.Router()
 

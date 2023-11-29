@@ -2,7 +2,7 @@ import AsyncHandler from 'express-async-handler'
 import otpGenerator from "otp-generator";
 import User from '../modals/userModal.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/generateToken.js';
-import Cart from '../modals/CartModal.js';
+import Cart from '../modals/cartModal.js';
 import mongoose from 'mongoose';
 import WishList from '../modals/wishListModal.js';
 import Wallet from '../modals/walletModal.js';
