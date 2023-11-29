@@ -1,6 +1,6 @@
 import express from "express";
 import { UpdateUser, adminAuth, getUsers, searchUser, addProduct, getProducts, editProduct, deleteProduct, editProductFirebase, addCategory, getCategories, deleteCategory, editCategory, summary, addCoupon, getCoupon, getUserCoupon, summaryFilter } from "../controller/adminController.js";
-import { protect } from "../middlewares/authmiddleware.js";
+import { protect } from "../middlewares/authMiddleware.js";
 import { changeOrderStatus, getUserOrder, salesReport } from "../controller/orderController.js";
 const router = express.Router()
 
