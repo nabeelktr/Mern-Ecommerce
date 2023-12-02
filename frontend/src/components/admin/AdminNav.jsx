@@ -56,8 +56,7 @@ const AdminNav = () => {
               <div className="ml-14  sm:ml-0 sm:block">
                 <img
                   className="h-8  w-auto"
-                  src="../../src/assets/Logo.svg"
-                  alt="Your Company"
+                  src="/Logo.svg"
                 />
               </div>
               {admin

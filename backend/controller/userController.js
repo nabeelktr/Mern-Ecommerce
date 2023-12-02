@@ -105,6 +105,7 @@ const authUser = AsyncHandler(async (req, res) => {
 
       res.json({
         accessToken: generateAccessToken(user._id),
+        userId: user._id,
       });
 
     } else {

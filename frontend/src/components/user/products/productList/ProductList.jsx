@@ -1,7 +1,7 @@
 import Axios from "../../../../axiosInterceptors/userAxios";
 import ProductCard from "../../../basic/ProductCard/ProductCard";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCardSkeleton from "../../../basic/ProductCard/ProductCardSkeleton";
 
 import {  Checkbox,  } from "@material-tailwind/react";
@@ -43,9 +43,15 @@ const ProductList = () => {
     }
   };
 
+  const MemoizedFetchData = useMemo(() => fetchdata, [
+    location.state?.category,
+    location.state?.gender,
+    location.state?.search,
+    isLoggedIn,
+  ]);
 
   useEffect(() => {
-    fetchdata();
+    MemoizedFetchData();
   }, []);
 
   const updateProducts = (sortedProducts) => {

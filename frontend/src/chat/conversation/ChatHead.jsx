@@ -46,7 +46,7 @@ const ChatHead = ({name, orderId}) => {
                   vertical: "bottom",
                   horizontal: "right",
                 }}
-                variant="dot"
+                // variant={isOnline ? "dot" : "standard"}
               >
                 <img src='https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg' className='md:h-12 h-9 md:w-12 w-9'/>
                 </StyledBadge>

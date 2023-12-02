@@ -21,6 +21,7 @@ const adminAuth = AsyncHandler(async (req, res) => {
       res.status(200).json({
         user,
         accessToken: generateAccessToken(user._id),
+        userId: user._id,
       });
     } else {
       res.status(401);

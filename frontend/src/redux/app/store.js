@@ -6,6 +6,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import orderIdSlice from '../features/orderIdSlice';
 import chatIdSlice from '../features/chatIdSlice';
 import filterSlice from '../features/filterSlice';
+import socketSlice from '../features/socketSlice';
 
 
 
@@ -18,6 +19,7 @@ const store = configureStore({
         orderId: orderIdSlice,
         chatId: chatIdSlice,
         filter: filterSlice,
+        socket: socketSlice,
     },
     middleware: [thunk]
 })

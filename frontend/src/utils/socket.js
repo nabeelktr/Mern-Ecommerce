@@ -3,10 +3,8 @@ import { base_URL } from "./constants";
 
 let socket;
 
-const connectSocket = (user_id) => {
-    socket = io(base_URL, {
-        query: `user_id=${user_id}`
-    })
+const connectSocket = () => {
+    socket = io(base_URL)
 };
 
 export {socket, connectSocket}

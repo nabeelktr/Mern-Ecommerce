@@ -45,6 +45,7 @@ const LoginForm = (props) => {
   const adminHandleSubmit = async (values, action) => {
     try {
       const response = await Axios.post('/admin/login', values, {withCredentials: true});
+      dispatch(userLogin(response.data.userId));
       localStorage.setItem('adminToken', response.data.accessToken);
       navigate('/admin/dashboard');
     } catch (err) {
@@ -56,7 +57,7 @@ const LoginForm = (props) => {
     try {
       const response = await Axiosuser.post('/login', values);
       localStorage.setItem('userToken', response.data.accessToken);
-      dispatch(userLogin());
+      dispatch(userLogin(response.data.userId));
      // localStorage.setItem('userRefreshToken', response.data.refreshToken);
       navigate('/home');
     } catch (err) {

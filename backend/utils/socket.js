@@ -4,7 +4,7 @@ import User from "../modals/userModal.js";
 import { Chat } from "../modals/chatModal.js";
 
 
-
+let onlineUsers = [];
 const socket = (httpServer) => {
 
     const io = new Server(httpServer, {
@@ -17,20 +17,8 @@ const socket = (httpServer) => {
 
     io.on("connection", async (socket) => {
         console.log(JSON.stringify(socket.handshake.query));
-        const user_id = socket.handshake.query["user_id"];
-
         console.log(`User connected ${socket.id}`);
 
-        if (user_id != null && Boolean(user_id)) {
-            try {
-                User.findByIdAndUpdate(user_id, {
-                    socket_id: socket.id,
-                    status: "Online",
-                });
-            } catch (e) {
-                console.log(e);
-            }
-        }
 
         socket.on('new_chat', async (data) => {
             const datas = await Chat.findByIdAndUpdate(data.chatId,
@@ -41,6 +29,7 @@ const socket = (httpServer) => {
             )
             const info = {id: data.chatId, datas}
             io.emit('updatedMessage', info);
+            //io.emit('notification', info)
             
         })
 
@@ -50,12 +39,24 @@ const socket = (httpServer) => {
             io.emit( 'updatedMessage', info)
         })
 
+        socket.on('online', (id) => {
+            onlineUsers.push(
+                id
+                //socketId: socket.id,
+            )
+        })
+
+        socket.on('isOnline', (data) => {
+            const isOnline = onlineUsers.includes(data)
+            const info = {isOnline, data}
+            io.emit('check', info)
+        })
        
 
-        socket.on("end", async (data) => {
-            if (data.user_id) {
-                await User.findByIdAndUpdate(data.user_id, { status: "Offline" });
-            }
+        socket.on("end", (data) => {
+            const info = {inOnline: false, data}
+            onlineUsers = onlineUsers.filter((user) => user !== data);
+            io.emit('check', info)
             console.log("closing connection");
             socket.disconnect(0);
         });

@@ -1,20 +1,16 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import {Socket,  io } from "socket.io-client";
-import { base_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
-import AxiosAdmin from "../../axiosInterceptors/axios";
-import Axios from "../../axiosInterceptors/userAxios";
 import ChatHead from "./ChatHead";
 import SendBox from "./SendBox";
 
 
 
 const Messages = ({ isAdmin }) => {
-  const [socket, setsocket] = useState()
     const [messages, setmessages] = useState([]);
   const chatId = useSelector((state) => state.chatId.chatId);
   const user = useSelector((state) => state.orderId)
+  const socket = useSelector((state) => state.socket.socket);
 
   const scrollBoxRef = useRef();
 
@@ -29,7 +25,6 @@ const Messages = ({ isAdmin }) => {
   };
 
   const fetchdata = async () => {
-    const socket = io(base_URL);
     socket.emit('history', chatId);
     socket.on('updatedMessage', (info) => {
       if(info.id === chatId){
@@ -39,10 +34,7 @@ const Messages = ({ isAdmin }) => {
   };
 
   useEffect(() => {
-    const socket = io(base_URL);
-    setsocket(socket)
     fetchdata();
-    return () => socket.disconnect();
   }, [chatId]);
 
   useEffect(() => {
@@ -54,10 +46,10 @@ const Messages = ({ isAdmin }) => {
   return (
 
     <div className="md:w-[50rem] w-[100vw] border-r">
-    <div  >
+    <div  className="h-[100vh]">
       <ChatHead name={isAdmin ? user.username : 'Seller'}  orderId={user.orderId} />
       <div className=" flex-grow overflow-scroll no-scrollbar bg-[#F0F4FA]" ref={scrollBoxRef} 
-      style={{ height: `${isAdmin ? 'calc(85vh - 5rem)' : 'calc(81vh - 5rem)' }`, backgroundImage: 'url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png")' }} >
+      style={{ height: `${isAdmin ? '73vh' : 'calc(71vh)' }`, backgroundImage: 'url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png")' }} >
       {messages &&
             (isAdmin
               ? messages.map((msg, i) =>

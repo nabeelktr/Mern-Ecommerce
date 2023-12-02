@@ -57,7 +57,7 @@ const ViewProduct = () => {
   }, []);
 
   if (!product) {
-    return <div className="pt-20">Loading..</div>;
+    return <div className="pt-20"></div>;
   }
   return (
     <>

@@ -19,7 +19,7 @@ const getConnections = AsyncHandler(async (req, res) => {
             .populate({ path: 'orderId', select: 'orderId' })
             .sort({ createdAt: -1 })
     }
-    res.status(201).json(connection.length ? connection : false)
+    res.status(201).json(connection.length ? {connection, userId: req.user._id} : false)
 });
 
 const createConnection = AsyncHandler(async (req, res) => {

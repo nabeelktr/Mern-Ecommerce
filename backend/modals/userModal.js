@@ -62,15 +62,6 @@ const userSchema = mongoose.Schema({
         type: String,
         enum: ["Online", "Offline"]
     },
-    socket_id: {
-        type: String,
-    },
-    friends: [
-        {
-            type: String,
-            ref: 'User',
-        }
-    ]
    
 },
 {

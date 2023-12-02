@@ -79,7 +79,7 @@ const Wallet = () => {
         <div className="md:p-4   md:px-10 flex flex-col justify-start gap-5 md:gap-10 ">
           <div className="md:p-4  w-full flex flex-col justify-center ">
             <div className="flex justify-center items-center gap-3">
-              <img src="/src/assets/mantra-credit-logo.svg" className="w-[4rem] md:w-[5rem]" />
+              <img src="/mantra-credit-logo.svg" className="w-[4rem] md:w-[5rem]" />
               <span className="font-semibold md:text-[1.5rem] text-[1rem] mt-5">
                 &#8377; {Wallet ? Wallet.balance : 0}
               </span>
