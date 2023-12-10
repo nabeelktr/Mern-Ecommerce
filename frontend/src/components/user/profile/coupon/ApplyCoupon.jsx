@@ -1,17 +1,30 @@
 import { Typography } from "@material-tailwind/react";
 import { ErrorMessage, Form, Formik, useField } from "formik";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Axios from '../../../../axiosInterceptors/userAxios'
 import { Toaster, toast } from "sonner";
+import CouponModal from "./CouponModal";
 
 const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
 
+  const [button, setbutton] = useState('view')
+  const [couponModal, setcouponModal] = useState(false)
+  const inputRef = useRef();
 
   const MyTextField = ({ label, ...props }) => {
     const [field, meta] = useField(props);
+    useEffect(()=>{
+      if(field.value){
+        setbutton('apply')
+      }else{
+        setbutton('view')
+      }
+      inputRef.current.focus()
+    },[field.value])
     return (
 
         <input
+        ref={inputRef}
           {...field}
           {...props}
           className={` md:text-sm placeholder-gray-400 pl-4 pr-4 border  w-full py-2 focus:outline-none  ${
@@ -25,15 +38,22 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
 
   const handleSubmit = async(values, action) => {
     try{
-    const {data} = await Axios.post('/checkcoupon', {values, price: orderDetails.totalOfferPrice})
-      setcoupon(data[0]);
-      toast.success('Coupon Applied');
-      action.resetForm();
+      if(values.code === '') {
+         setcouponModal(true)
+      }else{
+        const {data} = await Axios.post('/checkcoupon', {values, price: orderDetails.totalOfferPrice})
+          setcoupon(data[0]);
+          toast.success('Coupon Applied');
+          action.resetForm();
+      }     
     }catch{
       action.setFieldError('code', 'Invalid coupon');
     }
   }
 
+  const closeModal = () =>{
+    setcouponModal(false)
+  }
 
   return (
     <div className="flex flex-col -mb-20 items-start md:ml-4 ml-2 ">
@@ -87,7 +107,7 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
         disabled={coupon}
         type="submit"
         className="bg-[#ff3c67] border-white md:text-xs md:ml-3 ml-1 rounded-sm py-[0.5rem] px-3 font-medium text-white uppercase">
-              {coupon ? 'Applied' : 'Apply'}
+              {coupon ? 'Applied' : button}
             </button>
           </div>
         <ErrorMessage
@@ -97,8 +117,8 @@ const ApplyCoupon = ({orderDetails, setcoupon, coupon}) => {
               />
           </Form>
         </Formik>
-
       </div>
+      {couponModal && <CouponModal modal={couponModal} closeModal={closeModal} />}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 
 import { Server } from "socket.io";
-import User from "../modals/userModal.js";
 import { Chat } from "../modals/chatModal.js";
 
 

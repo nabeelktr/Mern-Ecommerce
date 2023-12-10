@@ -21,6 +21,7 @@ import Coupon from './pages/admin/Coupon';
 import Wishlist from './pages/user/Wishlist';
 import Chat from './pages/admin/Chat';
 import UserChat from './pages/user/UserChat';
+import ErrorPage from './components/basic/ErrorPage';
 
 
 
@@ -44,7 +45,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/home" element={<Home />} />
-        <Route path='*' element={<Navigate to='/home' />} />
+        <Route path="/" element={<Home />} />
+        <Route path='*' element={<ErrorPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products/*" element={<UserProducts />} />
