@@ -82,12 +82,11 @@ const registerUser = AsyncHandler(async (req, res) => {
   });
 
   if (newUser) {
+    const refresh = generateRefreshToken(newUser._id);
+    res.cookie('jwt', refresh, { httpOnly: true, secure: true });
     res.status(201).json({
-      _id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-
-      // token: generateToken(newUser._id),
+      userId: newUser._id,
+      accessToken: generateAccessToken(newUser._id),
     });
   } else {
     res.status(400);

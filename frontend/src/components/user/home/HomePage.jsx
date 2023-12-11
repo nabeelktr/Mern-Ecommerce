@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousell from "./carousel/Carousell";
 import Categories from "./categories/Categories";
 import Footer from "./footer/Footer";
+import { useLocation } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 const HomePage = () => {
+
+  const location = useLocation();
+  const [toastShown, setToastShown] = useState(false);
+
+  useEffect(() => {
+    let msg = location.state;
+    if (msg && !toastShown) {
+      toast.success("Thank You.. your registration was Successful", {
+        position: "top-center",
+      });
+      setToastShown(true);
+      msg = null;
+    }
+  }, [])
   return (
     <div>
+      <Toaster />
       <div className="pt-20 flex justify-center flex-col">
         <Carousell />
         <div className="font-poppins md:p-10 sm:p-2 flex  flex-col">

@@ -7,9 +7,13 @@ import 'dotenv/config';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: false 
   }
 });
 
@@ -17,7 +21,7 @@ let MailGenerator = new Mailgen({
   theme: "default",
   product: {
     name: "Wyntra",
-    link: "https://google.com/",
+    link: "https://d2rgjckqghj9og.cloudfront.net/",
   },
 });
 
@@ -27,7 +31,6 @@ const registerMail = AsyncHandler(async (req, res) => {
     body: {
       name: name,
       intro:
-
         `Your OTP for register Wyntra website is ${req.app.locals.OTP}`,
       outro:
         "Please reach us if you have any queries",

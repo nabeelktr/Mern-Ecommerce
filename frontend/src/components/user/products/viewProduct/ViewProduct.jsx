@@ -3,6 +3,7 @@ import Axios from "../../../../axiosInterceptors/userAxios";
 import { Toaster, toast } from "sonner";
 import { useEffect, useState } from "react";
 import Footer from "../../home/footer/Footer";
+import { useSelector } from "react-redux";
 
 
 const ViewProduct = () => {
@@ -13,10 +14,17 @@ const ViewProduct = () => {
   const [product, setproduct] = useState();
   const [qty, setqty] = useState();
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isWishlist, setIsWishlist] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
   const totalQuantity = (datas) => {
     const total = datas.reduce((acc, current) => acc + current.qty, 0);
     setqty(total);
+  };
+
+  const addToWishlist = async (_id) => {
+    await Axios.post("/addtowishlist", { _id });
+    setIsWishlist(true);
   };
 
   const addToCart = async () => {
@@ -47,6 +55,10 @@ const ViewProduct = () => {
     const fetchdata = async () => {
       try {
         const response = await Axios.get(`/viewproduct/${params.id}`);
+        if(isLoggedIn){
+          const {data} = await Axios.get('/userwishlist');
+          setIsWishlist(data.includes(response.data._id))
+        }
         setproduct(response.data);
         totalQuantity(response.data.variants);
       } catch (error) {
@@ -155,10 +167,11 @@ const ViewProduct = () => {
             </button>
 
             <button
-              disabled={qty === 0}
+              disabled={isWishlist}
+              onClick={() => addToWishlist(product._id) }
               className="flex items-center rounded-sm border border-gray-500 justify-center focus:outline-none text-sm sm:text-base ml-4 py-4 md:w-1/4 w-2/5 transition duration-150 ease-in"
             >
-              <span className=" uppercase font-semibold text-sm">Wishlist</span>
+              <span className=" uppercase font-semibold text-sm">{isWishlist ? 'Wishlisted' : 'Wishlist'}</span>
             </button>
           </div>
         </div>

@@ -65,7 +65,7 @@ const ProductList = () => {
   return (
     <>
     <Toaster position="top-center" />
-      <div className="md:mx-6 mx-2 md:h-48 h-32 border-b border-gray-300 flex items-end font-poppins">
+      <div className="md:mx-6 mx-2 md:h-48 h-32 border-b border-gray-300 flex items-end font-poppins md:mb-0 mb-4">
         <div className=" w-1/6 md:p-4 p-2">
           <span className="md:ml-4 uppercase text-xs md:text-sm font-bold ">
             Filters
@@ -97,7 +97,7 @@ const ProductList = () => {
           </div>
 
         </div>
-        <div className="md:w-5/6 grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 md:gap-4 gap-2">
+        <div className="md:w-5/6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:ml-6 ml-8 m-2 md:gap-4 gap-3">
           {
           products
             ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={isProductInWishlist(product._id)} 

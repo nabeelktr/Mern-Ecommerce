@@ -52,7 +52,7 @@ const ProductCard = ({ prdt, isWishlisted, setuserWishlist, checkMark, setmodal,
   return (
     <>
     <a
-      className={`product-card mt-4 relative hover:shadow-sm font-poppins md:h-[370px] md:w-[210px] h-[160px] w-[80px]  ${(isWishlisted && checkMark) ? 'border' : ''}`}
+      className={`product-card md:mt-4 relative hover:shadow-sm font-poppins md:h-[370px] md:w-[210px] h-[250px] w-[150px]  ${(isWishlisted && checkMark) ? 'border' : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -71,18 +71,18 @@ const ProductCard = ({ prdt, isWishlisted, setuserWishlist, checkMark, setmodal,
         onLoad={() => setImageLoaded(true)}
       />
 
-      <p className="product-card__brand md:mt-3 md:mb-0 md:ml-2 ml-1 font-semibold md:text-sm text-[0.6rem] mb-[-0.2rem]">{name}</p>
-      <p className=" md:ml-2 ml-1 md:mb-2 md:mt-0 font-light md:text-sm text-[0.4rem] mb-[-0.2rem] truncate">
+      <p className="product-card__brand md:mt-3 md:mb-0 md:ml-2 ml-1 font-semibold md:text-sm text-[0.7rem] mb-[-0.2rem]">{name}</p>
+      <p className=" md:ml-2 ml-1 md:mb-2 md:mt-0 font-light md:text-sm text-[0.6rem] mb-[-0.2rem] truncate">
         {description}
       </p>
-      <p className="product-card__price md:ml-2 ml-1 md:mb-2 mb-[-0.2rem] font-semibold text-[0.5rem] md:text-sm  truncate">
+      <p className="product-card__price md:ml-2 ml-1 md:mb-2 mb-[-0.2rem] font-semibold text-[0.6rem] md:text-sm  truncate">
         {" "}
         Rs.&nbsp;{offerPrice}&nbsp;&nbsp;
         <span className="text-[0.4rem] font-normal text-gray-700 line-through md:text-[0.7rem] ">
           Rs. {price}
         </span>
         &nbsp;&nbsp;
-        <span className="md:text-[0.7rem] text-[0.4rem] text-[#ff905a] font-light ">
+        <span className="md:text-[0.7rem] text-[0.6rem] text-[#ff905a] font-light ">
           {`(${Math.floor(((price - offerPrice) / price) * 100)}% OFF)`}
         </span>
       </p>

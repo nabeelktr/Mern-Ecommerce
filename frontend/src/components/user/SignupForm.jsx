@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import Axios from "../../axiosInterceptors/axios.js";
 import { signupSchema } from "../yup";
 import { Toaster, toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../../redux/features/authSlice.js";
 
 const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -70,6 +72,7 @@ const SignupForm = () => {
   const [otp, setotp] = useState();
   const [send, setsend] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const resendOTP = async () => {
     setSecondsRemaining(60);
@@ -123,10 +126,13 @@ const SignupForm = () => {
   const onSubmit = async (values, action) => {
     try {
       if (otp === values.otp) {
+
         await Axios.post("/register", {
           values,
-        }).then(() => {
-           navigate("/login", {state: "success register"});
+        }).then((response) => {
+          localStorage.setItem('userToken', response.data.accessToken);
+          dispatch(userLogin(response.data.userId));
+          navigate("/home", {state: "success register"});
         });
       } else {
         action.setFieldError("otp", "Invalid OTP");
