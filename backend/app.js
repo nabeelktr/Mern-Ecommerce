@@ -10,7 +10,8 @@ import 'dotenv/config';
 import cookieParser from "cookie-parser";
 import { createServer } from 'http'; 
 import socket from "./utils/socket.js";
-
+import rateLimit from "express-rate-limit";
+import requestIp from 'request-ip'
 
 
 
@@ -35,6 +36,24 @@ app.use(morgan("tiny"));
 app.disable("x-powered-by");
 app.use(cookieParser());
 
+app.use(requestIp.mw());
+
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, 
+  max: 5, 
+  standardHeaders: true, 
+  legacyHeaders: false, 
+  keyGenerator: (req, res) => {
+    return req.clientIp; 
+  },
+  handler: (req, res, ___, options) => {
+    res.status(429).json({msg : `There are too many requests. You are only allowed ${
+      options.max
+    } requests per ${options.windowMs / 60000} minutes`})
+  },
+});
+
+app.use(['/login', '/admin/login'], limiter);
 app.use('/',userRouter)
 app.use('/admin',adminRouter)
 app.use('/chat', chatRoute)

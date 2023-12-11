@@ -49,7 +49,11 @@ const LoginForm = (props) => {
       localStorage.setItem('adminToken', response.data.accessToken);
       navigate('/admin/dashboard');
     } catch (err) {
+      if(err.response.status === 429){
+        action.setFieldError('password',err.response.data.msg)
+      }else{
       action.setFieldError('password', 'invalid data');
+      }
     }
   };
 
@@ -61,10 +65,13 @@ const LoginForm = (props) => {
      // localStorage.setItem('userRefreshToken', response.data.refreshToken);
       navigate('/home');
     } catch (err) {
+      console.log('err', err);
       if (err.response.status === 402) {
         action.setFieldError('email', 'invalid email');
       } else if (err.response.status === 403) {
         action.setFieldError('password', 'invalid password');
+      }else if(err.response.status === 429){
+        action.setFieldError('password',err.response.data.msg)
       }
     }
   };

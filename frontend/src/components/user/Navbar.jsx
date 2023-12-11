@@ -206,7 +206,7 @@ const Navbar = () => {
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            {isLoggedIn ? "Sign out" : "Login"}
+                            {isLoggedIn ? "Sign out" : "Login / Signup"}
                           </a>
                         )}
                       </Menu.Item>

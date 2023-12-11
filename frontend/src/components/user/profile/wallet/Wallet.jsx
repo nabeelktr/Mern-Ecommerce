@@ -19,18 +19,26 @@ const Wallet = () => {
     setWallet(data);
   };
 
+
+
   const checkoutHandler = async () => {
     setmodal(false);
     const {
       data: { key },
     } = await Axios.get("/getkey");
 
+    const {
+      data: { order },
+    } = await Axios.post("/checkout", {
+      price: amount,
+    });
+
     const options = {
       key,
       amount: amount * 100,
       currency: "INR",
 
-      //order_id: order.id,
+      order_id: order.id,
       prefill: {
         name: "Gaurav Kumar",
         email: "gaurav.kumar@example.com",
@@ -43,9 +51,9 @@ const Wallet = () => {
         color: "#121212",
       },
       handler: async function (response) {
-        const { razorpay_payment_id, razorpay_signature } = response;
+        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
         await Axios.post("/addBalance", {
-          amount
+          amount, razorpay_payment_id, razorpay_order_id, razorpay_signature
         });
         toast.success('Amount added successful')
         fetchdata();

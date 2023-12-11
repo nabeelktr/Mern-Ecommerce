@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 import WishList from '../modals/wishListModal.js';
 import Wallet from '../modals/walletModal.js';
 import Product from '../modals/productModal.js';
+import crypto from "crypto";
+
 
 
 
@@ -49,7 +51,7 @@ const getFilters = AsyncHandler(async (req, res) => {
     } else if (req.params.gender) {
       products = await Product.find({ gender: req.params.gender });
     } else if (req.params.search) {
-      products = await Product.find({name: { $regex: new RegExp(req.params.search, 'i') }})
+      products = await Product.find({ name: { $regex: new RegExp(req.params.search, 'i') } })
     }
     if (products.length) {
       res.status(201).json(products)
@@ -423,19 +425,45 @@ const getWallet = AsyncHandler(async (req, res) => {
 
 const addBalance = AsyncHandler(async (req, res) => {
   if (req.body.amount) {
+
+    const body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+    const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
+        .update(body.toString())
+        .digest("hex");
+    const isAuthentic = expectedSignature === req.body.razorpay_signature;
+    if(isAuthentic){
     const wallet = await Wallet.findOne({ userId: req.user._id });
-    wallet.balance += parseInt(req.body.amount);
-    wallet.transactions.push({
-      date: Date.now(),
-      status: 'Credited',
-      amount: req.body.amount,
-    })
-    await wallet.save();
+
+    if (wallet) {
+      wallet.balance += parseInt(req.body.amount);
+      wallet.transactions.push({
+        date: Date.now(),
+        status: 'Credited',
+        amount: req.body.amount,
+      })
+      await wallet.save();
+    }
+    else {
+      await Wallet.create({
+        userId: req.user._id,
+        balance: req.body.amount,
+        transactions: {
+          date: Date.now(),
+          status: 'Credited',
+          amount: req.body.amount,
+        },
+      })
+    }
     res.status(201).json({ success: true });
   } else {
     res.status(402);
     throw new Error('invalid error')
   }
+}else{
+  res.status(402);
+    throw new Error('invalid error')
+}
 })
 
 
