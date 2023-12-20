@@ -53,11 +53,11 @@ const limiter = rateLimit({
   },
 });
 
-app.use(['/login', '/admin/login'], limiter);
-app.use('/',userRouter)
-app.use('/admin',adminRouter)
-app.use('/chat', chatRoute)
-app.get("/getkey", (req, res) =>
+app.use(['/api/login', '/api/admin/login'], limiter);
+app.use('/api',userRouter)
+app.use('/api/admin',adminRouter)
+app.use('/api/chat', chatRoute)
+app.get("/api/getkey", (req, res) =>
   res.status(200).json({ key: process.env.RAZORPAY_API_KEY})
 );
 

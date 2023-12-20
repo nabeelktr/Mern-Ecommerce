@@ -79,8 +79,8 @@ const Wishlist = () => {
           </span>
         </div>
       </div>
-      <div className="flex ml-6 justify-center">
-        <div className="w-5/6 grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ml-6 m-2 gap-4">
+      <div className="flex justify-center">
+        <div className="w-5/6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:ml-20 mx-auto m-2 gap-4">
           {
           products
             ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={true} setuserWishlist={setrefreshKey} checkMark={true} setmodal={setmodal} setmodalId={setmodalId} key={i} />)

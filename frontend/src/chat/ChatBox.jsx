@@ -36,7 +36,7 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const ChatBox = ({ chat, isAdmin, socket }) => {
-
+console.log(chat);
   const [isOnline, setisOnline] = useState(false);
   const dispatch = useDispatch();
   const handleOrderId = () => {
@@ -47,7 +47,7 @@ const ChatBox = ({ chat, isAdmin, socket }) => {
   };
 
   const fetchdata = () => {
-    socket.emit("isOnline", chat.userId._id);
+    socket.emit("isOnline", chat.userId?._id);
   };
 
 
@@ -79,10 +79,10 @@ const ChatBox = ({ chat, isAdmin, socket }) => {
         </div>
         <div className="space-x-1 flex-1 border-b ml-2">
           <span className="md:text-sm text-[0.7rem] font-semibold">
-            {isAdmin ? chat.userId.name : "Seller"}
+            {isAdmin ? chat.userId?.name : "Seller"}
           </span>
           <div className="truncate text-[0.6rem] md:text-xs pb-2">
-            <span className="">Order ID:</span> {chat.orderId.orderId}
+            <span className="">Order ID:</span> {chat.orderId?.orderId}
           </div>
         </div>
 

@@ -97,7 +97,7 @@ const ProductList = () => {
           </div>
 
         </div>
-        <div className="md:w-5/6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:ml-6 ml-8 m-2 md:gap-4 gap-3">
+        <div className="md:w-5/6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:ml-6 mx-auto m-2 md:gap-4 gap-3">
           {
           products
             ? products.map((product, i) => <ProductCard prdt={product} isWishlisted={isProductInWishlist(product._id)} 
